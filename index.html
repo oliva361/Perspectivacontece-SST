@@ -730,6 +730,69 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 4px; font-size: 10px; padding: 2px 4px;
   cursor: pointer; text-align: center;
 }
+
+.il-legal-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:10px; }
+.il-legal-item { background:var(--input-bg); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.il-legal-item strong { display:block; color:var(--text); font-size:12px; margin-bottom:5px; }
+.il-legal-item p { color:var(--muted); font-size:11px; line-height:1.55; }
+.il-room-card { background:var(--input-bg); border:1px solid var(--border); border-radius:12px; margin-bottom:12px; overflow:hidden; }
+.il-room-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 14px; background:var(--surface2); border-bottom:1px solid var(--border); }
+.il-room-title { display:flex; align-items:center; gap:8px; min-width:0; }
+.il-room-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 8px; border-radius:8px; background:var(--accent); color:#fff; font-size:12px; font-weight:700; }
+.il-room-head strong { font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.il-room-body { padding:14px; }
+.il-advanced { margin-top:12px; border:1px solid var(--border); border-radius:10px; background:var(--surface); overflow:hidden; }
+.il-advanced summary { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; color:var(--muted); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; cursor:pointer; list-style:none; }
+.il-advanced summary::-webkit-details-marker { display:none; }
+.il-advanced summary::after { content:'+'; color:var(--accent); font-size:17px; line-height:1; }
+.il-advanced[open] summary::after { content:'−'; }
+.il-advanced-body { padding:12px; border-top:1px solid var(--border); }
+.il-reference-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:12px; }
+.il-reference-item { background:var(--surface2); border:1px solid var(--border); border-radius:9px; padding:10px; text-align:center; }
+.il-reference-item span { display:block; color:var(--muted); font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px; }
+.il-reference-item strong { display:block; color:var(--text); font-size:12px; line-height:1.45; }
+.il-reference-item small { display:block; color:var(--muted); font-size:9px; line-height:1.4; margin-top:3px; }
+@media (max-width:560px) { .il-reference-grid { grid-template-columns:1fr; } }
+.il-status { display:inline-flex; align-items:center; justify-content:center; padding:5px 10px; border-radius:100px; font-size:10px; font-weight:700; text-align:center; white-space:nowrap; }
+.il-status.ok { background:var(--low-bg); color:var(--low); }
+.il-status.warn { background:var(--med-bg); color:var(--med); }
+.il-status.bad { background:var(--high-bg); color:var(--high); }
+.il-status.pending { background:rgba(122,127,154,.14); color:var(--muted); }
+.il-status-detail { margin:12px 0 0; border-radius:9px; padding:10px 12px; background:var(--surface2); color:var(--muted); font-size:11px; line-height:1.6; }
+.il-status-detail strong { color:var(--text); }
+.il-summary-bar { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin:14px 0; }
+.il-summary-item { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:10px 12px; text-align:center; }
+.il-summary-number { display:block; font-family:Georgia,'Times New Roman',serif; font-size:24px; font-weight:700; color:var(--accent); }
+.il-summary-label { display:block; margin-top:2px; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.4px; }
+.il-report { display:none; margin-top:14px; }
+.il-report.visible { display:block; }
+.il-report-head { padding:16px; border:1px solid var(--border); border-radius:12px 12px 0 0; background:var(--surface2); }
+.il-report-head h3 { color:var(--text); font-family:Georgia,'Times New Roman',serif; font-size:19px; margin-bottom:5px; }
+.il-report-head p { color:var(--muted); font-size:11px; line-height:1.6; }
+.il-report-body { border:1px solid var(--border); border-top:0; border-radius:0 0 12px 12px; padding:16px; }
+.il-report-kv { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; margin-bottom:14px; }
+.il-report-kv div { padding:9px 11px; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; }
+.il-report-kv span { display:block; color:var(--muted); font-size:9px; text-transform:uppercase; letter-spacing:.4px; margin-bottom:3px; }
+.il-report-kv strong { color:var(--text); font-size:12px; }
+.il-report-table { width:100%; border-collapse:collapse; min-width:760px; }
+.il-report-table th { padding:8px; color:var(--muted); background:var(--surface2); border:1px solid var(--border); font-size:9px; text-transform:uppercase; letter-spacing:.3px; text-align:left; }
+.il-report-table td { padding:9px 8px; border:1px solid var(--border); color:var(--text); font-size:11px; vertical-align:top; line-height:1.45; }
+.il-report-room { margin-top:14px; padding:12px; border:1px solid var(--border); border-radius:10px; }
+.il-report-room h4 { font-size:13px; color:var(--text); margin-bottom:7px; }
+.il-report-room p { color:var(--muted); font-size:11px; line-height:1.65; }
+.il-small-note { color:var(--muted); font-size:10px; line-height:1.55; margin-top:10px; }
+.il-empty { text-align:center; color:var(--muted); font-size:12px; padding:22px 12px; }
+@media (max-width:560px) {
+  .il-room-head { align-items:flex-start; }
+  .il-room-head .il-status { white-space:normal; max-width:140px; }
+  .il-room-body { padding:12px; }
+}
+@media print {
+  .il-no-print { display:none !important; }
+  .il-report { display:block !important; }
+  .il-report-body, .il-report-head { border-color:#ccc; }
+  .il-report-table th, .il-report-table td { border-color:#ccc; }
+}
 </style>
 </head>
 <body>
@@ -812,6 +875,7 @@ input[type=range]::-webkit-slider-thumb {
 </div>
 <!-- Segunda linha de tabs -->
 <div class="tabs" style="margin-top:5px;">
+  <button class="tab-btn" onclick="switchTab('iluminacao',this)">💡 Iluminação<br><span style="font-size:10px;opacity:.7">Ambiente</span></button>
   <button class="tab-btn" onclick="switchTab('simulacro',this)">🚨 Simulacros<br><span style="font-size:10px;opacity:.7">SCIE / Exercícios</span></button>
 </div>
 </div>
@@ -1758,6 +1822,94 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn-cab-clear" onclick="limparDL50()">✕ Limpar</button>
     </div>
   </div>
+</div>
+
+<div class="tab-panel" id="tab-iluminacao">
+  <div class="card">
+    <h2>💡 Avaliação de Iluminação e Condições Ambientais</h2>
+    <p class="subtitle">Avaliação por divisão, com iluminância, temperatura e humidade relativa, apoio à análise e relatório PDF.</p>
+    <div class="info-box"><strong>Critério legal aplicado:</strong> a legislação portuguesa exige iluminação, temperatura e humidade adequadas à tarefa e ao trabalho, mas não define um único valor de lux aplicável a todos os espaços. Os valores de iluminância incluídos são referências técnicas oficiais; os campos de referência podem ser ajustados à legislação setorial, ao risco e à atividade real.</div>
+    <div class="sdiv"><span>Enquadramento legal e técnico atual</span></div>
+    <div class="il-legal-grid">
+      <div class="il-legal-item"><strong>Lei n.º 102/2009, de 10 de setembro</strong><p>Regime jurídico da promoção da segurança e saúde do trabalho, na redação atual, incluindo deveres gerais de prevenção e de avaliação dos riscos.</p></div>
+      <div class="il-legal-item"><strong>Decreto-Lei n.º 347/93, de 1 de outubro</strong><p>Prescrições mínimas de segurança e saúde nos locais de trabalho. Art.º 7.º: temperatura e humidade adequadas. Art.º 8.º: iluminação adequada, segura e alternativa quando necessária.</p></div>
+      <div class="il-legal-item"><strong>Portaria n.º 987/93, de 6 de outubro</strong><p>Normas técnicas de execução do Decreto-Lei n.º 347/93, ambas em vigor. Regula a qualidade do ar, o ambiente térmico, a iluminação natural/artificial, encandeamento, cintilação e iluminação alternativa.</p></div>
+      <div class="il-legal-item"><strong>Decreto-Lei n.º 243/86, de 20 de agosto</strong><p>Art.º 11.º, para estabelecimentos comerciais, escritórios e serviços: temperatura de 18 °C a 22 °C, podendo atingir 25 °C em determinadas condições climatéricas; humidade relativa de 50% a 70%.</p></div>
+      <div class="il-legal-item"><strong>Referências técnicas para iluminância</strong><p>Valores adaptados da guia “Iluminação Segura no Local de Trabalho” de 2026, baseada nas referências ISO 8995 e DIN 5035. São valores de apoio à decisão, não limites legais universais.</p></div>
+      <div class="il-legal-item"><strong>Verificação complementar</strong><p>Confirmar regulamento setorial, regime de trabalho, avaliação de risco, tarefa real, medições representativas, requisitos da iluminação de emergência e, em museus/exposições, os critérios de conservação dos objetos.</p></div>
+    </div>
+    <p class="il-small-note">A ferramenta apoia a análise documental e de campo; não substitui a verificação da legislação específica, uma medição calibrada por entidade competente ou a decisão técnica do TSST.</p>
+  </div>
+
+  <div class="card">
+    <h2>🏢 Identificação do Levantamento</h2>
+    <p class="subtitle">Os dados podem ser complementados pelo cabeçalho global usado no relatório PDF.</p>
+    <div class="form-grid">
+      <div class="field"><label>Local / Estabelecimento</label><input type="text" id="il-local" placeholder="Ex: Sede, Nave A, Loja..."></div>
+      <div class="field"><label>Data</label><input type="text" id="il-data" placeholder="DD/MM/AAAA"></div>
+      <div class="field"><label>Técnico Responsável</label><input type="text" id="il-tecnico" placeholder="Nome completo / TSST nº"></div>
+      <div class="field"><label>Instrumento</label><input type="text" id="il-instrumento" placeholder="Ex: Luxímetro / Termohigrómetro"></div>
+    </div>
+    <details class="il-advanced" style="margin-top:12px;">
+      <summary>Dados complementares do relatório</summary>
+      <div class="il-advanced-body">
+        <div class="form-grid">
+          <div class="field"><label>Morada</label><input type="text" id="il-morada" placeholder="Rua, nº, localidade"></div>
+          <div class="field"><label>Hora</label><input type="text" id="il-hora" placeholder="HH:MM"></div>
+          <div class="field"><label>Trabalhadores Expostos</label><input type="text" id="il-trabalhadores" placeholder="Número ou intervalo"></div>
+          <div class="field"><label>Calibração / Validade</label><input type="text" id="il-calibracao" placeholder="Certificado, n.º e data"></div>
+          <div class="field full">
+            <label>Método de Medição</label>
+            <select id="il-metodo">
+              <option value="Pontos representativos no plano de trabalho">Pontos representativos no plano de trabalho</option>
+              <option value="Iluminância geral em ponto de referência">Iluminância geral em ponto de referência</option>
+              <option value="Medição certificada por entidade externa">Medição certificada por entidade externa</option>
+              <option value="Outro método a descrever">Outro método a descrever</option>
+            </select>
+          </div>
+          <div class="field full"><label>Condições do Levantamento</label><textarea id="il-condicoes" placeholder="Ex: horário, motivo da medição, número e localização dos pontos..."></textarea></div>
+        </div>
+      </div>
+    </details>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <button class="btn-cab-auto" onclick="preencherDataHoraIluminacao()">⏱ Data/hora atual</button>
+      <button class="btn-cab-clear" onclick="copiarTecnicoIluminacao()">↳ Copiar TSST do cabeçalho</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <div>
+        <h2>📐 Divisões e Medições</h2>
+        <p class="subtitle" style="margin-bottom:0;">Escolha a atividade e introduza apenas as três medições. Os valores de referência são aplicados automaticamente.</p>
+      </div>
+      <button class="btn-add" onclick="adicionarDivisaoIluminacao()">＋ Adicionar divisão</button>
+    </div>
+
+    <div class="il-summary-bar" id="il-summary">
+      <div class="il-summary-item"><span class="il-summary-number" id="il-total">0</span><span class="il-summary-label">Divisões</span></div>
+      <div class="il-summary-item"><span class="il-summary-number" id="il-ok">0</span><span class="il-summary-label">Sem desvio</span></div>
+      <div class="il-summary-item"><span class="il-summary-number" id="il-warn">0</span><span class="il-summary-label">Rever ambiente</span></div>
+      <div class="il-summary-item"><span class="il-summary-number" id="il-bad">0</span><span class="il-summary-label">Desvios</span></div>
+      <div class="il-summary-item"><span class="il-summary-number" id="il-pending">0</span><span class="il-summary-label">Por completar</span></div>
+    </div>
+
+    <div id="il-room-list"></div>
+
+    <div class="sdiv"><span>Observações Gerais e Conclusões</span></div>
+    <div class="form-grid">
+      <div class="field full"><label>Observações Gerais</label><textarea id="il-obs-geral" placeholder="Condições do edifício, limitações da medição, queixas, medidas implementadas..."></textarea></div>
+      <div class="field full"><label>Conclusões e Recomendações</label><textarea id="il-recomendacoes" placeholder="Ex: corrigir iluminância, uniformizar a iluminação, eliminar encandeamento, ajustar climatização..."></textarea></div>
+    </div>
+
+    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px;">
+      <button class="btn-calc" style="flex:1;min-width:210px;margin:0" onclick="analisarIluminacao()">⚡ Analisar Divisões</button>
+      <button class="btn-pdf" style="flex:1;min-width:190px" onclick="criarPreviaRelatorioIluminacao()">📋 Criar Prévia do Relatório</button>
+      <button class="btn-calc" style="flex:1;min-width:210px;margin:0" onclick="gerarPDFIluminacao()">📄 Exportar Relatório PDF</button>
+    </div>
+  </div>
+
+  <div class="card il-report" id="il-report"></div>
 </div>
 
 <!-- ===== TAB 11: SIMULACROS / EXERCÍCIOS ===== -->
@@ -4747,6 +4899,340 @@ simHandleFile = function(input) {
   }, 500);
 };
 
+const ILUM_REFERENCIAS = {
+  circulacao: {label:'Circulação, escadas, sanitários, vestíbulos ou terminais de carga', lux:100},
+  armazenamento: {label:'Armazém com leitura, expedição ou arrumação', lux:100},
+  producao_ocasional: {label:'Produção com intervenção humana ocasional', lux:100},
+  producao: {label:'Área de produção constantemente ocupada', lux:200},
+  escritorio_publico: {label:'Escritório com acesso ao público', lux:200},
+  montagem_media: {label:'Montagem ou trabalho mecânico de média precisão', lux:300},
+  escritorio_janela: {label:'Escritório, reunião ou conferência junto de janelas', lux:300},
+  escritorio: {label:'Escritório, tratamento de dados ou secretaría', lux:500},
+  carpintaria: {label:'Carpintaria, marcenaria ou seleção de madeiras', lux:500},
+  tecnico: {label:'Desenho técnico ou gravação de precisão', lux:750},
+  inspecao: {label:'Inspeção de materiais, fundição ou controlo de falhas', lux:750},
+  cor: {label:'Análise e controlo de cores ou montagem de precisão', lux:1000},
+  museu: {label:'Espaço de museu / exposição', lux:200},
+  outra: {label:'Outra atividade — definir valor setorial', lux:null}
+};
+const ILUM_ATIVIDADES_SIMPLIFICADAS = [
+  ['circulacao','Circulação, escadas ou armazenamento'],
+  ['producao','Produção industrial'],
+  ['montagem_media','Montagem ou trabalho mecânico'],
+  ['escritorio_janela','Escritório junto de janelas ou salas de reunião'],
+  ['escritorio','Escritório geral ou administração'],
+  ['tecnico','Desenho técnico, gravação ou inspeção'],
+  ['cor','Inspeção de cores ou trabalho de alta precisão'],
+  ['museu','Espaço de museu / exposição']
+];
+const ILUM_AMBITOS = {
+  pendente: {label:'Selecionar âmbito legal / técnico...', tempMin:null, tempMax:null, tempTolerance:null, humMin:null, humMax:null, kind:'manual'},
+  escritorio: {label:'Comércio, escritório ou serviço — DL 243/86, Art.º 11.º', tempMin:18, tempMax:22, tempTolerance:25, humMin:50, humMax:70, kind:'legal'},
+  industria: {label:'Indústria ou outro local — Portaria 987/93, Art.º 7.º', tempMin:18, tempMax:25, tempTolerance:null, humMin:40, humMax:70, kind:'technical'},
+  setorial: {label:'Setor, instalação ou requisito contratual próprio', tempMin:null, tempMax:null, tempTolerance:null, humMin:null, humMax:null, kind:'manual'}
+};
+const ILUM_FONTES = {
+  por_confirmar:{label:'Por confirmar',status:'pending'},
+  adequada:{label:'Adequada',status:'ok'},
+  limitada:{label:'Limitada',status:'warn'},
+  inadequada:{label:'Inadequada',status:'bad'},
+  na:{label:'Não aplicável',status:'ok'}
+};
+const ILUM_ALTERNATIVAS = {
+  por_confirmar:{label:'Por confirmar',status:'pending'},
+  adequada:{label:'Adequada',status:'ok'},
+  inadequada:{label:'Inadequada',status:'bad'},
+  na:{label:'Não aplicável',status:'ok'}
+};
+const ILUM_EFEITOS = {
+  por_confirmar:{label:'Por confirmar',status:'pending'},
+  ausente:{label:'Sem encandeamento ou cintilação identificados',status:'ok'},
+  presente:{label:'Encandeamento ou cintilação identificados',status:'bad'},
+  na:{label:'Não aplicável',status:'ok'}
+};
+const ILUM_STATE = {rooms:[]};
+
+function ilEscape(value){
+  return String(value==null?'':value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});
+}
+function ilNum(value,decimals){
+  if(value===''||value==null||!Number.isFinite(Number(value))) return '—';
+  return Number(value).toLocaleString('pt-PT',{maximumFractionDigits:decimals==null?1:decimals});
+}
+function ilNumber(value){return value===''||value==null||!Number.isFinite(Number(value))?null:Number(value);}
+function ilTexto(value){const text=String(value==null?'':value).trim();return text||'—';}
+function ilOpcoes(items,selected){
+  return items.map(function(item){return '<option value="'+ilEscape(item[0])+'"'+(item[0]===selected?' selected':'')+'>'+ilEscape(item[1])+'</option>';}).join('');
+}
+function ilAtividadeLabel(key){return ILUM_REFERENCIAS[key]?ILUM_REFERENCIAS[key].label:'Atividade por definir';}
+function ilAmbitoAtividade(key){return key==='museu'?'setorial':(['escritorio','escritorio_publico','escritorio_janela'].indexOf(key)>=0?'escritorio':'industria');}
+function ilAplicarAtividade(room,key){
+  const ref=ILUM_REFERENCIAS[key];
+  room.activity=key;
+  room.luxRef=ref&&ref.lux!=null?String(ref.lux):'';
+  ilAplicarAmbito(room,ilAmbitoAtividade(key));
+}
+function ilCriarDivisao(){
+  return {
+    name:'',floor:'',activity:'',luxRef:'',lux:'',scope:'pendente',temp:'',tempMin:'',tempMax:'',tempTolerance:'',hum:'',humMin:'',humMax:'',fonte:'por_confirmar',alternativa:'por_confirmar',efeitos:'por_confirmar',notes:''
+  };
+}
+function ilAplicarAmbito(room,key){
+  const scope=ILUM_AMBITOS[key]||ILUM_AMBITOS.pendente;
+  room.scope=key;
+  room.tempMin=scope.tempMin==null?'':String(scope.tempMin);
+  room.tempMax=scope.tempMax==null?'':String(scope.tempMax);
+  room.tempTolerance=scope.tempTolerance==null?'':String(scope.tempTolerance);
+  room.humMin=scope.humMin==null?'':String(scope.humMin);
+  room.humMax=scope.humMax==null?'':String(scope.humMax);
+}
+function ilSincronizarCard(index){
+  const card=document.querySelector('.il-room-card[data-index="'+index+'"]');
+  const room=ILUM_STATE.rooms[index];
+  if(!card||!room) return;
+  card.querySelectorAll('[data-field]').forEach(function(el){room[el.dataset.field]=el.value;});
+}
+function ilSincronizarTodas(){ILUM_STATE.rooms.forEach(function(_,index){ilSincronizarCard(index);});}
+function ilInvalidarRelatorio(){const report=document.getElementById('il-report');if(report)report.classList.remove('visible');}
+function ilFonteReferencia(room){
+  if(!room.activity) return 'A atividade aplica automaticamente a referência de iluminância e os limites de ambiente.';
+  const ref=ILUM_REFERENCIAS[room.activity],lux=ref&&ref.lux!=null?ref.lux+' lux':'valor a definir nos ajustes avançados';
+  if(room.scope==='escritorio') return 'Critérios automáticos: '+lux+'; temperatura 18–22 °C (até 25 °C em determinadas condições); humidade 50–70%.';
+  if(room.scope==='industria') return 'Critérios automáticos: '+lux+'; temperatura 18–25 °C; humidade 40–70% (referência técnica).';
+  if(room.activity==='museu') return 'Referência inicial: '+lux+' para exposição geral. A temperatura e a humidade devem ser definidas nos ajustes avançados de acordo com os objetos, a conservação e o contrato.';
+  return 'A atividade define a referência. Os limites personalizados estão nos ajustes avançados.';
+}
+function ilCriterios(room){
+  const scope=ILUM_AMBITOS[room.scope]||ILUM_AMBITOS.pendente,light=room.luxRef===''?'—':ilNum(room.luxRef,0)+' lux';
+  let ambientBase='Aguarda seleção da atividade';
+  if(scope.kind==='legal')ambientBase='Base: DL 243/86, Art.º 11.º';
+  else if(scope.kind==='technical')ambientBase='Base: referência técnica; Portaria 987/93 exige adequação';
+  else if(scope.kind==='manual')ambientBase='Limites personalizados';
+  return '<div class="il-reference-grid">'+
+    '<div class="il-reference-item"><span>Iluminação mínima</span><strong>'+ilEscape(light)+'</strong><small>Máximo legal geral: não definido</small></div>'+
+    '<div class="il-reference-item"><span>Temperatura</span><strong>'+ilEscape(ilNum(room.tempMin)+'–'+ilNum(room.tempMax)+' °C')+'</strong><small>'+(room.tempTolerance?'Máximo tolerado: '+ilEscape(ilNum(room.tempTolerance))+' °C':ilEscape(ambientBase))+'</small></div>'+
+    '<div class="il-reference-item"><span>Humidade relativa</span><strong>'+ilEscape(ilNum(room.humMin)+'–'+ilNum(room.humMax)+' %')+'</strong><small>'+ilEscape(ambientBase)+'</small></div>'+
+    '</div>';
+}
+function ilRenderizarDivisoes(){
+  const list=document.getElementById('il-room-list');
+  if(!list) return;
+  if(!ILUM_STATE.rooms.length){list.innerHTML='<div class="il-empty">Nenhuma divisão adicionada. Utilize o botão “Adicionar divisão”.</div>';ilAtualizarResumo();return;}
+  const activityItems=[['','Selecionar tipo de atividade...']].concat(ILUM_ATIVIDADES_SIMPLIFICADAS);
+  const scopeItems=Object.keys(ILUM_AMBITOS).map(function(key){return [key,ILUM_AMBITOS[key].label];});
+  const sourceItems=Object.keys(ILUM_FONTES).map(function(key){return [key,ILUM_FONTES[key].label];});
+  const altItems=Object.keys(ILUM_ALTERNATIVAS).map(function(key){return [key,ILUM_ALTERNATIVAS[key].label];});
+  const effectItems=Object.keys(ILUM_EFEITOS).map(function(key){return [key,ILUM_EFEITOS[key].label];});
+  list.innerHTML=ILUM_STATE.rooms.map(function(room,index){
+    return '<div class="il-room-card" data-index="'+index+'">'+
+      '<div class="il-room-head"><div class="il-room-title"><span class="il-room-num">'+String(index+1).padStart(2,'0')+'</span><strong>'+ilEscape(room.name||'Divisão sem nome')+'</strong></div><div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end"><span class="il-status pending" data-role="status">Dados por completar</span><button type="button" class="btn-rm" data-action="remove" title="Remover divisão">✕</button></div></div>'+
+      '<div class="il-room-body"><div class="form-grid">'+
+      '<div class="field full"><label>Nome da Divisão</label><input type="text" data-field="name" value="'+ilEscape(room.name)+'" placeholder="Ex: Escritório, Corredor, Armazém..."></div>'+
+      '<div class="field full"><label>Tipo de Atividade</label><select data-field="activity">'+ilOpcoes(activityItems,room.activity)+'</select></div>'+
+      '<div class="field"><label>Iluminação Medida (lux)</label><input type="number" min="0" step="0.1" data-field="lux" value="'+ilEscape(room.lux)+'" placeholder="Média medida"></div>'+
+      '<div class="field"><label>Temperatura (°C)</label><input type="number" step="0.1" data-field="temp" value="'+ilEscape(room.temp)+'" placeholder="Ex.: 22.5"></div>'+
+      '<div class="field"><label>Humidade Relativa (%)</label><input type="number" min="0" max="100" step="0.1" data-field="hum" value="'+ilEscape(room.hum)+'" placeholder="Ex.: 55"></div>'+
+      '<div class="field full"><label>Observações</label><textarea data-field="notes" placeholder="Opcional: tarefa, queixas ou particularidades da divisão...">'+ilEscape(room.notes)+'</textarea></div>'+
+      '</div>'+
+      '<details class="il-advanced"><summary>Ajustes avançados — usar apenas em casos excecionais</summary><div class="il-advanced-body"><div class="form-grid">'+
+      '<div class="field"><label>Piso / Localização Interna</label><input type="text" data-field="floor" value="'+ilEscape(room.floor)+'" placeholder="Ex: Piso 1, Ala Norte..."></div>'+
+      '<div class="field"><label>Iluminação Mínima (lux)</label><input type="number" min="0" step="0.1" data-field="luxRef" value="'+ilEscape(room.luxRef)+'"></div>'+
+      '<div class="field full"><label>Âmbito Legal / Técnico</label><select data-field="scope">'+ilOpcoes(scopeItems,room.scope)+'</select></div>'+
+      '<div class="field"><label>Temperatura Mín. (°C)</label><input type="number" step="0.1" data-field="tempMin" value="'+ilEscape(room.tempMin)+'"></div>'+
+      '<div class="field"><label>Temperatura Máx. (°C)</label><input type="number" step="0.1" data-field="tempMax" value="'+ilEscape(room.tempMax)+'"></div>'+
+      '<div class="field"><label>Máx. Tolerado (°C)</label><input type="number" step="0.1" data-field="tempTolerance" value="'+ilEscape(room.tempTolerance)+'" placeholder="Se aplicável"></div>'+
+      '<div class="field"><label>Humidade Mín. (%)</label><input type="number" min="0" max="100" step="0.1" data-field="humMin" value="'+ilEscape(room.humMin)+'"></div>'+
+      '<div class="field"><label>Humidade Máx. (%)</label><input type="number" min="0" max="100" step="0.1" data-field="humMax" value="'+ilEscape(room.humMax)+'"></div>'+
+      '<div class="field"><label>Iluminação Natural / Artificial</label><select data-field="fonte">'+ilOpcoes(sourceItems,room.fonte)+'</select></div>'+
+      '<div class="field"><label>Iluminação Alternativa / Emergência</label><select data-field="alternativa">'+ilOpcoes(altItems,room.alternativa)+'</select></div>'+
+      '<div class="field"><label>Encandeamento / Cintilação</label><select data-field="efeitos">'+ilOpcoes(effectItems,room.efeitos)+'</select></div>'+
+      '</div></div></details>'+
+      '<div data-role="criteria">'+ilCriterios(room)+'</div><div class="il-small-note" data-role="ref-source">'+ilEscape(ilFonteReferencia(room))+'</div><div class="il-status-detail" data-role="detail"><strong>Análise:</strong> escolha a atividade e introduza as três medições.</div></div></div>';
+  }).join('');
+  list.querySelectorAll('.il-room-card').forEach(function(card,index){
+    card.querySelectorAll('[data-field]').forEach(function(control){
+      const eventName=control.tagName==='SELECT'?'change':'input';
+      control.addEventListener(eventName,function(){
+        const field=control.dataset.field;
+        ilSincronizarCard(index);
+        if(field==='activity'){
+          ilAplicarAtividade(ILUM_STATE.rooms[index],ILUM_STATE.rooms[index].activity);
+          ilInvalidarRelatorio();ilRenderizarDivisoes();return;
+        }
+        if(field==='scope'){ilAplicarAmbito(ILUM_STATE.rooms[index],control.value);ilInvalidarRelatorio();ilRenderizarDivisoes();return;}
+        if(field==='name'){card.querySelector('.il-room-head strong').textContent=control.value.trim()||'Divisão sem nome';}
+        ilInvalidarRelatorio();ilAtualizarCartao(index);ilAtualizarResumo();
+      });
+    });
+    const remove=card.querySelector('[data-action="remove"]');
+    if(remove)remove.addEventListener('click',function(){
+      if(ILUM_STATE.rooms.length===1){if(!confirm('Remover a última divisão?'))return;}
+      ILUM_STATE.rooms.splice(index,1);ilInvalidarRelatorio();ilRenderizarDivisoes();
+    });
+  });
+  ilAtualizarResumo();
+}
+function ilAvaliarDivisao(room){
+  const issues=[],warnings=[],pending=[];
+  let lightStatus='pending',lightText='Iluminância por completar',tempStatus='pending',tempText='Temperatura por completar',humStatus='pending',humText='Humidade por completar',qualityStatus='pending',qualityText='Verificações qualitativas por completar';
+  if(!String(room.name).trim())pending.push('identificação da divisão');
+  if(!room.activity&&!String(room.luxRef).trim())pending.push('atividade ou referência de iluminância');
+  const ref=ilNumber(room.luxRef),lux=ilNumber(room.lux);
+  if(ref==null||lux==null){pending.push('referência e/ou iluminância medida');}
+  else if(lux<ref){issues.push('iluminância medida abaixo da referência');lightStatus='bad';lightText='Abaixo da referência';}
+  else{lightStatus='ok';lightText='Referência atingida';}
+  const temp=ilNumber(room.temp),tmin=ilNumber(room.tempMin),tmax=ilNumber(room.tempMax),ttol=ilNumber(room.tempTolerance);
+  if(temp==null||tmin==null||tmax==null){pending.push('temperatura medida e respetiva referência');}
+  else{
+    const scope=ILUM_AMBITOS[room.scope]||ILUM_AMBITOS.pendente;
+    if(temp<tmin){
+      tempStatus=scope.kind==='technical'?'warn':'bad';tempText=scope.kind==='technical'?'Fora da referência técnica':'Abaixo do intervalo definido';
+      if(scope.kind==='technical')warnings.push('temperatura fora da referência técnica');else issues.push('temperatura abaixo do mínimo definido');
+    }
+    else if(ttol!=null&&temp>ttol){
+      tempStatus=scope.kind==='technical'?'warn':'bad';tempText='Acima do máximo tolerado';
+      if(scope.kind==='technical')warnings.push('temperatura acima da referência técnica');else issues.push('temperatura acima do máximo tolerado');
+    }
+    else if(temp>tmax){
+      if(scope.kind==='manual'&&ttol==null){tempStatus='bad';tempText='Acima do máximo definido';issues.push('temperatura acima do máximo definido');}
+      else{tempStatus='warn';tempText=ttol!=null?'Dentro do máximo tolerado, acima do objetivo':'Acima do máximo de referência';warnings.push('temperatura acima do valor objetivo dentro da tolerância definida');}
+    }
+    else{tempStatus='ok';tempText='Temperatura dentro da referência';}
+  }
+  const hum=ilNumber(room.hum),hmin=ilNumber(room.humMin),hmax=ilNumber(room.humMax);
+  if(hum==null||hmin==null||hmax==null){pending.push('humidade medida e respetivo intervalo');}
+  else if(hum<hmin||hum>hmax){
+    const scope=ILUM_AMBITOS[room.scope]||ILUM_AMBITOS.pendente;humStatus=scope.kind==='technical'?'warn':'bad';humText=scope.kind==='technical'?'Fora da referência técnica':'Fora do intervalo definido';
+    if(scope.kind==='technical')warnings.push('humidade relativa fora da referência técnica');else issues.push('humidade relativa fora do intervalo definido');
+  }
+  else{humStatus='ok';humText='Humidade dentro da referência';}
+  const source=ILUM_FONTES[room.fonte]||ILUM_FONTES.por_confirmar,alternative=ILUM_ALTERNATIVAS[room.alternativa]||ILUM_ALTERNATIVAS.por_confirmar,effects=ILUM_EFEITOS[room.efeitos]||ILUM_EFEITOS.por_confirmar;
+  const qStatuses=[source.status,alternative.status,effects.status],qualityPending=qStatuses.indexOf('pending')>=0;
+  if(qStatuses.indexOf('bad')>=0){qualityStatus='bad';issues.push('verificação qualitativa com condição inadequada ou efeito adverso identificado');}
+  else if(qStatuses.indexOf('warn')>=0){qualityStatus='warn';warnings.push('iluminação limitada');}
+  else{qualityStatus=qualityPending?'pending':'ok';}
+  qualityText=qualityPending?'Verificações qualitativas opcionais por confirmar':[source.label,alternative.label,effects.label].join(' · ');
+  let status='ok',label='Sem desvio nos critérios definidos';
+  if(issues.length){status='bad';label='Desvio identificado';}
+  else if(warnings.length){status='warn';label='Rever condições';}
+  else if(pending.length){status='pending';label='Dados por completar';}
+  const detailParts=issues.concat(warnings,pending);
+  return {status,statusLabel:label,detail:detailParts.length?detailParts.join('; '):'Todos os critérios definidos foram verificados.',lightStatus,lightText,tempStatus,tempText,humStatus,humText,qualityStatus,qualityText,issues,warnings,pending};
+}
+function ilAtualizarCartao(index){
+  const card=document.querySelector('.il-room-card[data-index="'+index+'"]'),room=ILUM_STATE.rooms[index];
+  if(!card||!room)return;
+  const result=ilAvaliarDivisao(room),badge=card.querySelector('[data-role="status"]'),detail=card.querySelector('[data-role="detail"]');
+  badge.className='il-status '+result.status;badge.textContent=result.statusLabel;
+  detail.innerHTML='<strong>Análise:</strong> '+ilEscape(result.detail);
+  const source=card.querySelector('[data-role="ref-source"]');if(source)source.textContent=ilFonteReferencia(room);
+  const criteria=card.querySelector('[data-role="criteria"]');if(criteria)criteria.innerHTML=ilCriterios(room);
+  room.result=result;
+}
+function ilAtualizarResumo(){
+  const counts={total:ILUM_STATE.rooms.length,ok:0,warn:0,bad:0,pending:0};
+  ILUM_STATE.rooms.forEach(function(room,index){const result=ilAvaliarDivisao(room);room.result=result;counts[result.status]++;ilAtualizarCartao(index);});
+  ['total','ok','warn','bad','pending'].forEach(function(key){const el=document.getElementById('il-'+key);if(el)el.textContent=counts[key];});
+  return counts;
+}
+function adicionarDivisaoIluminacao(silent){
+  ILUM_STATE.rooms.push(ilCriarDivisao());ilInvalidarRelatorio();ilRenderizarDivisoes();
+  if(!silent){
+    const cards=document.querySelectorAll('.il-room-card');const last=cards[cards.length-1];
+    if(last){const input=last.querySelector('[data-field="name"]');if(input)input.focus();}
+  }
+}
+function analisarIluminacao(){
+  ilSincronizarTodas();ilInvalidarRelatorio();ilAtualizarResumo();
+  const summary=document.getElementById('il-summary');if(summary)summary.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function preencherDataHoraIluminacao(){
+  const now=new Date();
+  document.getElementById('il-data').value=String(now.getDate()).padStart(2,'0')+'/'+String(now.getMonth()+1).padStart(2,'0')+'/'+now.getFullYear();
+  document.getElementById('il-hora').value=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  ilInvalidarRelatorio();
+}
+function copiarTecnicoIluminacao(){
+  const source=document.getElementById('cab-tsst'),target=document.getElementById('il-tecnico');
+  if(!source||!source.value.trim()){alert('Preencha primeiro o Técnico Responsável no cabeçalho global.');return;}
+  target.value=source.value.trim();ilInvalidarRelatorio();
+}
+function ilDadosGerais(){
+  const value=function(id){const el=document.getElementById(id);return el?el.value.trim():'';};
+  return {empresa:(document.getElementById('cab-empresa')||{}).value||'',local:value('il-local'),morada:value('il-morada'),data:value('il-data'),hora:value('il-hora'),tecnico:value('il-tecnico'),trabalhadores:value('il-trabalhadores'),instrumento:value('il-instrumento'),calibracao:value('il-calibracao'),metodo:value('il-metodo'),condicoes:value('il-condicoes'),observacoes:value('il-obs-geral'),recomendacoes:value('il-recomendacoes')};
+}
+function ilDadosRelatorio(){
+  ilSincronizarTodas();const results=ILUM_STATE.rooms.map(function(room){room.result=ilAvaliarDivisao(room);return room;});return {geral:ilDadosGerais(),rooms:results,counts:ilAtualizarResumo()};
+}
+function ilResumoTemperatura(room){
+  return ilNum(room.temp)+' °C (ref. '+ilNum(room.tempMin)+'–'+ilNum(room.tempMax)+' °C'+(room.tempTolerance? '; máx. tolerado '+ilNum(room.tempTolerance)+' °C':'')+')';
+}
+function ilResumoHumidade(room){return ilNum(room.hum)+' % (ref. '+ilNum(room.humMin)+'–'+ilNum(room.humMax)+' %)';}
+function criarPreviaRelatorioIluminacao(){
+  const data=ilDadosRelatorio(),report=document.getElementById('il-report');if(!report)return;
+  const rows=data.rooms.map(function(room,index){
+    const r=room.result,activity=ilAtividadeLabel(room.activity)||'Atividade por definir',scope=(ILUM_AMBITOS[room.scope]||{}).label||'Âmbito por definir';
+    return '<tr><td><strong>'+ilEscape(room.name||('Divisão '+(index+1)))+'</strong><br>'+ilEscape(room.floor||'—')+'</td><td>'+ilEscape(activity)+'<br><span style="color:var(--muted)">'+ilEscape(scope)+'</span></td><td>'+ilNum(room.lux)+' lux<br><span style="color:var(--muted)">ref. '+ilNum(room.luxRef)+' lux</span></td><td>'+ilEscape(ilResumoTemperatura(room))+'<br>'+ilEscape(r.tempText)+'</td><td>'+ilEscape(ilResumoHumidade(room))+'<br>'+ilEscape(r.humText)+'</td><td><span class="il-status '+r.status+'">'+ilEscape(r.statusLabel)+'</span></td></tr>';
+  }).join('');
+  const details=data.rooms.map(function(room,index){
+    const r=room.result;
+    return '<div class="il-report-room"><h4>'+String(index+1).padStart(2,'0')+' — '+ilEscape(room.name||'Divisão sem nome')+'</h4><p><strong>Iluminação:</strong> '+ilEscape(r.lightText)+'. <strong>Temperatura:</strong> '+ilEscape(r.tempText)+'. <strong>Humidade:</strong> '+ilEscape(r.humText)+'.</p><p><strong>Verificações qualitativas:</strong> '+ilEscape(r.qualityText)+'.</p><p><strong>Análise:</strong> '+ilEscape(r.detail)+'</p>'+(String(room.notes).trim()?'<p><strong>Observações:</strong> '+ilEscape(room.notes)+'</p>':'')+'</div>';
+  }).join('');
+  report.innerHTML='<div class="il-report-head"><h3>Relatório de Iluminação e Condições Ambientais</h3><p>'+ilEscape(ilTexto(data.geral.empresa))+' · '+ilEscape(ilTexto(data.geral.local))+' · '+ilEscape(ilTexto(data.geral.data))+'</p></div><div class="il-report-body"><div class="il-report-kv">'+
+    '<div><span>Data / Hora</span><strong>'+ilEscape(ilTexto(data.geral.data+' '+data.geral.hora))+'</strong></div><div><span>Técnico</span><strong>'+ilEscape(ilTexto(data.geral.tecnico))+'</strong></div><div><span>Trabalhadores</span><strong>'+ilEscape(ilTexto(data.geral.trabalhadores))+'</strong></div><div><span>Instrumento</span><strong>'+ilEscape(ilTexto(data.geral.instrumento))+'</strong></div><div><span>Calibração</span><strong>'+ilEscape(ilTexto(data.geral.calibracao))+'</strong></div><div><span>Método</span><strong>'+ilEscape(ilTexto(data.geral.metodo))+'</strong></div></div>'+
+    '<p class="il-small-note" style="margin:0 0 10px"><strong>Resumo:</strong> '+data.counts.total+' divisões · '+data.counts.ok+' sem desvio · '+data.counts.warn+' para rever · '+data.counts.bad+' com desvio · '+data.counts.pending+' por completar.</p>'+
+    '<div style="overflow-x:auto"><table class="il-report-table"><thead><tr><th>Divisão</th><th>Atividade / Âmbito</th><th>Iluminação</th><th>Temperatura</th><th>Humidade</th><th>Classificação</th></tr></thead><tbody>'+(rows||'<tr><td colspan="6">Nenhuma divisão adicionada.</td></tr>')+'</tbody></table></div>'+details+
+    '<div class="sdiv"><span>Condições e Conclusões</span></div><p class="il-small-note"><strong>Condições do levantamento:</strong> '+ilEscape(ilTexto(data.geral.condicoes))+'</p><p class="il-small-note"><strong>Observações gerais:</strong> '+ilEscape(ilTexto(data.geral.observacoes))+'</p><p class="il-small-note"><strong>Conclusões e recomendações:</strong> '+ilEscape(ilTexto(data.geral.recomendacoes))+'</p>'+
+    '<div class="sdiv"><span>Fundamentação</span></div><p class="il-small-note">Lei n.º 102/2009, de 10 de setembro, na redação atual; Decreto-Lei n.º 347/93, de 1 de outubro; Portaria n.º 987/93, de 6 de outubro; Decreto-Lei n.º 243/86, de 20 de agosto, Art.º 11.º. Referências de iluminância da guia “Iluminação Segura no Local de Trabalho” de 2026, ISO 8995 e DIN 5035. Os valores técnicos não substituem a legislação setorial aplicável nem constituem certificação de conformidade.</p><p class="il-small-note">A classificação resulta da comparação com os critérios definidos pelo avaliador. Para escritório, comércio e serviços, a temperatura de referência é 18–22 °C, admitindo-se até 25 °C em determinadas condições climatéricas, e a humidade de referência é 50–70%. Para indústria e outros locais, a Portaria 987/93 exige adequação sem fixar um intervalo numérico universal.</p></div>';
+  report.classList.add('visible');report.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function gerarPDFIluminacao(){
+  if(!checkJsPDF())return;
+  const data=ilDadosRelatorio();
+  if(!data.rooms.length){alert('Adicione pelo menos uma divisão antes de gerar o relatório.');return;}
+  const JsPDF=window.jspdf.jsPDF,doc=new JsPDF({unit:'mm',format:'a4'}),PW=210,PH=297,M=16,CW=PW-2*M,title='Relatório de Iluminação e Condições Ambientais',refLegal='Lei n.º 102/2009; DL n.º 347/93; Portaria n.º 987/93; DL n.º 243/86';
+  const rc=data.counts.bad>0?[239,68,68]:data.counts.warn>0?[245,158,11]:[34,197,94];
+  let y=pdfDrawHeader(doc,rc,title),pg=1;
+  function newPage(){pdfFooter(doc,pg,refLegal);doc.addPage();pg++;y=pdfDrawHeader(doc,rc,title);}
+  function ensure(height){if(y+height>PH-26)newPage();}
+  function section(text){ensure(14);doc.setFillColor(18,52,96);doc.roundedRect(M,y,CW,8,2,2,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(220,235,255);doc.text(sanitize(text),M+4,y+5.5);y+=12;}
+  function row(label,value){const text=sanitize(String(value==null||value===''?'—':value)),lines=doc.splitTextToSize(text,CW-5);ensure(6+lines.length*4.5);doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(105,115,145);doc.text(sanitize(label).toUpperCase(),M,y);y+=4;doc.setFont('helvetica','normal');doc.setFontSize(8.8);doc.setTextColor(20,28,48);doc.text(lines,M,y);y+=lines.length*4.5+3;}
+  function paragraph(label,text){const content=sanitize(String(text==null||String(text).trim()===''?'—':text)),lines=doc.splitTextToSize(content,CW-8),height=lines.length*4.6+10;ensure(height);doc.setFillColor(246,248,252);doc.roundedRect(M,y-2,CW,height,2,2,'F');doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(75,85,110);doc.text(sanitize(label).toUpperCase(),M+4,y+3);doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(30,40,60);doc.text(lines,M+4,y+8.5);y+=height+4;}
+  function statusLine(room){const result=room.result,color=result.status==='bad'?[239,68,68]:result.status==='warn'?[245,158,11]:result.status==='pending'?[122,127,154]:[34,197,94];ensure(13);doc.setFillColor(color[0],color[1],color[2]);doc.roundedRect(M,y,CW,9,2,2,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(255,255,255);doc.text(sanitize(result.statusLabel),M+4,y+5.8);doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.text(sanitize(result.detail),M+60,y+5.8,{maxWidth:CW-64});y+=13;}
+  try{
+    doc.setFillColor(...rc);doc.roundedRect(M,y,CW,9,2,2,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text(sanitize(title.toUpperCase()),PW/2,y+6.5,{align:'center'});y+=14;
+    section('Identificação do Levantamento');
+    [['Entidade',data.geral.empresa],['Local',data.geral.local],['Morada',data.geral.morada],['Data e hora',(data.geral.data||'—')+' '+(data.geral.hora||'')],['Técnico responsável',data.geral.tecnico],['Trabalhadores expostos',data.geral.trabalhadores],['Instrumento',data.geral.instrumento],['Calibração / validade',data.geral.calibracao],['Método de medição',data.geral.metodo]].forEach(function(item){row(item[0],item[1]);});
+    paragraph('Condições do levantamento',data.geral.condicoes);
+    section('Resumo');
+    const summary=[[data.counts.total,'Divisões'],[data.counts.ok,'Sem desvio'],[data.counts.warn,'Para rever'],[data.counts.bad,'Com desvio'],[data.counts.pending,'Por completar']],sw=(CW-8)/5;
+    summary.forEach(function(item,index){const x=M+index*(sw+2);doc.setFillColor(246,248,252);doc.roundedRect(x,y,sw,14,2,2,'F');doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(...rc);doc.text(String(item[0]),x+sw/2,y+6.5,{align:'center'});doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(90,100,130);doc.text(sanitize(item[1]),x+sw/2,y+11,{align:'center'});});y+=19;
+    data.rooms.forEach(function(room,index){
+      section('Divisão '+String(index+1).padStart(2,'0')+' — '+(room.name||'Sem nome'));
+      statusLine(room);
+      row('Localização',room.floor);
+      row('Atividade / espaço',ilAtividadeLabel(room.activity));
+      row('Âmbito legal / técnico',(ILUM_AMBITOS[room.scope]||{}).label);
+      row('Iluminância',ilNum(room.lux)+' lux medidos; referência: '+ilNum(room.luxRef)+' lux');
+      row('Temperatura',ilResumoTemperatura(room)+' — '+room.result.tempText);
+      row('Humidade relativa',ilResumoHumidade(room)+' — '+room.result.humText);
+      paragraph('Verificações qualitativas',room.result.qualityText);
+      paragraph('Observações da divisão',room.notes);
+    });
+    section('Conclusões e Recomendações');
+    paragraph('Observações gerais',data.geral.observacoes);
+    paragraph('Conclusões e recomendações',data.geral.recomendacoes);
+    section('Fundamentação e Nota Técnica');
+    paragraph('Legislação aplicável','Lei n.º 102/2009, de 10 de setembro, na redação atual; Decreto-Lei n.º 347/93, de 1 de outubro; Portaria n.º 987/93, de 6 de outubro; Decreto-Lei n.º 243/86, de 20 de agosto, Art.º 11.º.');
+    paragraph('Referências de iluminância','Guia “Iluminação Segura no Local de Trabalho” de 2026, baseada nas referências ISO 8995 e DIN 5035. Os valores de iluminância são referências técnicas e não limites legais universais.');
+    paragraph('Nota de interpretação','Para comércio, escritórios e serviços: 18–22 °C, podendo atingir 25 °C em determinadas condições climatéricas; humidade relativa de 50–70%. Para indústria e outros locais, a Portaria 987/93 exige condições adequadas sem fixar um intervalo numérico universal. Confirmar sempre o regulamento setorial e a tarefa real.');
+    pdfFooter(doc,pg,refLegal);
+    const base=sanitize(data.geral.local||'edificio').replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'').slice(0,40)||'edificio',dt=(data.geral.data||'').replace(/\//g,'-')||new Date().toISOString().slice(0,10);
+    doc.save('Relatorio_Iluminacao_'+base+'_'+dt+'.pdf');
+  }catch(error){alert('Erro ao gerar o relatório de iluminação: '+error.message);console.error('PDF Iluminação:',error);}
+}
+
+if(document.getElementById('il-room-list')){ILUM_STATE.rooms.push(ilCriarDivisao());ilRenderizarDivisoes();}
 </script>
 </body>
 </html>
