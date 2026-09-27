@@ -686,105 +686,6 @@ input[type=range]::-webkit-slider-thumb {
 .autosave-btn { padding: 7px 13px !important; font-size: 12px !important; }
 
 /* ================================================================
-   PAINEL GITHUB — sincronização entre dispositivos
-   ================================================================ */
-.gh-panel {
-  max-width: 960px; margin: 0 12px 14px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
-}
-@media (min-width: 984px) { .gh-panel { margin-left: auto; margin-right: auto; } }
-.gh-toggle {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 16px; cursor: pointer; gap: 12px;
-  min-height: 52px; touch-action: manipulation; transition: background .2s;
-}
-.gh-toggle:active { background: var(--surface2); }
-#gh-preview { font-size: 12px; color: var(--muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-#gh-preview.configurado { color: var(--low); font-weight: 600; }
-#gh-preview.erro { color: var(--high); font-weight: 600; }
-.gh-fields { display: none; border-top: 1px solid var(--border); }
-.gh-fields.open { display: block; }
-.gh-setup { padding: 14px 16px 16px; }
-.gh-intro { font-size: 11px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
-.gh-intro code { background: var(--input-bg); padding: 1px 5px; border-radius: 4px; font-size: 10px; }
-.gh-token-row { display: flex; gap: 6px; align-items: stretch; margin-top: 5px; }
-.gh-token-row input { flex: 1; min-width: 0; }
-.gh-mini { padding: 8px 11px !important; font-size: 13px !important; flex-shrink: 0; }
-.gh-warn {
-  background: rgba(245,158,11,.10); border: 1px solid rgba(245,158,11,.35);
-  border-radius: 9px; padding: 10px 12px; margin: 12px 0;
-  color: var(--text); font-size: 11px; line-height: 1.6;
-}
-.gh-warn strong { color: var(--med); }
-.gh-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
-.gh-share { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
-.gh-share .field > span { display: block; }
-.field label span, .gh-setup .field > span:first-child {
-  display: block; font-size: 10px; color: var(--muted); text-transform: uppercase;
-  letter-spacing: .4px; font-weight: 700; margin-bottom: 2px;
-}
-.gh-setup em { font-style: normal; opacity: .65; text-transform: none; }
-.gh-status { font-size: 11px; padding: 5px 10px; border-radius: 6px; display: none; }
-.gh-status.ok { display: inline-block; background: #1a3a1a; color: #7dda7d; }
-.gh-status.err { display: inline-block; background: #3a1010; color: #e08a8a; }
-.gh-status.busy { display: inline-block; background: #1a3a5a; color: #c8e0ff; }
-
-/* Botão GitHub dentro das barras de rascunho */
-.btn-gh {
-  padding: 8px 14px; border-radius: 8px; border: 1.5px solid #4a3a7a;
-  background: #241a45; color: #c9b8ff; font-size: 12px; font-weight: 600;
-  cursor: pointer; transition: all .2s; white-space: nowrap;
-}
-.btn-gh:hover { background: #34265c; color: #e4dbff; }
-.btn-gh.busy { opacity: .6; pointer-events: none; }
-.btn-gh-puxar { border-color: #2a5a7a; background: #12283a; color: #a8d4f0; }
-.btn-gh-puxar:hover { background: #1a3a52; color: #cfeaff; }
-
-/* Modal de listagem de ficheiros */
-.gh-modal {
-  position: fixed; inset: 0; z-index: 10000;
-  background: rgba(0,0,0,.72); display: none;
-  align-items: center; justify-content: center; padding: 16px;
-}
-.gh-modal.open { display: flex; }
-.gh-modal-box {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; width: 100%; max-width: 560px;
-  max-height: 82vh; display: flex; flex-direction: column;
-  box-shadow: 0 12px 48px rgba(0,0,0,.6);
-}
-.gh-modal-head {
-  display: flex; justify-content: space-between; align-items: center; gap: 10px;
-  padding: 14px 16px; border-bottom: 1px solid var(--border);
-}
-.gh-modal-head strong { font-size: 14px; }
-.gh-modal-head button {
-  background: transparent; border: 1px solid var(--border); color: var(--muted);
-  border-radius: 7px; width: 30px; height: 30px; cursor: pointer; font-size: 14px;
-}
-.gh-modal-body { padding: 12px 14px; overflow-y: auto; flex: 1; }
-.gh-file {
-  display: flex; justify-content: space-between; align-items: center; gap: 10px;
-  padding: 11px 12px; border: 1px solid var(--border); border-radius: 9px;
-  margin-bottom: 7px; background: var(--input-bg); cursor: pointer;
-  transition: border-color .2s, background .2s;
-}
-.gh-file:hover { border-color: var(--accent); background: var(--surface2); }
-.gh-file-nome { font-size: 12px; font-weight: 600; word-break: break-all; }
-.gh-file-meta { font-size: 10px; color: var(--muted); margin-top: 3px; }
-.gh-file-aba {
-  flex-shrink: 0; font-size: 9px; text-transform: uppercase; letter-spacing: .4px;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 5px; padding: 3px 7px; color: var(--muted); font-weight: 700;
-}
-.gh-empty { text-align: center; color: var(--muted); font-size: 12px; padding: 26px 12px; line-height: 1.6; }
-
-@media print {
-  .gh-panel, .gh-modal, #autosave-banner, .save-bar { display: none !important; }
-}
-
-/* ================================================================
    SAVE/LOAD BAR
    ================================================================ */
 .save-bar {
@@ -989,56 +890,6 @@ input[type=range]::-webkit-slider-thumb {
   </div>
 </div>
 
-<!-- ===== PAINEL GITHUB (sincronização entre dispositivos) ===== -->
-<div class="gh-panel" id="gh-panel">
-  <div class="gh-toggle" id="gh-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="gh-fields">
-    <span id="gh-preview">☁ GitHub — gravar e abrir avaliações noutro dispositivo</span>
-    <span class="cab-arrow" id="gh-arrow">▼</span>
-  </div>
-  <div class="gh-fields" id="gh-fields">
-    <div class="gh-setup">
-      <p class="gh-intro">Guarde cada avaliação como ficheiro <code>.json</code> no seu repositório GitHub. Assim pode avaliar no iPad e abrir no PC (e vice-versa) sem perder nada.</p>
-
-      <label class="field"><span>🔑 Token do GitHub (Personal Access Token)</span>
-        <span class="gh-token-row">
-          <input type="password" id="gh-token" placeholder="ghp_… (âmbito: conteúdo do repositório)" autocomplete="off" spellcheck="false">
-          <button type="button" class="btn-load gh-mini" id="gh-token-eye" title="Mostrar ou ocultar o token">👁</button>
-          <button type="button" class="btn-save-danger gh-mini" id="gh-token-clear" title="Apagar o token deste dispositivo">✕</button>
-        </span>
-      </label>
-
-      <div class="form-grid">
-        <div class="field"><label>Proprietário <em>(owner)</em></label><input type="text" id="gh-owner" placeholder="Ex: joaosilva" spellcheck="false" autocapitalize="none"></div>
-        <div class="field"><label>Repositório <em>(repo)</em></label><input type="text" id="gh-repo" placeholder="Ex: avaliacoes-sst" spellcheck="false" autocapitalize="none"></div>
-        <div class="field"><label>Branch</label><input type="text" id="gh-branch" placeholder="Ex: main" spellcheck="false" autocapitalize="none"></div>
-        <div class="field"><label>Pasta no repositório</label><input type="text" id="gh-path" placeholder="Ex: avaliacoes" spellcheck="false" autocapitalize="none"></div>
-      </div>
-
-      <div class="gh-warn">
-        ⚠️ <strong>O token fica guardado apenas neste dispositivo</strong> (navegador/iPad). Qualquer script desta página o consegue ler. Crie um token com âmbito
-        <em>apenas</em> sobre esse repositório, e clique em “Apagar token” quando deixar de usar. Num iPad partilhado, apague o token ao terminar.
-      </div>
-
-      <div class="gh-actions">
-        <button type="button" class="btn-save" id="gh-save-cfg" onclick="ghGuardarConfig()">💾 Guardar configuração</button>
-        <button type="button" class="btn-load" onclick="ghTestar()">🔌 Testar ligação</button>
-        <button type="button" class="btn-load" onclick="ghAbrirLista()">📂 Abrir do GitHub</button>
-        <span class="save-status" id="gh-status" style="display:none"></span>
-      </div>
-
-      <div class="gh-share">
-        <label class="field"><span>🔁 Configuração para o outro dispositivo (não inclui o token)</span>
-          <span class="gh-token-row">
-            <input type="text" id="gh-share-code" readonly placeholder="Preencha owner/repo/branch/pasta e carregue em «Guardar configuração»">
-            <button type="button" class="btn-load gh-mini" onclick="ghCopiarCodigo()" title="Copiar">⧉</button>
-          </span>
-        </label>
-        <p class="gh-intro" style="margin:6px 0 0">No outro equipamento, abra esta app, cole o código no campo acima (substituindo-o) e carregue em <strong>Guardar configuração</strong>. Depois basta colar o token e carregar em <em>Abrir do GitHub</em>.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ===== TABS ===== -->
 <div class="tabs-wrap" role="tablist" aria-label="Métodos de avaliação">
 <div class="tabs" role="presentation">
@@ -1097,12 +948,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('simplificado',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('simplificado',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('simplificado')">✕ Limpar fotos</button>
@@ -1136,7 +987,7 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn-cab-clear" style="font-size:11px;padding:6px 12px" onclick="document.getElementById('simplificado-nota-tecnico').innerHTML=''">✕ Limpar nota</button>
     </div>
   </div>
-<button class="btn-pdf" id="s-pdf-btn" style="display:none" onclick="makePDF('simplificado')">📄 Exportar Relatório PDF</button>
+<button class="btn-pdf" id="s-pdf-btn" onclick="makePDF('simplificado')">📄 Exportar Relatório PDF</button>
 <div class="save-bar"><span class="save-bar-label">💾 Rascunho</span><button class="btn-save" onclick="gravarAba('simplificado')">💾 Gravar</button><button class="btn-load" onclick="carregarAba('simplificado')">📂 Carregar</button><button class="btn-save-danger" onclick="limparRascunho('simplificado')">🗑 Apagar rascunho</button><span class="save-status" id="save-status-simplificado">✓ Gravado!</span></div>
 </div>
 
@@ -1190,12 +1041,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('matriz',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('matriz',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('matriz')">✕ Limpar fotos</button>
@@ -1229,7 +1080,7 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn-cab-clear" style="font-size:11px;padding:6px 12px" onclick="document.getElementById('matriz-nota-tecnico').innerHTML=''">✕ Limpar nota</button>
     </div>
   </div>
-<button class="btn-pdf" id="m-pdf-btn" style="display:none" onclick="makePDF('matriz')">📄 Exportar Relatório PDF</button>
+<button class="btn-pdf" id="m-pdf-btn" onclick="makePDF('matriz')">📄 Exportar Relatório PDF</button>
 <div class="save-bar"><span class="save-bar-label">💾 Rascunho</span><button class="btn-save" onclick="gravarAba('matriz')">💾 Gravar</button><button class="btn-load" onclick="carregarAba('matriz')">📂 Carregar</button><button class="btn-save-danger" onclick="limparRascunho('matriz')">🗑 Apagar rascunho</button><span class="save-status" id="save-status-matriz">✓ Gravado!</span></div>
 </div>
 
@@ -1291,12 +1142,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('fine',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('fine',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('fine')">✕ Limpar fotos</button>
@@ -1330,7 +1181,7 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn-cab-clear" style="font-size:11px;padding:6px 12px" onclick="document.getElementById('fine-nota-tecnico').innerHTML=''">✕ Limpar nota</button>
     </div>
   </div>
-<button class="btn-pdf" id="f-pdf-btn" style="display:none" onclick="makePDF('fine')">📄 Exportar Relatório PDF</button>
+<button class="btn-pdf" id="f-pdf-btn" onclick="makePDF('fine')">📄 Exportar Relatório PDF</button>
 <div class="save-bar"><span class="save-bar-label">💾 Rascunho</span><button class="btn-save" onclick="gravarAba('fine')">💾 Gravar</button><button class="btn-load" onclick="carregarAba('fine')">📂 Carregar</button><button class="btn-save-danger" onclick="limparRascunho('fine')">🗑 Apagar rascunho</button><span class="save-status" id="save-status-fine">✓ Gravado!</span></div>
 </div>
 
@@ -1400,12 +1251,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('niosh',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('niosh',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('niosh')">✕ Limpar fotos</button>
@@ -1439,7 +1290,7 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn-cab-clear" style="font-size:11px;padding:6px 12px" onclick="document.getElementById('niosh-nota-tecnico').innerHTML=''">✕ Limpar nota</button>
     </div>
   </div>
-<button class="btn-pdf" id="n-pdf-btn" style="display:none" onclick="makePDF('niosh')">📄 Exportar Relatório PDF</button>
+<button class="btn-pdf" id="n-pdf-btn" onclick="makePDF('niosh')">📄 Exportar Relatório PDF</button>
 <div class="save-bar"><span class="save-bar-label">💾 Rascunho</span><button class="btn-save" onclick="gravarAba('niosh')">💾 Gravar</button><button class="btn-load" onclick="carregarAba('niosh')">📂 Carregar</button><button class="btn-save-danger" onclick="limparRascunho('niosh')">🗑 Apagar rascunho</button><span class="save-status" id="save-status-niosh">✓ Gravado!</span></div>
 </div>
 
@@ -1480,12 +1331,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('ruido',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('ruido',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('ruido')">✕ Limpar fotos</button>
@@ -1519,7 +1370,7 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn-cab-clear" style="font-size:11px;padding:6px 12px" onclick="document.getElementById('ruido-nota-tecnico').innerHTML=''">✕ Limpar nota</button>
     </div>
   </div>
-<button class="btn-pdf" id="r-pdf-btn" style="display:none" onclick="makePDFSimple('ruido')">📄 Exportar Relatório PDF</button>
+<button class="btn-pdf" id="r-pdf-btn" onclick="makePDFSimple('ruido')">📄 Exportar Relatório PDF</button>
 <div class="save-bar"><span class="save-bar-label">💾 Rascunho</span><button class="btn-save" onclick="gravarAba('ruido')">💾 Gravar</button><button class="btn-load" onclick="carregarAba('ruido')">📂 Carregar</button><button class="btn-save-danger" onclick="limparRascunho('ruido')">🗑 Apagar rascunho</button><span class="save-status" id="save-status-ruido">✓ Gravado!</span></div>
 </div>
 
@@ -1570,12 +1421,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('vibracao',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('vibracao',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('vibracao')">✕ Limpar fotos</button>
@@ -1609,7 +1460,7 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn-cab-clear" style="font-size:11px;padding:6px 12px" onclick="document.getElementById('vibracao-nota-tecnico').innerHTML=''">✕ Limpar nota</button>
     </div>
   </div>
-<button class="btn-pdf" id="v-pdf-btn" style="display:none" onclick="makePDFSimple('vibracao')">📄 Exportar Relatório PDF</button>
+<button class="btn-pdf" id="v-pdf-btn" onclick="makePDFSimple('vibracao')">📄 Exportar Relatório PDF</button>
 <div class="save-bar"><span class="save-bar-label">💾 Rascunho</span><button class="btn-save" onclick="gravarAba('vibracao')">💾 Gravar</button><button class="btn-load" onclick="carregarAba('vibracao')">📂 Carregar</button><button class="btn-save-danger" onclick="limparRascunho('vibracao')">🗑 Apagar rascunho</button><span class="save-status" id="save-status-vibracao">✓ Gravado!</span></div>
 </div>
 
@@ -1679,12 +1530,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('quimico',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('quimico',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('quimico')">✕ Limpar fotos</button>
@@ -1718,7 +1569,7 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn-cab-clear" style="font-size:11px;padding:6px 12px" onclick="document.getElementById('quimico-nota-tecnico').innerHTML=''">✕ Limpar nota</button>
     </div>
   </div>
-<button class="btn-pdf" id="q-pdf-btn" style="display:none" onclick="makePDFSimple('quimico')">📄 Exportar Relatório PDF</button>
+<button class="btn-pdf" id="q-pdf-btn" onclick="makePDFSimple('quimico')">📄 Exportar Relatório PDF</button>
 <div class="save-bar"><span class="save-bar-label">💾 Rascunho</span><button class="btn-save" onclick="gravarAba('quimico')">💾 Gravar</button><button class="btn-load" onclick="carregarAba('quimico')">📂 Carregar</button><button class="btn-save-danger" onclick="limparRascunho('quimico')">🗑 Apagar rascunho</button><span class="save-status" id="save-status-quimico">✓ Gravado!</span></div>
 </div>
 
@@ -1754,12 +1605,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('altura',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('altura',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('altura')">✕ Limpar fotos</button>
@@ -1871,12 +1722,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('formacao',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('formacao',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('formacao')">✕ Limpar fotos</button>
@@ -1884,7 +1735,7 @@ input[type=range]::-webkit-slider-thumb {
     </div>
     <div class="sim-photo-grid" id="tab-foto-grid-formacao"></div>
   </div>
-  <button class="btn-pdf" id="gf-pdf-btn" style="display:none" onclick="gerarPDFFormacao()">📄 Exportar Relatório de Formação PDF</button>
+  <button class="btn-pdf" id="gf-pdf-btn" onclick="gerarPDFFormacao()">📄 Exportar Relatório de Formação PDF</button>
   <!-- Nota do Técnico -->
   <div class="card">
     <h2>📝 Nota do Técnico</h2>
@@ -1955,12 +1806,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('dl50',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('dl50',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('dl50')">✕ Limpar fotos</button>
@@ -2126,12 +1977,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>📷 Fotografias / Evidências</h2>
     <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        📷 Câmara
         <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('iluminacao',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
-      <label style="cursor:pointer">
-        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+      <label class="btn-cab-auto" style="cursor:pointer;display:inline-block">
+        🖼️ Galeria
         <input type="file" accept="image/*" multiple onchange="tabFotoHandle('iluminacao',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
       </label>
       <button class="btn-cab-clear" onclick="tabFotoClear('iluminacao')">🗑 Limpar fotos</button>
@@ -2445,11 +2296,12 @@ input[type=range]::-webkit-slider-thumb {
     <h2>🖼️ Galeria de Fotografias</h2>
     <p class="subtitle">Fotos guardadas automaticamente — disponíveis entre sessões. Clique em "Usar" para adicionar ao relatório atual.</p>
     <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
-      <button class="btn-load" onclick="galeriaImportar()">📥 Importar da câmara / ficheiro</button>
+      <label class="btn-load" style="cursor:pointer;display:inline-block">📥 Importar da câmara / ficheiro
+        <input type="file" id="galeria-inp" accept="image/*" multiple onchange="galeriaHandleFiles(this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
+      </label>
       <button class="btn-save-danger" onclick="galeriaLimpar()">🗑 Limpar galeria</button>
       <span style="font-size:12px;color:var(--muted);align-self:center" id="galeria-count">0 fotos na galeria</span>
     </div>
-    <input type="file" id="galeria-inp" accept="image/*" multiple style="display:none" onchange="galeriaHandleFiles(this)">
     <div class="galeria-grid" id="galeria-grid"><p style="color:var(--muted);font-size:13px">A galeria está vazia. Importe fotos para as guardar permanentemente.</p></div>
   </div>
 
@@ -2588,7 +2440,13 @@ function calcS(){
 
 // ===== CALC MATRIZ =====
 function calcM(){
-  if(!selCell){alert('Selecione uma célula na matriz ou use os seletores.');return;}
+  // Se ainda não houver célula escolhida, deduzi-la a partir dos seletores.
+  // Antes era preciso clicar numa célula da matriz, senão não calculava nada.
+  if(!selCell) updateMSel();
+  if(!selCell){
+    alert('Escolha a Probabilidade e a Severidade nos seletores (ou clique numa célula da matriz 5×5) para calcular o risco.');
+    return;
+  }
   const {p,s,val}=selCell;
   const sl=['','Insignificante','Menor','Moderada','Grave','Catástrofe'];
   const pl=['','Muito Improvável','Improvável','Possível','Provável','Muito Provável'];
@@ -2921,9 +2779,32 @@ function pdfFooter(doc,pg,refLegal){
 }
 
 // ===== PDF GERAL (METODOS) =====
+// Garante que existe resultado calculado antes de exportar.
+// Sem isto, carregar no botão depois de preencher só os campos de texto
+// (sem mexer nos cursores) não fazia nada — sem PDF e sem aviso.
+function _podeExportar(method){
+  var sinal=_RECALC_SINAL[method];
+  var el=sinal?document.getElementById(sinal):null;
+  if(el && !String(el.value||'').trim()) return false;
+  _recalcularAba(method);
+  return !!lastR[method];
+}
+function _avisoFaltamDados(method){
+  var sinal=_RECALC_SINAL[method];
+  var el=sinal?document.getElementById(sinal):null;
+  var nome='os campos de identificação da avaliação';
+  if(el){
+    var lb=el.closest('.field')&&el.closest('.field').querySelector('label');
+    if(lb) nome='"'+lb.textContent.replace(/\s*—.*$/,'').trim()+'"';
+  }
+  alert('Preencha primeiro '+nome+' para poder exportar o relatório em PDF.\n\n'
+       +'Depois de preencher, o resultado é calculado automaticamente.');
+}
+
 function makePDF(method){
   const {jsPDF}=window.jspdf;
-  const r=lastR[method]; if(!r) return;
+  if(!_podeExportar(method)){ _avisoFaltamDados(method); return; }
+  const r=lastR[method];
   const isN=method==='niosh';
   const doc=new jsPDF({unit:'mm',format:'a4'});
   const PW=210,PH=297,M=16,CW=PW-2*M;
@@ -3041,7 +2922,8 @@ function makePDF(method){
 // ===== PDF SIMPLES (RUÍDO, VIBRAÇÕES, QUÍMICO) =====
 function makePDFSimple(method){
   const {jsPDF}=window.jspdf;
-  const r=lastR[method]; if(!r) return;
+  if(!_podeExportar(method)){ _avisoFaltamDados(method); return; }
+  const r=lastR[method];
   const doc=new jsPDF({unit:'mm',format:'a4'});
   const PW=210,PH=297,M=16,CW=PW-2*M;
   let y=0,pg=1;
@@ -3488,11 +3370,9 @@ function gerarPDFFormacao(){
   // Fotografias da formação
   var gfFotos = tabFotoGetAll('formacao');
   if(gfFotos.length>0){
-    chkF(20);
-    secTitleF('Evidências Fotográficas');
     y = pdfDrawFotos(doc, gfFotos, y, chkF, [18,52,96], CW, M);
-  y = pdfDrawNota(doc, 'formacao', y, chkF, CW, M, PW);
   }
+  y = pdfDrawNota(doc, 'formacao', y, chkF, CW, M, PW);
 
   footerF();
   const nomeF=gf('gf-nome').replace(/\s+/g,'_').substring(0,25)||'Formacao';
@@ -3708,13 +3588,9 @@ function gerarPDFAltura(){
   // Fotografias de trabalho em altura
   var altFotos = tabFotoGetAll('altura');
   if(altFotos.length>0){
-    chk(20);
-    doc.setFillColor(18,52,96); doc.roundedRect(M,y,CW,8,2,2,'F');
-    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(220,235,255);
-    doc.text('Evidências Fotográficas', M+4, y+5.5); y+=11;
-    y = pdfDrawFotos(doc, altFotos, y, chk, [18,52,96], CW, M);
-  y = pdfDrawNota(doc, 'altura', y, chk, CW, M, PW);
+    y = pdfDrawFotos(doc, altFotos, y, chkF, [18,52,96], CW, M);
   }
+  y = pdfDrawNota(doc, 'altura', y, chkF, CW, M, PW);
 
   footer();
   doc.save('Checklist_TrabalhoAltura_'+(document.getElementById('a-data')?.value||'').replace(/\//g,'-')+'.pdf');
@@ -3937,13 +3813,9 @@ function gerarPDFDL50(){
   // Fotografias DL50
   var dl50Fotos = tabFotoGetAll('dl50');
   if(dl50Fotos.length>0){
-    chk(20);
-    doc.setFillColor(18,52,96); doc.roundedRect(M,y,CW,8,2,2,'F');
-    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(220,235,255);
-    doc.text('Evidências Fotográficas', M+4, y+5.5); y+=11;
-    y = pdfDrawFotos(doc, dl50Fotos, y, chk, [18,52,96], CW, M);
-  y = pdfDrawNota(doc, 'dl50', y, chk, CW, M, PW);
+    y = pdfDrawFotos(doc, dl50Fotos, y, chkF, [18,52,96], CW, M);
   }
+  y = pdfDrawNota(doc, 'dl50', y, chkF, CW, M, PW);
 
   footer();
   const equip=sanitize(document.getElementById('dl-equip')?.value||'Equipamento').replace(/\s+/g,'_').substring(0,30);
@@ -4012,7 +3884,7 @@ var TAB_FOTO_MAX = 8;
 
 // ===== COMPRESSÃO DE IMAGENS =====
 // As fotos de um iPad/telemóvel pesam vários MB cada. Sem reduzir, uma única
-// fotografia pode ultrapassar a quota do localStorage (5 MB) e o GitHub
+// fotografia pode ultrapassar a quota do localStorage (5 MB).
 // rejeitaria o ficheiro. Redimensionamos para no máximo 1400 px e recomprimimos
 // em JPEG, o que costuma reduzir 90% do peso sem perder legibilidade no PDF.
 var FOTO_MAX_DIM    = 1400;
@@ -5168,7 +5040,7 @@ function _nomeArquivo(aba) {
   return 'SST_'+aba+'_'+(slug||'rascunho')+'_'+dt+'.json';
 }
 // "Ação, Lda." -> "Acao Lda" — nomes de ficheiro sem acentos, para funcionarem
-// em qualquer sistema quando transferidos entre iPad, PC e GitHub.
+// em qualquer sistema quando transferidos entre iPad e PC.
 function _paraASCII(s){
   return String(s||'')
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
@@ -5220,8 +5092,8 @@ var _carregarAbaAtual=null;
 function carregarAba(aba){ _carregarAbaAtual=aba; document.getElementById('inp-carregar-aba').click(); }
 
 function limparRascunho(aba){
-  if(!confirm('Limpar todos os campos da aba "'+(GH_ABA_NOME[aba]||aba)+'"?')) return;
-  ghAutoLimpar(aba);
+  if(!confirm('Limpar todos os campos da aba "'+(ABA_NOME[aba]||aba)+'"?')) return;
+  autoLimpar(aba);
   var campos=(ABA_CAMPOS[aba]||[]).concat(ABA_NUMS[aba]||[]);
   campos.forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
   (ABA_SELECTS[aba]||[]).forEach(function(id){ var el=document.getElementById(id); if(el) el.selectedIndex=0; });
@@ -5247,10 +5119,6 @@ function galeriaSaveFotos(arr) {
   try { localStorage.setItem(GALERIA_KEY, JSON.stringify(arr)); } catch(e){
     alert('Erro ao guardar na galeria: armazenamento cheio.\nTente remover algumas fotos antigas.');
   }
-}
-
-function galeriaImportar() {
-  document.getElementById('galeria-inp').click();
 }
 
 function galeriaHandleFiles(input) {
@@ -5729,505 +5597,34 @@ function gerarPDFIluminacao(){
   }catch(error){alert('Erro ao gerar o relatório de iluminação: '+error.message);console.error('PDF Iluminação:',error);}
 }
 
-/* ================================================================
-   GITHUB — gravar e abrir avaliações noutro dispositivo
-   Usa a Git Data API (blobs + trees + commits) em vez da Contents API,
-   porque a Contents API tem um limite de ~1 MB e as avaliações com
-   fotografias podem ser bastante maiores.
-   ================================================================ */
-var GH_CFG_KEY    = 'sst_gh_config_v1';
-var GH_TOKEN_KEY  = 'sst_gh_token_v1';
-var GH_MAX_COMMIT = 'sst_gh_ultimo_push';
-
-// ---------- Configuração (parte não secreta) ----------
-function ghCfgPadrao(){
-  return { owner:'', repo:'', branch:'main', path:'avaliacoes' };
-}
-function ghLerCfg(){
-  var base=ghCfgPadrao();
-  try{
-    var raw=localStorage.getItem(GH_CFG_KEY);
-    if(!raw) return base;
-    var o=JSON.parse(raw)||{};
-    return {
-      owner:  String(o.owner  || base.owner),
-      repo:   String(o.repo   || base.repo),
-      branch: String(o.branch || base.branch),
-      path:   String(o.path   || base.path)
-    };
-  }catch(e){ return base; }
-}
-function ghGravarCfg(cfg){
-  try{ localStorage.setItem(GH_CFG_KEY, JSON.stringify(cfg)); }
-  catch(e){ console.warn('[SST] Não foi possível guardar a configuração GitHub:', e); }
-}
-function ghLimparPath(p){
-  return String(p||'').replace(/^\/+|\/+$/g,'').split('/').filter(Boolean).join('/');
-}
-function ghCompleto(){
-  var c=ghLerCfg();
-  return !!(c.owner && c.repo && c.branch);
-}
-
-// ---------- Token ----------
-function ghLerToken(){ try{ return localStorage.getItem(GH_TOKEN_KEY)||''; }catch(e){ return ''; } }
-function ghGravarToken(t){
-  try{ localStorage.setItem(GH_TOKEN_KEY, t||''); return true; }
-  catch(e){ alert('Não foi possível guardar o token neste dispositivo.'); return false; }
-}
-function ghApagarToken(){
-  if(!confirm('Apagar o token do GitHub deste dispositivo?')) return;
-  ghGravarToken('');
-  var el=document.getElementById('gh-token'); if(el) el.value='';
-  ghStatus('Token apagado deste dispositivo.', 'ok');
-}
-
-// ---------- Conversões base64 <-> UTF-8 ----------
-function ghB64Utf8(str){
-  var bytes=new TextEncoder().encode(str);
-  var bin='', CHUNK=0x8000;
-  for(var i=0;i<bytes.length;i+=CHUNK){
-    bin+=String.fromCharCode.apply(null, bytes.subarray(i, i+CHUNK));
-  }
-  return btoa(bin);
-}
-function ghUtf8B64(b64){
-  var clean=String(b64||'').replace(/\s+/g,'');
-  var bin=atob(clean);
-  var bytes=new Uint8Array(bin.length);
-  for(var j=0;j<bin.length;j++) bytes[j]=bin.charCodeAt(j);
-  return new TextDecoder('utf-8').decode(bytes);
-}
-
-// ---------- Chamadas à API ----------
-function ghStatus(msg,tipo){
-  var el=document.getElementById('gh-status');
-  if(el){
-    el.textContent=msg;
-    el.className='gh-status '+(tipo||'ok');
-    if(tipo==='ok'){
-      el.style.display='inline-block';
-      clearTimeout(ghStatus._t);
-      ghStatus._t=setTimeout(function(){ el.style.display='none'; }, 5000);
-    } else {
-      el.style.display='inline-block';
-    }
-  }
-  if(tipo==='err') console.error('[SST/GitHub]', msg);
-  var pv=document.getElementById('gh-preview');
-  if(pv && tipo==='ok' && ghCompleto()) ghActualizarPreview();
-}
-function ghActualizarPreview(){
-  var pv=document.getElementById('gh-preview'); if(!pv) return;
-  var c=ghLerCfg();
-  if(c.owner&&c.repo){
-    pv.textContent='☁ '+c.owner+'/'+c.repo+' · '+c.branch+'/'+ghLimparPath(c.path)+' — toque para configurar';
-    pv.className='configurado';
-  }else{
-    pv.textContent='☁ GitHub — gravar e abrir avaliações noutro dispositivo';
-    pv.className='';
-  }
-}
-function ghApi(method,endpoint,body){
-  var token=(document.getElementById('gh-token')||{}).value || ghLerToken();
-  if(!token) return Promise.reject(new Error('Sem token do GitHub. Preencha-o no painel ☁ GitHub.'));
-  var c=ghLerCfg();
-  var url='https://api.github.com/repos/'+encodeURIComponent(c.owner)+'/'+encodeURIComponent(c.repo)+endpoint;
-  var headers={
-    'Authorization':'Bearer '+token,
-    'Accept':'application/vnd.github+json',
-    'X-GitHub-Api-Version':'2022-11-28'
-  };
-  var init={method:method, headers:headers};
-  if(body!==undefined){ headers['Content-Type']='application/json'; init.body=JSON.stringify(body); }
-  return fetch(url,init).then(function(res){
-    if(res.status===204) return null;
-    return res.text().then(function(txt){
-      var data=null;
-      try{ data=txt?JSON.parse(txt):null; }catch(e){ data=null; }
-      if(!res.ok){
-        var msg=(data&&data.message)?data.message:('HTTP '+res.status);
-        if(res.status===401) msg='Token inválido ou expirado. Gere um novo token.';
-        else if(res.status===403) msg='Sem permissão (403). Confirme o âmbito do token e as permissões do repositório.';
-        else if(res.status===404) msg='Reposititório, branch ou pasta não encontrado (404). Verifique owner/repo/branch.';
-        else if(res.status===409) msg='Conflito (409): outro dispositivo gravou ao mesmo tempo. Tente novamente.';
-        throw new Error(msg);
-      }
-      return data;
-    });
-  }).catch(function(err){
-    if(err instanceof TypeError) throw new Error('Sem ligação à internet ou pedido bloqueado.');
-    throw err;
-  });
-}
-
-// ---------- Gravar um ficheiro (blobs -> trees -> commits -> ref) ----------
-function ghGravarFicheiro(caminho,conteudo,mensagem){
-  var c=ghLerCfg();
-  var pasta=ghLimparPath(c.path);
-  var full=(pasta?pasta+'/':'')+caminho;
-  var b64=ghB64Utf8(conteudo);
-  var branchRef=encodeURIComponent(c.branch);
-
-  ghStatus('A gravar no GitHub…','busy');
-  return ghApi('GET','/git/ref/heads/'+branchRef).then(function(ref){
-    if(!ref||!ref.object||!ref.object.sha) throw new Error('Branch "'+c.branch+'" não encontrado.');
-    var headSha=ref.object.sha;
-    return ghApi('GET','/git/commits/'+headSha).then(function(commit){
-      if(!commit||!commit.tree||!commit.tree.sha) throw new Error('Não foi possível ler a árvore do repositório.');
-      var baseTree=commit.tree.sha;
-      return ghApi('POST','/git/blobs',{content:b64, encoding:'base64'}).then(function(blob){
-        if(!blob||!blob.sha) throw new Error('Não foi possível criar o blob.');
-        return ghApi('POST','/git/trees',{
-          base_tree: baseTree,
-          tree: [{path: full, mode:'100644', type:'blob', sha: blob.sha}]
-        }).then(function(tree){
-          if(!tree||!tree.sha) throw new Error('Não foi possível criar a árvore.');
-          return ghApi('POST','/git/commits',{
-            message: mensagem,
-            tree: tree.sha,
-            parents: [headSha]
-          }).then(function(novoCommit){
-            if(!novoCommit||!novoCommit.sha) throw new Error('Não foi possível criar o commit.');
-            return ghApi('PATCH','/git/refs/heads/'+branchRef,{sha:novoCommit.sha, force:false});
-          });
-        });
-      });
-    });
-  }).then(function(){
-    try{ localStorage.setItem(GH_MAX_COMMIT, JSON.stringify({path:full, ts:Date.now()})); }catch(e){}
-    return full;
-  });
-}
-
-// ---------- Gravar a avaliação de uma aba ----------
-var GH_ABA_NOME={
+// Nomes das abas, usados nas mensagens
+var ABA_NOME={
   simplificado:'Simplificado', matriz:'Matriz', fine:'W.T. Fine', niosh:'NIOSH',
   ruido:'Ruído', vibracao:'Vibrações', quimico:'Ag. Químicos', altura:'Altura',
   formacao:'Formação', dl50:'DL 50/2005', iluminacao:'Iluminação', simulacro:'Simulacros'
 };
-function ghPreparar(){
-  var c=ghLerCfg();
-  if(!c.owner||!c.repo){
-    alert('Configure primeiro o repositório no painel ☁ GitHub (owner, repo, branch e pasta).');
-    var p=document.getElementById('gh-fields');
-    if(p&&!p.classList.contains('open')) ghAlternarPainel(true);
-    return null;
-  }
-  var token=(document.getElementById('gh-token')||{}).value || ghLerToken();
-  if(!token){
-    alert('Cole o seu Personal Access Token no painel ☁ GitHub para poder gravar.');
-    var f=document.getElementById('gh-fields');
-    if(f&&!f.classList.contains('open')) ghAlternarPainel(true);
-    var te=document.getElementById('gh-token'); if(te) te.focus();
-    return null;
-  }
-  // Guardar o que está nos campos para não se perder
-  ghGravarCfg(c);
-  ghGravarToken(token);
-  return c;
-}
-function ghGuardar(aba,btn){
-  var c=ghPreparar(); if(!c) return;
-  var nome=_nomeArquivo(aba);
-  var conteudo;
-  try{ conteudo=JSON.stringify(_recolherEstado(aba),null,2); }
-  catch(e){ alert('Erro ao preparar a avaliação: '+e.message); return; }
-
-  var tamanho=new Blob([conteudo]).size;
-  var dim=function(b){ return b<1024?b+' B' : b<1048576?(b/1024).toFixed(0)+' KB' : (b/1048576).toFixed(1)+' MB'; };
-
-  if(btn){ btn.classList.add('busy'); btn.textContent='⏳ A gravar…'; }
-  ghGuardarAbaAtual(aba); // auto-save local para não perder nada se o GitHub falhar
-
-  ghGravarFicheiro(nome, conteudo, 'SST: '+(GH_ABA_NOME[aba]||aba)+' — '+(new Date().toISOString().slice(0,10)))
-  .then(function(full){
-    var msg='✓ '+nome+' ('+dim(tamanho)+')';
-    ghStatus(msg,'ok');
-    var st=document.getElementById('save-status-'+aba);
-    if(st){ st.textContent='☁ Gravado no GitHub!'; st.style.display='inline-block'; st.style.animation='none'; void st.offsetWidth; st.style.animation='fadeOut 4s forwards'; }
-    if(btn){ btn.classList.remove('busy'); btn.textContent='☁ GitHub'; }
-    alert('Avaliação gravada no GitHub.\n\n'+full+'\n('+dim(tamanho)+')');
-  })
-  .catch(function(err){
-    if(btn){ btn.classList.remove('busy'); btn.textContent='☁ GitHub'; }
-    ghStatus('✕ '+err.message,'err');
-    alert('Não foi possível gravar no GitHub:\n\n'+err.message);
-  });
-}
-
 // ---------- Auto-save local por aba ----------
-var GH_AUTO_KEY='sst_autosave_v1';
-function ghAutoLer(){
-  try{ return JSON.parse(localStorage.getItem(GH_AUTO_KEY)||'{}')||{}; }
+var AUTO_KEY='sst_autosave_v1';
+function autoLer(){
+  try{ return JSON.parse(localStorage.getItem(AUTO_KEY)||'{}')||{}; }
   catch(e){ return {}; }
 }
-function ghAutoGravar(aba){
+function autoGravar(aba){
   try{
-    var all=ghAutoLer();
+    var all=autoLer();
     all[aba]={ ts:Date.now(), estado:_recolherEstado(aba) };
-    localStorage.setItem(GH_AUTO_KEY, JSON.stringify(all));
+    localStorage.setItem(AUTO_KEY, JSON.stringify(all));
   }catch(e){
     // Quota exceeded — normalmente por causa das fotografias
     console.warn('[SST] Auto-gravação falhou:', e);
   }
 }
-function ghAutoLimpar(aba){
+function autoLimpar(aba){
   try{
-    var all=ghAutoLer();
+    var all=autoLer();
     delete all[aba];
-    localStorage.setItem(GH_AUTO_KEY, JSON.stringify(all));
+    localStorage.setItem(AUTO_KEY, JSON.stringify(all));
   }catch(e){}
-}
-function ghGuardarAbaAtual(aba){ ghAutoGravar(aba); }
-
-// ---------- Listar e abrir ficheiros do GitHub ----------
-function ghListarFicheiros(){
-  var c=ghLerCfg();
-  var pasta=ghLimparPath(c.path);
-  return ghApi('GET','/contents/'+encodeURIComponent(pasta)+'?ref='+encodeURIComponent(c.branch))
-    .then(function(data){
-      if(!Array.isArray(data)) throw new Error('A pasta "'+(pasta||'/')+'" não é uma pasta.');
-      return data.filter(function(f){
-        return f.type==='file' && /\.json$/i.test(f.name);
-      }).sort(function(a,b){
-        // Os nomes contêm a data (DD-MM-AAAA), por isso ordem descendente
-        // = avaliações mais recentes primeiro.
-        return a.name<b.name?1:a.name>b.name?-1:0;
-      });
-    });
-}
-function ghAbrirLista(){
-  var c=ghPreparar(); if(!c) return;
-  var body=document.getElementById('gh-modal-body');
-  var box=document.getElementById('gh-modal');
-  if(!body||!box) return;
-  body.innerHTML='<div class="gh-empty">⏳ A procurar avaliações no GitHub…</div>';
-  box.classList.add('open');
-  ghListarFicheiros().then(function(files){
-    if(!files.length){
-      body.innerHTML='<div class="gh-empty">Nenhum ficheiro <code>.json</code> em <strong>'+
-        (ghLimparPath(c.path)||'/')+'</strong>.<br><br>Grave uma avaliação com o botão <strong>☁ GitHub</strong> numa das abas para começar.</div>';
-      return;
-    }
-    body.innerHTML='';
-    files.forEach(function(f){
-      var m=f.name.match(/^SST_([^_]+)_(.*)_(\d{2}-\d{2}-\d{4}|\d{4}-\d{2}-\d{2})\.json$/i);
-      var aba=m?m[1]:'';
-      var el=document.createElement('div');
-      el.className='gh-file';
-      el.setAttribute('role','button');
-      el.setAttribute('tabindex','0');
-      var dataTxt=f.name.match(/(\d{2}-\d{2}-\d{4}|\d{4}-\d{2}-\d{2})/);
-      var tam=f.size<1024?f.size+' B':f.size<1048576?(f.size/1024).toFixed(0)+' KB':(f.size/1048576).toFixed(1)+' MB';
-      el.innerHTML='<div style="min-width:0"><div class="gh-file-nome">📄 '+f.name.replace(/[<>&]/g,'')+'</div>'+
-        '<div class="gh-file-meta">'+(dataTxt?dataTxt[1].replace(/-/g,'/')+' · ':'')+tam+'</div></div>'+
-        '<span class="gh-file-aba">'+(GH_ABA_NOME[aba]||aba||'—')+'</span>';
-      var abrir=function(){ ghAbrirFicheiro(f, el); };
-      el.addEventListener('click',abrir);
-      el.addEventListener('keydown',function(ev){ if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();abrir();} });
-      body.appendChild(el);
-    });
-  }).catch(function(err){
-    body.innerHTML='<div class="gh-empty">✕ '+err.message.replace(/[<>&]/g,'')+'</div>';
-    ghStatus('✕ '+err.message,'err');
-  });
-}
-function ghFecharModal(){
-  var box=document.getElementById('gh-modal'); if(box) box.classList.remove('open');
-}
-function ghAbrirFicheiro(f,el){
-  if(el){ el.style.opacity=.5; el.textContent='⏳ A carregar…'; }
-  ghApi('GET','/git/blobs/'+f.sha).then(function(blob){
-    if(!blob||!blob.content) throw new Error('Conteúdo vazio ou inacessível.');
-    var json=ghUtf8B64(blob.content);
-    var estado=JSON.parse(json);
-    var aba=_abaDoEstado(estado) || _abaDoNome(f.name) || 'simplificado';
-    if(!confirm('Abrir "'+f.name+'"?\n\nAba: '+(GH_ABA_NOME[aba]||aba)+
-      '\nGravado em: '+(estado._ts?new Date(estado._ts).toLocaleString('pt-PT'):'?')+
-      '\n\nOs dados atuais desta aba serão substituídos. Continuar?')) {
-      if(el){ ghFecharModal(); }
-      return;
-    }
-    _aplicarEstado(aba,estado);
-    // Mudar para a aba correspondente
-    var btn=document.querySelector('.tab-btn[data-aba="'+aba+'"]');
-    if(btn) switchTab(aba,btn);
-    ghFecharModal();
-    ghStatus('✓ '+f.name,'ok');
-    var st=document.getElementById('save-status-'+aba);
-    if(st){ st.textContent='☁ Carregado do GitHub!'; st.style.display='inline-block'; st.style.animation='none'; void st.offsetWidth; st.style.animation='fadeOut 4s forwards'; }
-  }).catch(function(err){
-    if(el){ el.style.opacity=''; }
-    alert('Não foi possível abrir o ficheiro:\n\n'+err.message);
-  });
-}
-function _abaDoEstado(estado){
-  if(!estado||!estado._aba) return null;
-  return GH_ABA_NOME[estado._aba]?estado._aba:null;
-}
-function _abaDoNome(nome){
-  var m=nome.match(/^SST_([^_]+)_/i);
-  return (m && GH_ABA_NOME[m[1]])?m[1]:null;
-}
-
-// ---------- UI do painel ----------
-function ghAlternarPainel(forcar){
-  var f=document.getElementById('gh-fields');
-  var a=document.getElementById('gh-arrow');
-  var tg=document.getElementById('gh-toggle');
-  if(!f) return;
-  var abrir = (forcar!==undefined) ? forcar : !f.classList.contains('open');
-  f.classList.toggle('open',abrir);
-  if(a) a.classList.toggle('open',abrir);
-  if(tg) tg.setAttribute('aria-expanded',abrir?'true':'false');
-  if(abrir) ghActualizarPreview();
-}
-function ghPreencherFormulario(){
-  var c=ghLerCfg();
-  var set=function(id,v){ var el=document.getElementById(id); if(el) el.value=v; };
-  set('gh-owner',c.owner); set('gh-repo',c.repo); set('gh-branch',c.branch); set('gh-path',c.path);
-  set('gh-token',ghLerToken());
-  var code=document.getElementById('gh-share-code');
-  if(code) code.value = (c.owner&&c.repo) ? ghLerCfg().owner+'/'+ghLerCfg().repo+'#'+ghLerCfg().branch+'#'+ghLimparPath(ghLerCfg().path) : '';
-  ghActualizarPreview();
-}
-function ghGuardarConfig(){
-  var val=function(id){ return ((document.getElementById(id)||{}).value||'').trim(); };
-  var cfg={
-    owner:  val('gh-owner'),
-    repo:   val('gh-repo'),
-    branch: val('gh-branch')||'main',
-    path:   ghLimparPath(val('gh-path')||'avaliacoes')
-  };
-  if(cfg.owner&&cfg.owner.indexOf('/')>=0){
-    // aceite "owner/repo" colado num só campo
-    var p=cfg.owner.split('/');
-    cfg.owner=p[0]; if(!cfg.repo&&p[1]) cfg.repo=p[1];
-  }
-  if(!cfg.owner||!cfg.repo){
-    alert('Preencha pelo menos o Proprietário (owner) e o Repositório (repo).');
-    return;
-  }
-  ghGravarCfg(cfg);
-  ghGravarToken(val('gh-token'));
-  ghPreencherFormulario();
-  ghActualizarPreview();
-  ghStatus('✓ Configuração guardada neste dispositivo','ok');
-}
-function ghCopiarCodigo(){
-  var code=document.getElementById('gh-share-code');
-  if(!code||!code.value){ alert('Guarde primeiro a configuração para gerar o código.'); return; }
-  var feito=false;
-  try{ code.select(); feito=document.execCommand('copy'); }catch(e){ feito=false; }
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(code.value).then(function(){ ghStatus('✓ Código copiado — cole no outro dispositivo','ok'); },function(){});
-  } else if(feito){
-    ghStatus('✓ Código copiado — cole no outro dispositivo','ok');
-  } else {
-    alert('Copie manualmente o código:\n\n'+code.value);
-  }
-}
-function ghTestar(){
-  var c=ghPreparar(); if(!c) return;
-  ghStatus('A testar ligação…','busy');
-  ghApi('GET','').then(function(repo){
-    var nome=repo.full_name||(c.owner+'/'+c.repo);
-    var podeEscrever=!!(repo.permissions&&(repo.permissions.push||repo.permissions.admin||repo.permissions.maintain));
-    // Confirmar também que a branch existe — é o erro de configuração mais comum
-    return ghApi('GET','/git/ref/heads/'+encodeURIComponent(c.branch)).then(function(ref){
-      var pasta=ghLimparPath(c.path);
-      var msg='Ligado a '+nome+(repo.private?' (privado)':'');
-      ghStatus('✓ '+msg,'ok');
-      alert('Ligação ao GitHub bem-sucedida.\n\n'+
-        'Repositório: '+nome+(repo.private?' (privado)':'')+'\n'+
-        'Permissões: '+(podeEscrever?'escrita (pode gravar)':'APENAS LEITURA — não vai conseguir gravar')+'\n'+
-        'Branch: '+c.branch+' ✓ existe\n'+
-        'Pasta: '+pasta+'\n\n'+
-        (podeEscrever?'':'⚠️ Verifique as permissões do token sobre este repositório.\n\n')+
-        'Já pode usar "☁ Gravar no GitHub" em qualquer aba.');
-      ghActualizarPreview();
-    }).catch(function(errBranch){
-      var m='Ligado a '+nome+', mas a branch "'+c.branch+'" não existe.';
-      ghStatus('✕ '+m,'err');
-      alert(m+'\n\n'+errBranch+'\n\nCrie a branch no GitHub ou escreva o nome correcto no painel.');
-    });
-  }).catch(function(err){
-    ghStatus('✕ '+err.message,'err');
-    alert('Falha ao ligar ao GitHub:\n\n'+err.message);
-  });
-}
-
-// ---------- Injetar os botões ☁ em todas as barras de rascunho ----------
-function ghInjetarBotoes(){
-  document.querySelectorAll('.save-bar').forEach(function(bar){
-    if(bar.querySelector('.btn-gh')) return;
-    var m=(bar.id||'').match(/^save-bar-(.+)$/);
-    var aba = bar.getAttribute('data-aba') || (m?m[1]:null);
-    if(!aba){
-      var st=bar.querySelector('.save-status[id^="save-status-"]');
-      if(st) aba=st.id.replace('save-status-','');
-    }
-    if(!aba) return;
-    bar.setAttribute('data-aba',aba);
-    var gravar=document.createElement('button');
-    gravar.type='button';
-    gravar.className='btn-gh';
-    gravar.setAttribute('data-gh-push',aba);
-    gravar.textContent='☁ Gravar no GitHub';
-    gravar.title='Gravar esta avaliação como .json no repositório configurado';
-    gravar.addEventListener('click',function(){ ghGuardar(aba, gravar); });
-
-    var puxar=document.createElement('button');
-    puxar.type='button';
-    puxar.className='btn-gh btn-gh-puxar';
-    puxar.textContent='📂 Abrir do GitHub';
-    puxar.title='Listar as avaliações gravadas no GitHub e abrir uma neste dispositivo';
-    puxar.addEventListener('click', ghAbrirLista);
-
-    var st=bar.querySelector('.save-status');
-    bar.insertBefore(gravar, st||null);
-    bar.insertBefore(puxar, st||null);
-  });
-}
-
-// ---------- Modal ----------
-function ghInjetarModal(){
-  if(document.getElementById('gh-modal')) return;
-  var d=document.createElement('div');
-  d.className='gh-modal';
-  d.id='gh-modal';
-  d.innerHTML='<div class="gh-modal-box" role="dialog" aria-modal="true" aria-label="Avaliações no GitHub">'+
-    '<div class="gh-modal-head"><strong>☁ Avaliações no GitHub</strong>'+
-    '<button type="button" onclick="ghFecharModal()" title="Fechar" aria-label="Fechar">✕</button></div>'+
-    '<div class="gh-modal-body" id="gh-modal-body"></div></div>';
-  d.addEventListener('click',function(ev){ if(ev.target===d) ghFecharModal(); });
-  document.body.appendChild(d);
-  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') ghFecharModal(); });
-}
-
-// ---------- Ligar eventos do painel ----------
-function ghIniciar(){
-  var tg=document.getElementById('gh-toggle');
-  if(tg){
-    tg.addEventListener('click',function(){ ghAlternarPainel(); });
-    tg.addEventListener('keydown',function(ev){
-      if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); ghAlternarPainel(); }
-    });
-  }
-  var eye=document.getElementById('gh-token-eye');
-  if(eye) eye.addEventListener('click',function(){
-    var t=document.getElementById('gh-token');
-    if(!t) return;
-    t.type = t.type==='password' ? 'text' : 'password';
-    eye.textContent = t.type==='password' ? '👁' : '🙈';
-  });
-  var clr=document.getElementById('gh-token-clear');
-  if(clr) clr.addEventListener('click', ghApagarToken);
-  ghPreencherFormulario();
-  ghInjetarModal();
-  ghInjetarBotoes();
-  ghActualizarPreview();
 }
 
 /* ================================================================
@@ -6247,7 +5644,7 @@ function _autosavePeso(estado){
 }
 var _autosaveAlvo=null;
 function autosaveVerificar(aba){
-  var all=ghAutoLer();
+  var all=autoLer();
   var alvo=aba, entrada=null;
   if(aba){
     if(all[aba]) entrada={aba:aba, dados:all[aba]};
@@ -6272,8 +5669,8 @@ function autosaveVerificar(aba){
   }
   _autosaveAlvo=entrada;
   var quando=entrada.dados.ts?new Date(entrada.dados.ts).toLocaleString('pt-PT'):'—';
-  msg.innerHTML='💾 Foi encontrado um rascunho automático de <strong>'+(GH_ABA_NOME[entrada.aba]||entrada.aba)+
-    '</strong> ('+quando+') que não foi gravado nem enviado para o GitHub.';
+  msg.innerHTML='💾 Foi encontrado um rascunho automático de <strong>'+(ABA_NOME[entrada.aba]||entrada.aba)+
+    '</strong> ('+quando+') que ainda não foi gravado em ficheiro.';
   banner.classList.add('mostrar');
   banner.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
@@ -6288,7 +5685,6 @@ function autosaveRestaurar(){
     if(btn) switchTab(alvo.aba, btn);
     var st=document.getElementById('save-status-'+alvo.aba);
     if(st){ st.textContent='↩️ Rascunho restaurado'; st.style.display='inline-block'; st.style.animation='none'; void st.offsetWidth; st.style.animation='fadeOut 4s forwards'; }
-    ghStatus('✓ Rascunho restaurado de '+(GH_ABA_NOME[alvo.aba]||alvo.aba),'ok');
   }catch(e){
     alert('Não foi possível restaurar o rascunho: '+e.message);
   }
@@ -6297,11 +5693,9 @@ function autosaveDispensar(){
   if(!_autosaveAlvo) return;
   var aba=_autosaveAlvo.aba;
   _autosaveAlvo=null;
-  ghAutoLimpar(aba);
+  autoLimpar(aba);
   document.getElementById('autosave-banner').classList.remove('mostrar');
 }
-
-if(document.getElementById('gh-panel')) ghIniciar();
 
 /* ================================================================
    ARRANQUE — tema, aba activa, auto-gravação e atalhos de teclado
@@ -6348,7 +5742,7 @@ if(document.getElementById('gh-panel')) ghIniciar();
       var btn=document.querySelector('.tab-btn.active');
       if(!btn) return;
       var aba=btn.getAttribute('data-aba');
-      if(aba) ghAutoGravar(aba);
+      if(aba) autoGravar(aba);
     }, 1200);
   }
   document.addEventListener('input', agendarAuto, true);
