@@ -671,7 +671,122 @@ input[type=range]::-webkit-slider-thumb {
 @media(min-width:600px){ .sim-textarea { font-size:13px; } }
 .sim-textarea:focus { border-color:var(--accent); }
 
-/* ===== SAVE/LOAD BAR ===== */
+/* ================================================================
+   AVISO DE RASCUNHO AUTOMÁTICO
+   ================================================================ */
+#autosave-banner {
+  display: none; align-items: center; gap: 9px; flex-wrap: wrap;
+  max-width: 960px; margin: 0 auto 14px; padding: 11px 14px;
+  background: rgba(79,142,247,.12); border: 1px solid rgba(79,142,247,.4);
+  border-radius: 12px;
+}
+#autosave-banner.mostrar { display: flex; }
+.autosave-msg { flex: 1; min-width: 190px; font-size: 12px; color: var(--text); line-height: 1.5; }
+.autosave-msg strong { color: var(--accent); }
+.autosave-btn { padding: 7px 13px !important; font-size: 12px !important; }
+
+/* ================================================================
+   PAINEL GITHUB — sincronização entre dispositivos
+   ================================================================ */
+.gh-panel {
+  max-width: 960px; margin: 0 12px 14px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+}
+@media (min-width: 984px) { .gh-panel { margin-left: auto; margin-right: auto; } }
+.gh-toggle {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 16px; cursor: pointer; gap: 12px;
+  min-height: 52px; touch-action: manipulation; transition: background .2s;
+}
+.gh-toggle:active { background: var(--surface2); }
+#gh-preview { font-size: 12px; color: var(--muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#gh-preview.configurado { color: var(--low); font-weight: 600; }
+#gh-preview.erro { color: var(--high); font-weight: 600; }
+.gh-fields { display: none; border-top: 1px solid var(--border); }
+.gh-fields.open { display: block; }
+.gh-setup { padding: 14px 16px 16px; }
+.gh-intro { font-size: 11px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+.gh-intro code { background: var(--input-bg); padding: 1px 5px; border-radius: 4px; font-size: 10px; }
+.gh-token-row { display: flex; gap: 6px; align-items: stretch; margin-top: 5px; }
+.gh-token-row input { flex: 1; min-width: 0; }
+.gh-mini { padding: 8px 11px !important; font-size: 13px !important; flex-shrink: 0; }
+.gh-warn {
+  background: rgba(245,158,11,.10); border: 1px solid rgba(245,158,11,.35);
+  border-radius: 9px; padding: 10px 12px; margin: 12px 0;
+  color: var(--text); font-size: 11px; line-height: 1.6;
+}
+.gh-warn strong { color: var(--med); }
+.gh-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+.gh-share { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.gh-share .field > span { display: block; }
+.field label span, .gh-setup .field > span:first-child {
+  display: block; font-size: 10px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: .4px; font-weight: 700; margin-bottom: 2px;
+}
+.gh-setup em { font-style: normal; opacity: .65; text-transform: none; }
+.gh-status { font-size: 11px; padding: 5px 10px; border-radius: 6px; display: none; }
+.gh-status.ok { display: inline-block; background: #1a3a1a; color: #7dda7d; }
+.gh-status.err { display: inline-block; background: #3a1010; color: #e08a8a; }
+.gh-status.busy { display: inline-block; background: #1a3a5a; color: #c8e0ff; }
+
+/* Botão GitHub dentro das barras de rascunho */
+.btn-gh {
+  padding: 8px 14px; border-radius: 8px; border: 1.5px solid #4a3a7a;
+  background: #241a45; color: #c9b8ff; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.btn-gh:hover { background: #34265c; color: #e4dbff; }
+.btn-gh.busy { opacity: .6; pointer-events: none; }
+.btn-gh-puxar { border-color: #2a5a7a; background: #12283a; color: #a8d4f0; }
+.btn-gh-puxar:hover { background: #1a3a52; color: #cfeaff; }
+
+/* Modal de listagem de ficheiros */
+.gh-modal {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,.72); display: none;
+  align-items: center; justify-content: center; padding: 16px;
+}
+.gh-modal.open { display: flex; }
+.gh-modal-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; width: 100%; max-width: 560px;
+  max-height: 82vh; display: flex; flex-direction: column;
+  box-shadow: 0 12px 48px rgba(0,0,0,.6);
+}
+.gh-modal-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+}
+.gh-modal-head strong { font-size: 14px; }
+.gh-modal-head button {
+  background: transparent; border: 1px solid var(--border); color: var(--muted);
+  border-radius: 7px; width: 30px; height: 30px; cursor: pointer; font-size: 14px;
+}
+.gh-modal-body { padding: 12px 14px; overflow-y: auto; flex: 1; }
+.gh-file {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 11px 12px; border: 1px solid var(--border); border-radius: 9px;
+  margin-bottom: 7px; background: var(--input-bg); cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.gh-file:hover { border-color: var(--accent); background: var(--surface2); }
+.gh-file-nome { font-size: 12px; font-weight: 600; word-break: break-all; }
+.gh-file-meta { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.gh-file-aba {
+  flex-shrink: 0; font-size: 9px; text-transform: uppercase; letter-spacing: .4px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 5px; padding: 3px 7px; color: var(--muted); font-weight: 700;
+}
+.gh-empty { text-align: center; color: var(--muted); font-size: 12px; padding: 26px 12px; line-height: 1.6; }
+
+@media print {
+  .gh-panel, .gh-modal, #autosave-banner, .save-bar { display: none !important; }
+}
+
+/* ================================================================
+   SAVE/LOAD BAR
+   ================================================================ */
 .save-bar {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   background: var(--surface); border: 1px solid var(--border);
@@ -737,6 +852,14 @@ input[type=range]::-webkit-slider-thumb {
 .il-legal-item p { color:var(--muted); font-size:11px; line-height:1.55; }
 .il-room-card { background:var(--input-bg); border:1px solid var(--border); border-radius:12px; margin-bottom:12px; overflow:hidden; }
 .il-room-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 14px; background:var(--surface2); border-bottom:1px solid var(--border); }
+.il-room-card.collapsed .il-room-head { border-bottom:0; }
+.il-room-card.collapsed .il-room-body { display:none; }
+.il-room-head-main { display:flex; align-items:center; gap:8px; min-width:0; flex:1; cursor:pointer; padding:2px 0; }
+.il-room-caret { flex-shrink:0; color:var(--accent); font-size:10px; transition:transform .2s; display:inline-block; }
+.il-room-card.collapsed .il-room-caret { transform:rotate(-90deg); }
+.il-room-head-side { display:flex; align-items:center; gap:7px; flex-wrap:wrap; justify-content:flex-end; flex-shrink:0; }
+.il-collapse-bar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:0 0 12px; }
+.il-collapse-hint { color:var(--muted); font-size:10px; line-height:1.5; }
 .il-room-title { display:flex; align-items:center; gap:8px; min-width:0; }
 .il-room-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 8px; border-radius:8px; background:var(--accent); color:#fff; font-size:12px; font-weight:700; }
 .il-room-head strong { font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -798,7 +921,7 @@ input[type=range]::-webkit-slider-thumb {
 <body>
 
 <header>
-  <div class="theme-toggle" onclick="toggleTheme()" title="Alternar tema claro/escuro">
+  <div class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" role="switch" tabindex="0" aria-checked="true" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">
     <span id="th-icon">🌙</span>
     <div class="tog-track on" id="tog-track"><div class="tog-thumb"></div></div>
     <span class="th-lbl" id="th-lbl">Escuro</span>
@@ -808,9 +931,16 @@ input[type=range]::-webkit-slider-thumb {
   <p>Técnico Superior de Segurança no Trabalho — SST</p>
 </header>
 
+<!-- ===== AVISO DE RASCUNHO AUTOMÁTICO ===== -->
+<div id="autosave-banner" role="status" aria-live="polite">
+  <span class="autosave-msg" id="autosave-msg"></span>
+  <button type="button" class="btn-save autosave-btn" onclick="autosaveRestaurar()">↩️ Restaurar rascunho</button>
+  <button type="button" class="btn-save-danger autosave-btn" onclick="autosaveDispensar()">✕ Descartar</button>
+</div>
+
 <!-- ===== CABEÇALHO EDITÁVEL ===== -->
 <div class="cab-panel">
-  <div class="cab-toggle" onclick="toggleCab()">
+  <div class="cab-toggle" id="cab-toggle" onclick="toggleCab()" role="button" tabindex="0" aria-expanded="false" aria-controls="cab-fields">
     <span id="cab-preview">🏢 Clique para definir o cabeçalho e logótipos do PDF</span>
     <span class="cab-arrow" id="cab-arrow">▼</span>
   </div>
@@ -859,24 +989,74 @@ input[type=range]::-webkit-slider-thumb {
   </div>
 </div>
 
+<!-- ===== PAINEL GITHUB (sincronização entre dispositivos) ===== -->
+<div class="gh-panel" id="gh-panel">
+  <div class="gh-toggle" id="gh-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="gh-fields">
+    <span id="gh-preview">☁ GitHub — gravar e abrir avaliações noutro dispositivo</span>
+    <span class="cab-arrow" id="gh-arrow">▼</span>
+  </div>
+  <div class="gh-fields" id="gh-fields">
+    <div class="gh-setup">
+      <p class="gh-intro">Guarde cada avaliação como ficheiro <code>.json</code> no seu repositório GitHub. Assim pode avaliar no iPad e abrir no PC (e vice-versa) sem perder nada.</p>
+
+      <label class="field"><span>🔑 Token do GitHub (Personal Access Token)</span>
+        <span class="gh-token-row">
+          <input type="password" id="gh-token" placeholder="ghp_… (âmbito: conteúdo do repositório)" autocomplete="off" spellcheck="false">
+          <button type="button" class="btn-load gh-mini" id="gh-token-eye" title="Mostrar ou ocultar o token">👁</button>
+          <button type="button" class="btn-save-danger gh-mini" id="gh-token-clear" title="Apagar o token deste dispositivo">✕</button>
+        </span>
+      </label>
+
+      <div class="form-grid">
+        <div class="field"><label>Proprietário <em>(owner)</em></label><input type="text" id="gh-owner" placeholder="Ex: joaosilva" spellcheck="false" autocapitalize="none"></div>
+        <div class="field"><label>Repositório <em>(repo)</em></label><input type="text" id="gh-repo" placeholder="Ex: avaliacoes-sst" spellcheck="false" autocapitalize="none"></div>
+        <div class="field"><label>Branch</label><input type="text" id="gh-branch" placeholder="Ex: main" spellcheck="false" autocapitalize="none"></div>
+        <div class="field"><label>Pasta no repositório</label><input type="text" id="gh-path" placeholder="Ex: avaliacoes" spellcheck="false" autocapitalize="none"></div>
+      </div>
+
+      <div class="gh-warn">
+        ⚠️ <strong>O token fica guardado apenas neste dispositivo</strong> (navegador/iPad). Qualquer script desta página o consegue ler. Crie um token com âmbito
+        <em>apenas</em> sobre esse repositório, e clique em “Apagar token” quando deixar de usar. Num iPad partilhado, apague o token ao terminar.
+      </div>
+
+      <div class="gh-actions">
+        <button type="button" class="btn-save" id="gh-save-cfg" onclick="ghGuardarConfig()">💾 Guardar configuração</button>
+        <button type="button" class="btn-load" onclick="ghTestar()">🔌 Testar ligação</button>
+        <button type="button" class="btn-load" onclick="ghAbrirLista()">📂 Abrir do GitHub</button>
+        <span class="save-status" id="gh-status" style="display:none"></span>
+      </div>
+
+      <div class="gh-share">
+        <label class="field"><span>🔁 Configuração para o outro dispositivo (não inclui o token)</span>
+          <span class="gh-token-row">
+            <input type="text" id="gh-share-code" readonly placeholder="Preencha owner/repo/branch/pasta e carregue em «Guardar configuração»">
+            <button type="button" class="btn-load gh-mini" onclick="ghCopiarCodigo()" title="Copiar">⧉</button>
+          </span>
+        </label>
+        <p class="gh-intro" style="margin:6px 0 0">No outro equipamento, abra esta app, cole o código no campo acima (substituindo-o) e carregue em <strong>Guardar configuração</strong>. Depois basta colar o token e carregar em <em>Abrir do GitHub</em>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== TABS ===== -->
-<div class="tabs-wrap">
-<div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('simplificado',this)">Simplificado<br><span style="font-size:10px;opacity:.7">P × C</span></button>
-  <button class="tab-btn" onclick="switchTab('matriz',this)">Matriz<br><span style="font-size:10px;opacity:.7">5 × 5</span></button>
-  <button class="tab-btn" onclick="switchTab('fine',this)">W.T. Fine<br><span style="font-size:10px;opacity:.7">C×E×P</span></button>
-  <button class="tab-btn" onclick="switchTab('niosh',this)">NIOSH<br><span style="font-size:10px;opacity:.7">Levantamento</span></button>
-  <button class="tab-btn" onclick="switchTab('ruido',this)">Ruído<br><span style="font-size:10px;opacity:.7">DL 182/06</span></button>
-  <button class="tab-btn" onclick="switchTab('vibracao',this)">Vibrações<br><span style="font-size:10px;opacity:.7">DL 46/06</span></button>
-  <button class="tab-btn" onclick="switchTab('quimico',this)">Ag. Químicos<br><span style="font-size:10px;opacity:.7">DL 24/2012</span></button>
-  <button class="tab-btn" onclick="switchTab('altura',this)">Altura<br><span style="font-size:10px;opacity:.7">Checklist</span></button>
-  <button class="tab-btn" onclick="switchTab('formacao',this)">Formação<br><span style="font-size:10px;opacity:.7">Gestão</span></button>
-  <button class="tab-btn" onclick="switchTab('dl50',this)">DL 50/2005<br><span style="font-size:10px;opacity:.7">Máquinas</span></button>
+<div class="tabs-wrap" role="tablist" aria-label="Métodos de avaliação">
+<div class="tabs" role="presentation">
+  <button class="tab-btn active" data-aba="simplificado" role="tab" aria-selected="true" aria-controls="tab-simplificado" id="tabbtn-simplificado" onclick="switchTab('simplificado',this)">Simplificado<br><span style="font-size:10px;opacity:.7">P × C</span></button>
+  <button class="tab-btn" data-aba="matriz" role="tab" aria-selected="false" aria-controls="tab-matriz" id="tabbtn-matriz" onclick="switchTab('matriz',this)">Matriz<br><span style="font-size:10px;opacity:.7">5 × 5</span></button>
+  <button class="tab-btn" data-aba="fine" role="tab" aria-selected="false" aria-controls="tab-fine" id="tabbtn-fine" onclick="switchTab('fine',this)">W.T. Fine<br><span style="font-size:10px;opacity:.7">C×E×P</span></button>
+  <button class="tab-btn" data-aba="niosh" role="tab" aria-selected="false" aria-controls="tab-niosh" id="tabbtn-niosh" onclick="switchTab('niosh',this)">NIOSH<br><span style="font-size:10px;opacity:.7">Levantamento</span></button>
+  <button class="tab-btn" data-aba="ruido" role="tab" aria-selected="false" aria-controls="tab-ruido" id="tabbtn-ruido" onclick="switchTab('ruido',this)">Ruído<br><span style="font-size:10px;opacity:.7">DL 182/06</span></button>
+  <button class="tab-btn" data-aba="vibracao" role="tab" aria-selected="false" aria-controls="tab-vibracao" id="tabbtn-vibracao" onclick="switchTab('vibracao',this)">Vibrações<br><span style="font-size:10px;opacity:.7">DL 46/06</span></button>
+  <button class="tab-btn" data-aba="quimico" role="tab" aria-selected="false" aria-controls="tab-quimico" id="tabbtn-quimico" onclick="switchTab('quimico',this)">Ag. Químicos<br><span style="font-size:10px;opacity:.7">DL 24/2012</span></button>
+  <button class="tab-btn" data-aba="altura" role="tab" aria-selected="false" aria-controls="tab-altura" id="tabbtn-altura" onclick="switchTab('altura',this)">Altura<br><span style="font-size:10px;opacity:.7">Checklist</span></button>
+  <button class="tab-btn" data-aba="formacao" role="tab" aria-selected="false" aria-controls="tab-formacao" id="tabbtn-formacao" onclick="switchTab('formacao',this)">Formação<br><span style="font-size:10px;opacity:.7">Gestão</span></button>
+  <button class="tab-btn" data-aba="dl50" role="tab" aria-selected="false" aria-controls="tab-dl50" id="tabbtn-dl50" onclick="switchTab('dl50',this)">DL 50/2005<br><span style="font-size:10px;opacity:.7">Máquinas</span></button>
 </div>
 <!-- Segunda linha de tabs -->
-<div class="tabs" style="margin-top:5px;">
-  <button class="tab-btn" onclick="switchTab('iluminacao',this)">💡 Iluminação<br><span style="font-size:10px;opacity:.7">Ambiente</span></button>
-  <button class="tab-btn" onclick="switchTab('simulacro',this)">🚨 Simulacros<br><span style="font-size:10px;opacity:.7">SCIE / Exercícios</span></button>
+<div class="tabs" role="presentation" style="margin-top:5px;">
+  <button class="tab-btn" data-aba="iluminacao" role="tab" aria-selected="false" aria-controls="tab-iluminacao" id="tabbtn-iluminacao" onclick="switchTab('iluminacao',this)">💡 Iluminação<br><span style="font-size:10px;opacity:.7">Ambiente</span></button>
+  <button class="tab-btn" data-aba="simulacro" role="tab" aria-selected="false" aria-controls="tab-simulacro" id="tabbtn-simulacro" onclick="switchTab('simulacro',this)">🚨 Simulacros<br><span style="font-size:10px;opacity:.7">SCIE / Exercícios</span></button>
 </div>
 </div>
 
@@ -1894,6 +2074,12 @@ input[type=range]::-webkit-slider-thumb {
       <div class="il-summary-item"><span class="il-summary-number" id="il-pending">0</span><span class="il-summary-label">Por completar</span></div>
     </div>
 
+    <div class="il-collapse-bar">
+      <button type="button" class="btn-load" style="padding:6px 12px;font-size:12px" onclick="ilRecolherTodas(true)">▾ Recolher todas</button>
+      <button type="button" class="btn-load" style="padding:6px 12px;font-size:12px" onclick="ilRecolherTodas(false)">▸ Expandir todas</button>
+      <span class="il-collapse-hint">Toque no título de uma divisão para a abrir ou fechar. Ao adicionar uma nova, as restantes ficam recolhidas.</span>
+    </div>
+
     <div id="il-room-list"></div>
 
     <div class="sdiv"><span>Observações Gerais e Conclusões</span></div>
@@ -1909,7 +2095,54 @@ input[type=range]::-webkit-slider-thumb {
     </div>
   </div>
 
+  <!-- Nota do técnico -->
+  <div class="card">
+    <div class="sdiv" style="margin-top:0"><span>Nota do Técnico (aparece no PDF)</span></div>
+    <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:4px">
+      <div style="display:flex;gap:4px;padding:6px 8px;background:var(--surface2);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center">
+        <button type="button" onclick="document.getElementById('iluminacao-nota-tecnico').focus();document.execCommand('bold')" title="Negrito" style="font-weight:bold;min-width:28px;height:26px;border:1px solid var(--border);border-radius:4px;background:var(--surface);cursor:pointer;font-size:13px">B</button>
+        <button type="button" onclick="document.getElementById('iluminacao-nota-tecnico').focus();document.execCommand('italic')" title="Itálico" style="font-style:italic;min-width:28px;height:26px;border:1px solid var(--border);border-radius:4px;background:var(--surface);cursor:pointer;font-size:13px">I</button>
+        <button type="button" onclick="document.getElementById('iluminacao-nota-tecnico').focus();document.execCommand('underline')" title="Sublinhado" style="text-decoration:underline;min-width:28px;height:26px;border:1px solid var(--border);border-radius:4px;background:var(--surface);cursor:pointer;font-size:13px">U</button>
+        <span style="width:1px;height:20px;background:var(--border);margin:0 2px"></span>
+        <button type="button" onclick="document.getElementById('iluminacao-nota-tecnico').focus();document.execCommand('justifyLeft')" title="Esquerda" style="min-width:28px;height:26px;border:1px solid var(--border);border-radius:4px;background:var(--surface);cursor:pointer;font-size:12px">⬅</button>
+        <button type="button" onclick="document.getElementById('iluminacao-nota-tecnico').focus();document.execCommand('justifyCenter')" title="Centrar" style="min-width:28px;height:26px;border:1px solid var(--border);border-radius:4px;background:var(--surface);cursor:pointer;font-size:12px">☰</button>
+        <button type="button" onclick="document.getElementById('iluminacao-nota-tecnico').focus();document.execCommand('justifyFull')" title="Justificar" style="min-width:28px;height:26px;border:1px solid var(--border);border-radius:4px;background:var(--surface);cursor:pointer;font-size:12px">≡</button>
+        <span style="width:1px;height:20px;background:var(--border);margin:0 2px"></span>
+        <select onchange="simAvalFontSize('iluminacao-nota-tecnico',this.value);this.value=''" style="height:26px;border:1px solid var(--border);border-radius:4px;background:var(--surface);font-size:11px;cursor:pointer">
+          <option value="">Tamanho</option><option value="1">Pequeno</option><option value="3">Normal</option><option value="5">Grande</option>
+        </select>
+      </div>
+      <div id="iluminacao-nota-tecnico" contenteditable="true"
+        style="min-height:90px;max-height:400px;overflow-y:auto;padding:10px 12px;font-size:13px;line-height:1.7;outline:none;color:var(--text);background:var(--surface);resize:vertical"
+        data-placeholder="Observações, conclusões ou recomendações adicionais..."></div>
+    </div>
+    <div style="margin-top:8px;text-align:right">
+      <button class="btn-cab-clear" style="font-size:11px;padding:6px 12px" onclick="document.getElementById('iluminacao-nota-tecnico').innerHTML=''">✕ Limpar nota</button>
+    </div>
+  </div>
+
+  <!-- Fotografias -->
+  <div class="card">
+    <h2>📷 Fotografias / Evidências</h2>
+    <p class="subtitle">Até 8 fotografias incluídas no relatório PDF. Pode tirar foto com a câmara ou importar da galeria.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+      <label style="cursor:pointer">
+        <button class="btn-cab-auto" style="pointer-events:none">📷 Câmara</button>
+        <input type="file" accept="image/*" capture="environment" onchange="tabFotoHandle('iluminacao',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
+      </label>
+      <label style="cursor:pointer">
+        <button class="btn-cab-auto" style="pointer-events:none">🖼️ Galeria</button>
+        <input type="file" accept="image/*" multiple onchange="tabFotoHandle('iluminacao',this)" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none">
+      </label>
+      <button class="btn-cab-clear" onclick="tabFotoClear('iluminacao')">🗑 Limpar fotos</button>
+      <span id="tab-foto-count-iluminacao" style="font-size:12px;color:var(--muted)">0 / 8 fotos</span>
+    </div>
+    <div class="sim-photo-grid" id="tab-foto-grid-iluminacao"></div>
+  </div>
+
   <div class="card il-report" id="il-report"></div>
+
+  <div class="save-bar"><span class="save-bar-label">💾 Rascunho</span><button class="btn-save" onclick="gravarAba('iluminacao')">💾 Gravar</button><button class="btn-load" onclick="carregarAba('iluminacao')">📂 Carregar</button><button class="btn-save-danger" onclick="limparRascunho('iluminacao')">🗑 Apagar rascunho</button><span class="save-status" id="save-status-iluminacao">✓ Gravado!</span></div>
 </div>
 
 <!-- ===== TAB 11: SIMULACROS / EXERCÍCIOS ===== -->
@@ -2234,15 +2467,31 @@ input[type=range]::-webkit-slider-thumb {
 
 <script>
 // ===== TEMA =====
-let isDark = true;
-function toggleTheme(){
-  isDark = !isDark;
+// ===== TEMA =====
+// Preferência guardada > preferência do sistema > escuro (predefinido)
+var TEMA_KEY='sst_tema';
+function _temaInicial(){
+  var guardado=null;
+  try{ guardado=localStorage.getItem(TEMA_KEY); }catch(e){}
+  if(guardado==='dark'||guardado==='light') return guardado==='dark';
+  try{
+    if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return false;
+  }catch(e){}
+  return true;
+}
+let isDark = _temaInicial();
+function _aplicarTema(){
   document.documentElement.setAttribute('data-theme', isDark?'dark':'light');
   const icon=document.getElementById('th-icon'); if(icon) icon.textContent=isDark?'🌙':'☀️';
   const lbl=document.getElementById('th-lbl'); if(lbl) lbl.textContent=isDark?'Escuro':'Claro';
   const trk=document.getElementById('tog-track'); if(trk) trk.classList.toggle('on',isDark);
   const mc=document.getElementById('meta-theme-color'); if(mc) mc.setAttribute('content',isDark?'#0f1117':'#f0f2f8');
   document.querySelectorAll('select option').forEach(o=>o.style.background=isDark?'#1a1d27':'#ffffff');
+}
+function toggleTheme(){
+  isDark = !isDark;
+  _aplicarTema();
+  try{ localStorage.setItem(TEMA_KEY, isDark?'dark':'light'); }catch(e){}
 }
 // init track state
 // tog-track already has class 'on' in HTML
@@ -2254,8 +2503,14 @@ function gv(id){ return document.getElementById(id)?.value||'—'; }
 function db(val,lbl){ return `<div class="db"><div class="dv">${val}</div><div class="dl">${lbl}</div></div>`; }
 function switchTab(t,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active'); btn.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false');});
+  const panel=document.getElementById('tab-'+t);
+  if(!panel) return;
+  panel.classList.add('active');
+  if(!btn) btn=document.getElementById('tabbtn-'+t);
+  if(btn){ btn.classList.add('active'); btn.setAttribute('aria-selected','true'); }
+  panel.setAttribute('role','tabpanel');
+  try{ localStorage.setItem('sst_ultima_aba', t); }catch(e){}
   // Garantir que os critérios do simulacro são renderizados ao abrir a aba
   if(t==='simulacro'){
     // Re-renderizar apenas se os tbody estiverem vazios (evitar apagar respostas)
@@ -2266,6 +2521,8 @@ function switchTab(t,btn){
     });
     if(needsInit) simInit();
   }
+  if(t==='altura')  altRender();
+  if(t==='dl50')    dl50Render();
 }
 let lastR={};
 function showR(pfx,score,cls,niv,desc,details,rec,isNiosh=false,noScroll=false){
@@ -2452,7 +2709,7 @@ function calcQuimico(){
   else if(cls==='med') rec='Reforçar EPC (ventilação local). Verificar EPI. Atualizar FDS. Formação periódica. Vigilância da saúde. Substituição por agente menos perigoso se possível.';
   else rec='AÇÃO IMEDIATA (DL 24/2012, Art.º 5.º): Avaliar urgentemente a exposição quantitativa. Implementar exaustão localizada. EPI adequado e verificado. Vigilância médica urgente. Notificar ACT. Se agente CMR (carcinogénico, mutagénico, reprodutivo): medidas reforçadas obrigatórias — substituição se tecnicamente possível.';
   lastR.quimico={metodo:'Avaliação de Agentes Químicos — DL 24/2012, de 6 de fevereiro',tarefa:gv('q-agente')+' (CAS: '+gv('q-cas')+')',local:gv('q-local'),data:gv('q-data'),tecnico:gv('q-tecnico'),trab:gv('q-trab'),obs:gv('q-obs'),score:total,nivel:niv,desc,rec,params:[{l:'Agente',v:gv('q-agente')},{l:'Nº CAS',v:gv('q-cas')},{l:'VLE-MP',v:gv('q-vle')},{l:'Concentração',v:gv('q-conc')},{l:'Via',v:gv('q-via')},{l:'EPI/EPC',v:gv('q-epi')},{l:'FDS',v:fds==='sim'?'Disponível e atualizada':fds==='desatual'?'Desatualizada':'Não disponível'}]};
-  showR('q',total,cls,niv,desc,db(gv('q-agente'),'Agente')+db(gv('q-vle'),'VLE-MP')+db(gv('q-conc'),'Conc. medida')+db(nivel==='1'?'Baixo':nivel==='2'?'Médio':'Elevado','Nível expo.'),'<strong>Ação:</strong> '+rec);
+  showR('q',total,cls,niv,desc,db(gv('q-agente'),'Agente')+db(gv('q-vle'),'VLE-MP')+db(gv('q-conc'),'Conc. medida')+db(nivel<=1?'Baixo':nivel===2?'Médio':'Elevado','Nível expo.'),'<strong>Ação:</strong> '+rec);
 }
 
 // ===== CABEÇALHO =====
@@ -2498,14 +2755,18 @@ document.addEventListener('DOMContentLoaded', function(){
 // ===== 3 LOGOS =====
 const logos=[{b64:null,mime:null},{b64:null,mime:null}];
 function handleLogo(idx,input){
-  const file=input.files[0]; if(!file) return;
-  const reader=new FileReader();
+  var file=input.files[0]; if(!file) return;
+  var reader=new FileReader();
   reader.onload=e=>{
-    logos[idx]={b64:e.target.result.split(',')[1],mime:file.type||'image/png'};
-    document.getElementById('logo'+idx+'-img').src=e.target.result;
-    document.getElementById('logo'+idx+'-name').textContent=file.name;
-    document.getElementById('logo'+idx+'-bar').style.display='flex';
-    document.getElementById('logo'+idx+'-box').style.display='none';
+    var bruto=e.target.result;
+    // Logótipos: reduzir para 700 px mantendo PNG (preserva a transparência)
+    comprimirImagem(bruto,{maxDim:LOGO_MAX_DIM,tipo:'image/png'}).then(function(src){
+      logos[idx]={b64:src.split(',')[1],mime:file.type||'image/png'};
+      document.getElementById('logo'+idx+'-img').src=src;
+      document.getElementById('logo'+idx+'-name').textContent=file.name;
+      document.getElementById('logo'+idx+'-bar').style.display='flex';
+      document.getElementById('logo'+idx+'-box').style.display='none';
+    });
   };
   reader.readAsDataURL(file);
 }
@@ -2519,14 +2780,69 @@ function clearLogoSlot(idx){
 }
 
 // ===== SANITIZE =====
+// ===== PDF: CARACTERES QUE A FONTE PADRÃO NÃO SABE DESENHAR =====
+// As fontes padrão do jsPDF (Helvetica) usam a codificação WinAnsi (cp1252).
+// Um caractere fora desse conjunto não é mapeado: o jsPDF escreve um
+// fallback de 2 bytes e o leitor de PDF mostra um símbolo errado (ex.: č
+// aparecia como um quadradinho, ł como um "B", Ș como um "X").
+// Antes de escrever, estes são convertidos para o equivalente mais próximo.
+var _PDF_FORA_FONTE=/[\u0100-\u0151\u0154-\u015F\u0162-\u0177\u0179-\u017C\u017F-\u0191\u0193-\u02C5\u02C7-\u02DB\u02DD-\u02FF]/;
+var _PDF_FORA_FONTE_G=/[\u0100-\u0151\u0154-\u015F\u0162-\u0177\u0179-\u017C\u017F-\u0191\u0193-\u02C5\u02C7-\u02DB\u02DD-\u02FF]/g;
+// Letras dessa zona que o Unicode NÃO decompõe (por isso a NFD não as resolve).
+var _PDF_SEM_GLYPH={
+  '\u0110':'D','\u0111':'d',      // Đ đ
+  '\u0126':'H','\u0127':'h',      // Ħ ħ
+  '\u0131':'i',                  // ı
+  '\u0138':'k',                  // ĸ
+  '\u013F':'L','\u0140':'l',      // Ŀ ŀ
+  '\u0141':'L','\u0142':'l',      // Ł ł
+  '\u0149':"n'",                  // ŉ
+  '\u014A':'NG','\u014B':'ng',    // Ŋ ŋ
+  '\u017F':'s',                  // ſ
+  '\u0189':'D',                  // Ɖ
+  '\u0191':'F',                  // Ƒ
+  '\u019C':'A','\u019D':'n','\u019E':'N',
+  '\u01A0':'O','\u01A1':'o',      // Ơ ơ
+  '\u01AF':'U','\u01B0':'u',      // Ư ư
+  '\u01F6':'Hv','\u01F7':'HV',    // Ƕ Ƿ
+  '\u01F8':'k','\u01F9':'K',      // Ǹ ǹ
+  '\u021A':'T','\u021B':'t',      // Ț ț
+  '\u0218':'S','\u0219':'s',      // Ș ș
+  '\u0250':'a','\u0251':'A',      // ɐ ɑ
+  '\u0253':'b','\u0257':'d','\u0258':'D',
+  '\u025B':'e','\u0263':'g',
+  '\u026A':'i','\u026B':'l',
+  '\u0271':'m','\u0273':'n',
+  '\u0275':'o','\u027D':'r',
+  '\u0282':'s','\u0288':'t','\u0289':'u','\u028B':'v',
+  '\u028C':'y','\u0290':'z','\u0291':'z','\u0295':'f',
+  '\u029F':'l','\u02A6':'z',
+  '\u1E9E':'SS'                  // ẞ
+};
+function _pdfPrepararTexto(s){
+  // Só intervém na zona que a fonte não sabe desenhar. Os acentos
+  // portugueses (á, ã, ç, ó…) e o resto do Latin-1 ficam intactos.
+  if(!_PDF_FORA_FONTE.test(s)) return s;
+  return s.replace(_PDF_FORA_FONTE_G,function(c){
+    // 1. letras sem decomposição canónica em Unicode (ł, đ, ħ, ı, ŉ, …)
+    if(Object.prototype.hasOwnProperty.call(_PDF_SEM_GLYPH,c)) return _PDF_SEM_GLYPH[c];
+    // 2. as restantes decompõem-se e perdem o acento (č→c, ő→o, Ș→S, ǽ→æ…)
+    var d=c.normalize?c.normalize('NFD').replace(/[\u0300-\u036F]/g,''):c;
+    return d.normalize?d.normalize('NFC'):d;
+  });
+}
 function sanitize(s){
   // Colapsa quebras de linha e parágrafos num único bloco de texto fluido
-  return (s||'')
+  var t=(s||'')
     .replace(/\r\n|\r|\n/g,' ')
     .replace(/\s{2,}/g,' ')
     .trim()
-    .replace(/×/g,'x').replace(/[—–]/g,'-').replace(/→/g,'->').replace(/≤/g,'<=').replace(/≥/g,'>=').replace(/°/g,' gr')
-    .replace(/[^\x00-\xFF\u00C0-\u024F\u2022]/g,'?');
+    .replace(/×/g,'x').replace(/[—–]/g,'-').replace(/→/g,'->').replace(/≤/g,'<=').replace(/≥/g,'>=').replace(/°/g,' gr');
+  t=_pdfPrepararTexto(t);
+  // 3. Whitelist final: só passa o que o jsPDF consegue mesmo codificar.
+  //    Tudo o resto vira '?' — melhor um ponto de interrogação legível
+  //    do que um símbolo errado ou um carácter de controlo a corromper o PDF.
+  return t.replace(/[^\x20-\xFF\u0152\u0153\u0160\u0161\u0178\u017D\u017E\u0192\u02C6\u02DC\u20AC\u201A\u201E\u2026\u2020\u2021\u2030\u2039\u203A\u2018\u2019\u201C\u201D\u2022\u2122]/g,'?');
 }
 
 // ===== PDF HEADER SHARED =====
@@ -3222,6 +3538,11 @@ let altState={};
 function altInit(){
   altState={};
   Object.values(ALT_ITEMS).flat().forEach(item=>{ altState[item.id]={resp:null,obs:''}; });
+  altRender();
+}
+// Re-renderiza a checklist a partir do altState actual, SEM o apagar.
+// Usado ao restaurar um rascunho para as respostas carregadas não se perderem.
+function altRender(){
   Object.entries(ALT_ITEMS).forEach(([grpKey,items])=>{
     const el=document.getElementById('alt-'+grpKey);
     if(!el) return;
@@ -3451,6 +3772,11 @@ let dl50State={};
 function dl50Init(){
   dl50State={};
   Object.values(DL50_ITEMS).flat().forEach(item=>{dl50State[item.id]={resp:null,obs:''};});
+  dl50Render();
+}
+// Re-renderiza a checklist a partir do dl50State actual, SEM o apagar.
+// Usado ao restaurar um rascunho para as respostas carregadas não se perderem.
+function dl50Render(){
   Object.entries(DL50_ITEMS).forEach(([grpKey,items])=>{
     const el=document.getElementById('dl-'+grpKey);
     if(!el) return;
@@ -3684,23 +4010,90 @@ var simPhotos = [];
 var tabFotos = {}; // { aba: [{src, caption}] }
 var TAB_FOTO_MAX = 8;
 
+// ===== COMPRESSÃO DE IMAGENS =====
+// As fotos de um iPad/telemóvel pesam vários MB cada. Sem reduzir, uma única
+// fotografia pode ultrapassar a quota do localStorage (5 MB) e o GitHub
+// rejeitaria o ficheiro. Redimensionamos para no máximo 1400 px e recomprimimos
+// em JPEG, o que costuma reduzir 90% do peso sem perder legibilidade no PDF.
+var FOTO_MAX_DIM    = 1400;
+var FOTO_QUALIDADE  = 0.72;
+var LOGO_MAX_DIM    = 700;
+
+function _carregarImagem(src){
+  return new Promise(function(resolve,reject){
+    var img=new Image();
+    img.onload=function(){resolve(img);};
+    img.onerror=function(){reject(new Error('não foi possível ler a imagem'));};
+    img.src=src;
+  });
+}
+
+function _redimensionar(img,maxDim){
+  var w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+  if(!w||!h) return {w:w,h:h};
+  var fator=Math.min(1, maxDim/Math.max(w,h));
+  return {w:Math.max(1,Math.round(w*fator)), h:Math.max(1,Math.round(h*fator))};
+}
+
+/**
+ * Reduz e recomprime um dataURL de imagem.
+ * @param {string} dataUrl
+ * @param {{maxDim:number, qualidade:number, tipo:string, fundo:string}} [opts]
+ * @returns {Promise<string>} dataURL comprimido (o original se a compressão falhar)
+ */
+function comprimirImagem(dataUrl,opts){
+  opts=opts||{};
+  var maxDim=opts.maxDim||FOTO_MAX_DIM;
+  var qualidade=opts.qualidade||FOTO_QUALIDADE;
+  var tipo=opts.tipo||'image/jpeg';
+  var fundo=opts.fundo||'#ffffff';
+  return _carregarImagem(dataUrl).then(function(img){
+    var d=_redimensionar(img,maxDim);
+    // Se já é pequena e leve, não vale a pena recomprimir
+    if(dataUrl.length<260*1024 && d.w===(img.naturalWidth||img.width) && d.h===(img.naturalHeight||img.height) && tipo==='image/jpeg') return dataUrl;
+    var cv=document.createElement('canvas');
+    cv.width=d.w; cv.height=d.h;
+    var ctx=cv.getContext('2d');
+    if(tipo==='image/jpeg'){ ctx.fillStyle=fundo; ctx.fillRect(0,0,d.w,d.h); }
+    ctx.imageSmoothingEnabled=true;
+    ctx.imageSmoothingQuality='high';
+    ctx.drawImage(img,0,0,d.w,d.h);
+    var out;
+    try{ out=cv.toDataURL(tipo,qualidade); }catch(e){ return dataUrl; }
+    // Só aceitar se for realmente mais leve (no PNG mantém-se o formato original)
+    if(tipo==='image/png') return out;
+    return out.length<dataUrl.length?out:dataUrl;
+  }).catch(function(){
+    // Falhou (formato não suportado pelo canvas, p.ex. HEIC): devolve o original
+    return dataUrl;
+  });
+}
+
 function tabFotoGetAll(aba){ return tabFotos[aba] || (tabFotos[aba]=[]); }
 
 function tabFotoHandle(aba, input){
   var files = Array.from(input.files||[]);
   if(!files.length) return;
   var fotos = tabFotoGetAll(aba);
-  files.forEach(function(file){
+  var restantes = TAB_FOTO_MAX - fotos.length;
+  if(restantes<=0){ alert('Máximo de '+TAB_FOTO_MAX+' fotografias atingido.'); input.value=''; return; }
+  var aviso = files.length>restantes ? 'Serão adicionadas apenas '+restantes+' de '+files.length+' fotos (limite '+TAB_FOTO_MAX+').\n\n' : '';
+  var aceite = files.slice(0,restantes);
+  var Added=0;
+  aceite.forEach(function(file){
     if(!file.type.match(/^image\//)) return;
-    if(fotos.length >= TAB_FOTO_MAX){ alert('Máximo de '+TAB_FOTO_MAX+' fotografias atingido.'); return; }
     var reader = new FileReader();
     reader.onload = function(e){
-      fotos.push({src: e.target.result, caption: ''});
-      tabFotoRender(aba);
-      // Guardar também na galeria persistente
-      var gfotos = galeriaGetFotos();
-      gfotos.push({src: e.target.result, caption: file.name.replace(/\.[^.]+$/,''), ts: Date.now()});
-      galeriaSaveFotos(gfotos); galeriaRender();
+      comprimirImagem(e.target.result).then(function(src){
+        fotos.push({src: src, caption: ''});
+        tabFotoRender(aba);
+        // Guardar também na galeria persistente
+        var gfotos = galeriaGetFotos();
+        gfotos.push({src: src, caption: file.name.replace(/\.[^.]+$/,''), ts: Date.now()});
+        galeriaSaveFotos(gfotos); galeriaRender();
+        Added++;
+        if(Added===aceite.length && aviso) alert(aviso+'As restantes não foram adicionadas.');
+      });
     };
     reader.readAsDataURL(file);
   });
@@ -4111,8 +4504,14 @@ function simHandleFile(input) {
   if(simPhotos.length >= 20) { alert('Máximo de 20 fotografias atingido.'); input.value=''; return; }
   var reader = new FileReader();
   reader.onload = function(e) {
-    simPhotos.push({ src: e.target.result, caption: '' });
-    simRenderPhotoGrid();
+    comprimirImagem(e.target.result).then(function(src){
+      simPhotos.push({ src: src, caption: '' });
+      simRenderPhotoGrid();
+      // Guardar também na galeria persistente
+      var gfotos = galeriaGetFotos();
+      gfotos.push({ src: src, caption: file.name.replace(/\.[^.]+$/,''), ts: Date.now() });
+      galeriaSaveFotos(gfotos); galeriaRender();
+    });
   };
   reader.onerror = function() { alert('Erro ao ler a imagem. Tente novamente.'); };
   reader.readAsDataURL(file);
@@ -4608,34 +5007,40 @@ galeriaRender();
 // ===== GRAVAÇÃO / RESTAURO POR ABA =====
 // Mapa de campos de cada aba
 var ABA_CAMPOS = {
-  simplificado: ['s-perigo','s-risco','s-local','s-data','s-tecnico','s-trab','simplificado-nota-tecnico'],
+  simplificado: ['s-perigo','s-risco','s-local','s-data','s-tecnico','s-trab','s-medida','simplificado-nota-tecnico'],
   matriz:       ['m-perigo','m-risco','m-local','m-data','m-tecnico','m-trab','matriz-nota-tecnico'],
   fine:         ['f-perigo','f-risco','f-local','f-data','f-tecnico','f-trab','f-medida','fine-nota-tecnico'],
   niosh:        ['n-tarefa','n-local','n-data','n-tecnico','n-trab','n-obs','niosh-nota-tecnico'],
-  ruido:        ['r-tarefa','r-local','r-data','r-tecnico','r-trab','r-obs','ruido-nota-tecnico'],
-  vibracao:     ['v-tarefa','v-local','v-data','v-tecnico','v-trab','v-obs','vibracao-nota-tecnico'],
+  ruido:        ['r-tarefa','r-local','r-data','r-tecnico','r-trab','r-equip','r-obs','ruido-nota-tecnico'],
+  vibracao:     ['v-tarefa','v-local','v-data','v-tecnico','v-trab','v-fonte','v-obs','vibracao-nota-tecnico'],
   quimico:      ['q-agente','q-cas','q-vle','q-conc','q-via','q-epi','q-local','q-data','q-tecnico','q-trab','q-obs','quimico-nota-tecnico'],
   altura:       ['a-trabalho','a-local','a-altura','a-data','a-tecnico','a-trab','altura-nota-tecnico'],
   formacao:     ['gf-nome','gf-entidade','gf-formador','gf-local','gf-data-inicio','gf-data-fim','gf-horas','gf-ref','gf-objetivos','gf-obs-geral','formacao-nota-tecnico'],
   dl50:         ['dl-equip','dl-marca','dl-serie','dl-ano','dl-local','dl-funcao','dl-data','dl-tecnico','dl-obs-geral','dl50-nota-tecnico'],
-  simulacro:    ['sim-titulo-relatorio','sim-texto-intro','sim-entidade','sim-morada','sim-local','sim-data','sim-hora-inicio','sim-observador','sim-obs-id','sim-tipo-outro','sim-classif-texto','sim-t-detecao','sim-t-alarme','sim-t-chegada','sim-t-evac-inicio','sim-t-evac-fim','sim-aval-pontos','sim-aval-comunicacao','sim-aval-epi','sim-aval-coordinacao','sim-aval-regresso','sim-positivos','sim-nao-conformidades','sim-riscos-obs','sim-recomendacoes'],
+  iluminacao:   ['il-local','il-data','il-tecnico','il-instrumento','il-morada','il-hora','il-trabalhadores','il-calibracao','il-condicoes','il-obs-geral','il-recomendacoes','iluminacao-nota-tecnico'],
+  simulacro:    ['sim-titulo-relatorio','sim-texto-intro','sim-entidade','sim-morada','sim-local','sim-data','sim-hora-inicio','sim-observador','sim-obs-id','sim-tipo-outro','sim-classif-texto','sim-t-detecao','sim-t-alarme','sim-t-chegada','sim-t-evac-inicio','sim-t-evac-fim','sim-positivos','sim-nao-conformidades','sim-riscos-obs','sim-recomendacoes'],
 };
-// Campos select por aba
+// Campos select (e ranges) por aba
 var ABA_SELECTS = {
   simplificado: ['s-prob','s-cons'],
   matriz:       ['m-prob','m-sev'],
-  fine:         ['f-cons','f-expo','f-prob','f-fc'],
+  fine:         ['f-cons','f-exp','f-prob','f-fc'],
+  niosh:        ['n-pega','n-dur'],
   ruido:        [],
-  vibracao:     ['v-tipo'],
-  quimico:      ['q-fds'],
+  vibracao:     [],
+  quimico:      ['q-fds','q-perigo','q-via','q-nivel-sel'],
+  altura:       [],
+  dl50:         [],
+  formacao:     [],
   simulacro:    ['sim-tipo','sim-periodicidade'],
+  iluminacao:   ['il-metodo'],
 };
-// Campos numéricos
+// Campos numéricos / ranges
 var ABA_NUMS = {
-  niosh: ['n-h','n-v','n-d','n-a','n-freq','n-peso'],
+  niosh: ['n-H','n-V','n-D','n-A','n-F','n-peso'],
   ruido: ['r-lex','r-lpico'],
   vibracao: ['v-ahw','v-tmb','v-aw','v-tci'],
-  quimico: [],
+  quimico:  ['q-tempo'],
 };
 
 function _recolherEstado(aba) {
@@ -4643,9 +5048,9 @@ function _recolherEstado(aba) {
   var campos = (ABA_CAMPOS[aba]||[]).concat(ABA_NUMS[aba]||[]);
   campos.forEach(function(id) { var el=document.getElementById(id); if(!el) return; estado[id]=(el.contentEditable==='true')?(el.innerText||''):el.value; });
   (ABA_SELECTS[aba]||[]).forEach(function(id) { var el=document.getElementById(id); if(el) estado[id]=el.value; });
-  var chk=document.getElementById('q-perigoso'); if(chk&&aba==='quimico') estado['q-perigoso']=chk.checked;
   if(aba==='altura')   estado._altState  = JSON.parse(JSON.stringify(altState));
   if(aba==='dl50')     estado._dl50State = JSON.parse(JSON.stringify(dl50State));
+  if(aba==='iluminacao') estado._ilRooms = JSON.parse(JSON.stringify(ILUM_STATE.rooms));
   if (aba==='simulacro') {
     estado._simState        = JSON.parse(JSON.stringify(simState));
     estado._simClassif      = simClassif;
@@ -4669,14 +5074,22 @@ function _aplicarEstado(aba, estado) {
   var campos=(ABA_CAMPOS[aba]||[]).concat(ABA_NUMS[aba]||[]);
   campos.forEach(function(id){ var el=document.getElementById(id); if(!el||estado[id]===undefined) return; if(el.contentEditable==='true') el.innerText=estado[id]; else el.value=estado[id]; });
   (ABA_SELECTS[aba]||[]).forEach(function(id){ var el=document.getElementById(id); if(el&&estado[id]!==undefined) el.value=estado[id]; });
-  var chk=document.getElementById('q-perigoso'); if(chk&&aba==='quimico'&&estado['q-perigoso']!==undefined) chk.checked=estado['q-perigoso'];
   ['cab-empresa','cab-dept','cab-titulo','cab-ref','cab-data','cab-hora','cab-notas','cab-tsst'].forEach(function(id){
     var el=document.getElementById(id); if(el&&estado['_cab_'+id]!==undefined) el.value=estado['_cab_'+id];
   });
   if(document.getElementById('cab-empresa')) updateCabPreview();
   if(document.getElementById('cab-tsst')) propagarTSST();
-  if(aba==='altura'&&estado._altState){ altState=estado._altState; typeof altRender==='function'&&altRender(); }
-  if(aba==='dl50'&&estado._dl50State){ dl50State=estado._dl50State; typeof dl50Render==='function'&&dl50Render(); }
+  if(aba==='altura'&&estado._altState){ altState=estado._altState; altRender(); }
+  if(aba==='dl50'&&estado._dl50State){ dl50State=estado._dl50State; dl50Render(); }
+  if(aba==='iluminacao'&&estado._ilRooms&&estado._ilRooms.length){
+    ILUM_STATE.rooms=estado._ilRooms.map(function(r){
+      var base=ilCriarDivisao();
+      Object.keys(base).forEach(function(k){ if(r[k]!==undefined) base[k]=r[k]; });
+      delete base.result;
+      return base;
+    });
+    ilRenderizarDivisoes();
+  }
   if(aba==='simulacro'){
     // Restaurar editor rico de intro
     if(estado['sim-texto-intro']!==undefined){
@@ -4707,15 +5120,59 @@ function _aplicarEstado(aba, estado) {
     typeof renderFormandos==='function'&&renderFormandos();
     typeof renderAvalCards==='function'&&renderAvalCards();
   }
+  // Recalcular o resultado para o relatório ficar completo logo após abrir
+  _recalcularAba(aba, estado);
+}
+
+// Reexecuta o cálculo da aba para reconstruir o cartão de resultado
+// (o rascunho guarda os campos, não o resultado já calculado).
+// Só o faz quando a avaliação tem mesmo conteúdo, para não mostrar um
+// resultado calculado a partir de sliders ainda no valor por omissão.
+var _RECALC={
+  simplificado:function(){ calcS(); },
+  matriz:function(){ updateMSel(); if(selCell) calcM(); },
+  fine:function(){ calcF(); },
+  niosh:function(){ calcN(); },
+  ruido:function(){ calcRuido(); },
+  vibracao:function(){ calcVib(); },
+  quimico:function(){ calcQuimico(); },
+  formacao:function(){ if(typeof updateResultados==='function') updateResultados(); },
+  altura:function(){ altUpdateStats(); },
+  dl50:function(){ dl50UpdateStats(); },
+  iluminacao:function(){ if(typeof ilAtualizarResumo==='function') ilAtualizarResumo(); }
+};
+// Campo que identifica a avaliação em cada aba (tem de estar preenchido)
+var _RECALC_SINAL={
+  simplificado:'s-perigo', matriz:'m-perigo', fine:'f-perigo', niosh:'n-peso',
+  ruido:'r-tarefa', vibracao:'v-tarefa', quimico:'q-agente', formacao:'gf-nome',
+  altura:'a-trabalho', dl50:'dl-equip', iluminacao:'il-local'
+};
+function _recalcularAba(aba,estado){
+  var f=_RECALC[aba];
+  if(!f) return;
+  var sinal=_RECALC_SINAL[aba];
+  if(estado && sinal){
+    var v=estado[sinal];
+    if(v===undefined||v===null||String(v).trim()==='') return;
+  }
+  try{ f(); }catch(e){ console.warn('[SST] Não foi possível recalcular a aba '+aba+':', e); }
 }
 
 function _nomeArquivo(aba) {
   var empresa=(document.getElementById('cab-empresa')||{}).value||'';
   var data=(document.getElementById('cab-data')||{}).value||'';
   if(aba==='simulacro'){ empresa=(document.getElementById('sim-entidade')||{}).value||empresa; data=(document.getElementById('sim-data')||{}).value||data; }
-  var slug=empresa.replace(/[^a-zA-Z0-9\u00C0-\u00FF]/g,'_').replace(/_+/g,'_').substring(0,30);
+  if(aba==='iluminacao'){ data=(document.getElementById('il-data')||{}).value||data; }
+  var slug=_paraASCII(empresa).replace(/[^a-zA-Z0-9]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'').substring(0,30);
   var dt=data.replace(/\//g,'-')||new Date().toISOString().slice(0,10);
   return 'SST_'+aba+'_'+(slug||'rascunho')+'_'+dt+'.json';
+}
+// "Ação, Lda." -> "Acao Lda" — nomes de ficheiro sem acentos, para funcionarem
+// em qualquer sistema quando transferidos entre iPad, PC e GitHub.
+function _paraASCII(s){
+  return String(s||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/ß/g,'ss').replace(/[Øø]/g,'O').replace(/[Ææ]/g,'AE').replace(/[ªº°]/g,'');
 }
 
 // ---- GRAVAR: descarrega ficheiro .json para o dispositivo ----
@@ -4763,7 +5220,8 @@ var _carregarAbaAtual=null;
 function carregarAba(aba){ _carregarAbaAtual=aba; document.getElementById('inp-carregar-aba').click(); }
 
 function limparRascunho(aba){
-  if(!confirm('Limpar todos os campos da aba "'+aba+'"?')) return;
+  if(!confirm('Limpar todos os campos da aba "'+(GH_ABA_NOME[aba]||aba)+'"?')) return;
+  ghAutoLimpar(aba);
   var campos=(ABA_CAMPOS[aba]||[]).concat(ABA_NUMS[aba]||[]);
   campos.forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
   (ABA_SELECTS[aba]||[]).forEach(function(id){ var el=document.getElementById(id); if(el) el.selectedIndex=0; });
@@ -4771,6 +5229,12 @@ function limparRascunho(aba){
   if(aba==='formacao')  typeof limparDadosFormacao==='function'&&limparDadosFormacao();
   if(aba==='altura')    typeof limparAltura==='function'&&limparAltura();
   if(aba==='dl50')      typeof limparDL50==='function'&&limparDL50();
+  if(aba==='iluminacao'){
+    ILUM_STATE.rooms=[ilCriarDivisao()]; ilColapsed={};
+    ilRenderizarDivisoes(); ilInvalidarRelatorio();
+    if(typeof tabFotos!=='undefined') tabFotos.iluminacao=[];
+    if(typeof tabFotoRender==='function') tabFotoRender('iluminacao');
+  }
 }
 
 // ===== GALERIA PERSISTENTE =====
@@ -4795,15 +5259,18 @@ function galeriaHandleFiles(input) {
   var fotos = galeriaGetFotos();
   var pending = files.length;
   files.forEach(function(file) {
+    if(!file.type.match(/^image\//)) { if(--pending===0){galeriaSaveFotos(fotos);galeriaRender();} return; }
     var reader = new FileReader();
     reader.onload = function(e) {
-      fotos.push({ src: e.target.result, caption: file.name.replace(/\.[^.]+$/,''), ts: Date.now() });
-      pending--;
-      if (pending === 0) {
-        galeriaSaveFotos(fotos);
-        galeriaRender();
-      }
+      comprimirImagem(e.target.result).then(function(src){
+        fotos.push({ src: src, caption: file.name.replace(/\.[^.]+$/,''), ts: Date.now() });
+        if (--pending === 0) {
+          galeriaSaveFotos(fotos);
+          galeriaRender();
+        }
+      });
     };
+    reader.onerror = function(){ if(--pending===0){galeriaSaveFotos(fotos);galeriaRender();} };
     reader.readAsDataURL(file);
   });
   input.value = '';
@@ -4877,26 +5344,11 @@ function galeriaLimpar() {
 }
 
 // Ao tirar/importar fotos no simulacro, guardar também na galeria automaticamente
+// NOTA: tabFotoHandle / simHandleFile já guardam na galeria. Este wrapper
+// apenas mantém a compatibilidade para chamadas que faziam as duas coisas.
 var _origSimHandleFile = simHandleFile;
 simHandleFile = function(input) {
-  var files = Array.from(input.files||[]);
-  _origSimHandleFile(input);
-  // Guardar na galeria depois de um tick para deixar simPhotos actualizar
-  setTimeout(function() {
-    if (!files.length) return;
-    var fotos = galeriaGetFotos();
-    files.forEach(function(file) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        // Evitar duplicados recentes (mesmo tamanho/nome)
-        var name = file.name.replace(/\.[^.]+$/,'');
-        fotos.push({ src: e.target.result, caption: name, ts: Date.now() });
-        galeriaSaveFotos(fotos);
-        galeriaRender();
-      };
-      reader.readAsDataURL(file);
-    });
-  }, 500);
+  return _origSimHandleFile(input);
 };
 
 const ILUM_REFERENCIAS = {
@@ -4951,6 +5403,15 @@ const ILUM_EFEITOS = {
   na:{label:'Não aplicável',status:'ok'}
 };
 const ILUM_STATE = {rooms:[]};
+// Estado de recolha por divisão (índice da divisão -> true = recolhida)
+var ilColapsed = {};
+
+function ilRecolherTodas(recolher){
+  ilColapsed={};
+  if(!recolher) { /* expande todas: array vazio = todas abertas */ }
+  else ILUM_STATE.rooms.forEach(function(_,i){ ilColapsed[i]=true; });
+  ilRenderizarDivisoes();
+}
 
 function ilEscape(value){
   return String(value==null?'':value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});
@@ -5024,8 +5485,13 @@ function ilRenderizarDivisoes(){
   const altItems=Object.keys(ILUM_ALTERNATIVAS).map(function(key){return [key,ILUM_ALTERNATIVAS[key].label];});
   const effectItems=Object.keys(ILUM_EFEITOS).map(function(key){return [key,ILUM_EFEITOS[key].label];});
   list.innerHTML=ILUM_STATE.rooms.map(function(room,index){
-    return '<div class="il-room-card" data-index="'+index+'">'+
-      '<div class="il-room-head"><div class="il-room-title"><span class="il-room-num">'+String(index+1).padStart(2,'0')+'</span><strong>'+ilEscape(room.name||'Divisão sem nome')+'</strong></div><div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end"><span class="il-status pending" data-role="status">Dados por completar</span><button type="button" class="btn-rm" data-action="remove" title="Remover divisão">✕</button></div></div>'+
+    return '<div class="il-room-card'+(ilColapsed[index]?' collapsed':'')+'" data-index="'+index+'">'+
+      '<div class="il-room-head">'+
+      '<div class="il-room-head-main" data-action="toggle" role="button" tabindex="0" aria-expanded="'+(ilColapsed[index]?'false':'true')+'" title="Abrir ou fechar esta divisão">'+
+      '<span class="il-room-caret">▼</span>'+
+      '<span class="il-room-title"><span class="il-room-num">'+String(index+1).padStart(2,'0')+'</span><strong>'+ilEscape(room.name||'Divisão sem nome')+'</strong></span>'+
+      '</div>'+
+      '<div class="il-room-head-side"><span class="il-status pending" data-role="status">Dados por completar</span><button type="button" class="btn-rm" data-action="remove" title="Remover divisão">✕</button></div></div>'+
       '<div class="il-room-body"><div class="form-grid">'+
       '<div class="field full"><label>Nome da Divisão</label><input type="text" data-field="name" value="'+ilEscape(room.name)+'" placeholder="Ex: Escritório, Corredor, Armazém..."></div>'+
       '<div class="field full"><label>Tipo de Atividade</label><select data-field="activity">'+ilOpcoes(activityItems,room.activity)+'</select></div>'+
@@ -5050,6 +5516,20 @@ function ilRenderizarDivisoes(){
       '<div data-role="criteria">'+ilCriterios(room)+'</div><div class="il-small-note" data-role="ref-source">'+ilEscape(ilFonteReferencia(room))+'</div><div class="il-status-detail" data-role="detail"><strong>Análise:</strong> escolha a atividade e introduza as três medições.</div></div></div>';
   }).join('');
   list.querySelectorAll('.il-room-card').forEach(function(card,index){
+    // Recolher/expandir ao tocar no título da divisão
+    var toggle=card.querySelector('[data-action="toggle"]');
+    if(toggle){
+      var doToggle=function(ev){
+        if(ev) ev.stopPropagation();
+        ilColapsed[index]=!ilColapsed[index];
+        card.classList.toggle('collapsed',ilColapsed[index]);
+        toggle.setAttribute('aria-expanded',ilColapsed[index]?'false':'true');
+      };
+      toggle.addEventListener('click',doToggle);
+      toggle.addEventListener('keydown',function(ev){
+        if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();doToggle(ev);}
+      });
+    }
     card.querySelectorAll('[data-field]').forEach(function(control){
       const eventName=control.tagName==='SELECT'?'change':'input';
       control.addEventListener(eventName,function(){
@@ -5067,7 +5547,13 @@ function ilRenderizarDivisoes(){
     const remove=card.querySelector('[data-action="remove"]');
     if(remove)remove.addEventListener('click',function(){
       if(ILUM_STATE.rooms.length===1){if(!confirm('Remover a última divisão?'))return;}
-      ILUM_STATE.rooms.splice(index,1);ilInvalidarRelatorio();ilRenderizarDivisoes();
+      ILUM_STATE.rooms.splice(index,1);
+      // Reindexar o estado de recolha para manter o alinhamento
+      var next={};Object.keys(ilColapsed).forEach(function(k){
+        var n=+k; if(n<index) next[n]=true; else if(n>index) next[n-1]=true;
+      });
+      ilColapsed=next;
+      ilInvalidarRelatorio();ilRenderizarDivisoes();
     });
   });
   ilAtualizarResumo();
@@ -5136,10 +5622,21 @@ function ilAtualizarResumo(){
   return counts;
 }
 function adicionarDivisaoIluminacao(silent){
-  ILUM_STATE.rooms.push(ilCriarDivisao());ilInvalidarRelatorio();ilRenderizarDivisoes();
+  // Ao adicionar uma nova divisão, recolher todas as existentes para
+  // evitar uma página inteira de scroll — só a nova fica visível.
+  ilColapsed={};
+  ILUM_STATE.rooms.forEach(function(_,i){ ilColapsed[i]=true; });
+  ILUM_STATE.rooms.push(ilCriarDivisao());
+  ilInvalidarRelatorio();
+  ilRenderizarDivisoes();
   if(!silent){
-    const cards=document.querySelectorAll('.il-room-card');const last=cards[cards.length-1];
-    if(last){const input=last.querySelector('[data-field="name"]');if(input)input.focus();}
+    var cards=document.querySelectorAll('.il-room-card');
+    var last=cards[cards.length-1];
+    if(last){
+      last.scrollIntoView({behavior:'smooth',block:'nearest'});
+      var input=last.querySelector('[data-field="name"]');
+      if(input) setTimeout(function(){input.focus();},220);
+    }
   }
 }
 function analisarIluminacao(){
@@ -5231,6 +5728,642 @@ function gerarPDFIluminacao(){
     doc.save('Relatorio_Iluminacao_'+base+'_'+dt+'.pdf');
   }catch(error){alert('Erro ao gerar o relatório de iluminação: '+error.message);console.error('PDF Iluminação:',error);}
 }
+
+/* ================================================================
+   GITHUB — gravar e abrir avaliações noutro dispositivo
+   Usa a Git Data API (blobs + trees + commits) em vez da Contents API,
+   porque a Contents API tem um limite de ~1 MB e as avaliações com
+   fotografias podem ser bastante maiores.
+   ================================================================ */
+var GH_CFG_KEY    = 'sst_gh_config_v1';
+var GH_TOKEN_KEY  = 'sst_gh_token_v1';
+var GH_MAX_COMMIT = 'sst_gh_ultimo_push';
+
+// ---------- Configuração (parte não secreta) ----------
+function ghCfgPadrao(){
+  return { owner:'', repo:'', branch:'main', path:'avaliacoes' };
+}
+function ghLerCfg(){
+  var base=ghCfgPadrao();
+  try{
+    var raw=localStorage.getItem(GH_CFG_KEY);
+    if(!raw) return base;
+    var o=JSON.parse(raw)||{};
+    return {
+      owner:  String(o.owner  || base.owner),
+      repo:   String(o.repo   || base.repo),
+      branch: String(o.branch || base.branch),
+      path:   String(o.path   || base.path)
+    };
+  }catch(e){ return base; }
+}
+function ghGravarCfg(cfg){
+  try{ localStorage.setItem(GH_CFG_KEY, JSON.stringify(cfg)); }
+  catch(e){ console.warn('[SST] Não foi possível guardar a configuração GitHub:', e); }
+}
+function ghLimparPath(p){
+  return String(p||'').replace(/^\/+|\/+$/g,'').split('/').filter(Boolean).join('/');
+}
+function ghCompleto(){
+  var c=ghLerCfg();
+  return !!(c.owner && c.repo && c.branch);
+}
+
+// ---------- Token ----------
+function ghLerToken(){ try{ return localStorage.getItem(GH_TOKEN_KEY)||''; }catch(e){ return ''; } }
+function ghGravarToken(t){
+  try{ localStorage.setItem(GH_TOKEN_KEY, t||''); return true; }
+  catch(e){ alert('Não foi possível guardar o token neste dispositivo.'); return false; }
+}
+function ghApagarToken(){
+  if(!confirm('Apagar o token do GitHub deste dispositivo?')) return;
+  ghGravarToken('');
+  var el=document.getElementById('gh-token'); if(el) el.value='';
+  ghStatus('Token apagado deste dispositivo.', 'ok');
+}
+
+// ---------- Conversões base64 <-> UTF-8 ----------
+function ghB64Utf8(str){
+  var bytes=new TextEncoder().encode(str);
+  var bin='', CHUNK=0x8000;
+  for(var i=0;i<bytes.length;i+=CHUNK){
+    bin+=String.fromCharCode.apply(null, bytes.subarray(i, i+CHUNK));
+  }
+  return btoa(bin);
+}
+function ghUtf8B64(b64){
+  var clean=String(b64||'').replace(/\s+/g,'');
+  var bin=atob(clean);
+  var bytes=new Uint8Array(bin.length);
+  for(var j=0;j<bin.length;j++) bytes[j]=bin.charCodeAt(j);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
+// ---------- Chamadas à API ----------
+function ghStatus(msg,tipo){
+  var el=document.getElementById('gh-status');
+  if(el){
+    el.textContent=msg;
+    el.className='gh-status '+(tipo||'ok');
+    if(tipo==='ok'){
+      el.style.display='inline-block';
+      clearTimeout(ghStatus._t);
+      ghStatus._t=setTimeout(function(){ el.style.display='none'; }, 5000);
+    } else {
+      el.style.display='inline-block';
+    }
+  }
+  if(tipo==='err') console.error('[SST/GitHub]', msg);
+  var pv=document.getElementById('gh-preview');
+  if(pv && tipo==='ok' && ghCompleto()) ghActualizarPreview();
+}
+function ghActualizarPreview(){
+  var pv=document.getElementById('gh-preview'); if(!pv) return;
+  var c=ghLerCfg();
+  if(c.owner&&c.repo){
+    pv.textContent='☁ '+c.owner+'/'+c.repo+' · '+c.branch+'/'+ghLimparPath(c.path)+' — toque para configurar';
+    pv.className='configurado';
+  }else{
+    pv.textContent='☁ GitHub — gravar e abrir avaliações noutro dispositivo';
+    pv.className='';
+  }
+}
+function ghApi(method,endpoint,body){
+  var token=(document.getElementById('gh-token')||{}).value || ghLerToken();
+  if(!token) return Promise.reject(new Error('Sem token do GitHub. Preencha-o no painel ☁ GitHub.'));
+  var c=ghLerCfg();
+  var url='https://api.github.com/repos/'+encodeURIComponent(c.owner)+'/'+encodeURIComponent(c.repo)+endpoint;
+  var headers={
+    'Authorization':'Bearer '+token,
+    'Accept':'application/vnd.github+json',
+    'X-GitHub-Api-Version':'2022-11-28'
+  };
+  var init={method:method, headers:headers};
+  if(body!==undefined){ headers['Content-Type']='application/json'; init.body=JSON.stringify(body); }
+  return fetch(url,init).then(function(res){
+    if(res.status===204) return null;
+    return res.text().then(function(txt){
+      var data=null;
+      try{ data=txt?JSON.parse(txt):null; }catch(e){ data=null; }
+      if(!res.ok){
+        var msg=(data&&data.message)?data.message:('HTTP '+res.status);
+        if(res.status===401) msg='Token inválido ou expirado. Gere um novo token.';
+        else if(res.status===403) msg='Sem permissão (403). Confirme o âmbito do token e as permissões do repositório.';
+        else if(res.status===404) msg='Reposititório, branch ou pasta não encontrado (404). Verifique owner/repo/branch.';
+        else if(res.status===409) msg='Conflito (409): outro dispositivo gravou ao mesmo tempo. Tente novamente.';
+        throw new Error(msg);
+      }
+      return data;
+    });
+  }).catch(function(err){
+    if(err instanceof TypeError) throw new Error('Sem ligação à internet ou pedido bloqueado.');
+    throw err;
+  });
+}
+
+// ---------- Gravar um ficheiro (blobs -> trees -> commits -> ref) ----------
+function ghGravarFicheiro(caminho,conteudo,mensagem){
+  var c=ghLerCfg();
+  var pasta=ghLimparPath(c.path);
+  var full=(pasta?pasta+'/':'')+caminho;
+  var b64=ghB64Utf8(conteudo);
+  var branchRef=encodeURIComponent(c.branch);
+
+  ghStatus('A gravar no GitHub…','busy');
+  return ghApi('GET','/git/ref/heads/'+branchRef).then(function(ref){
+    if(!ref||!ref.object||!ref.object.sha) throw new Error('Branch "'+c.branch+'" não encontrado.');
+    var headSha=ref.object.sha;
+    return ghApi('GET','/git/commits/'+headSha).then(function(commit){
+      if(!commit||!commit.tree||!commit.tree.sha) throw new Error('Não foi possível ler a árvore do repositório.');
+      var baseTree=commit.tree.sha;
+      return ghApi('POST','/git/blobs',{content:b64, encoding:'base64'}).then(function(blob){
+        if(!blob||!blob.sha) throw new Error('Não foi possível criar o blob.');
+        return ghApi('POST','/git/trees',{
+          base_tree: baseTree,
+          tree: [{path: full, mode:'100644', type:'blob', sha: blob.sha}]
+        }).then(function(tree){
+          if(!tree||!tree.sha) throw new Error('Não foi possível criar a árvore.');
+          return ghApi('POST','/git/commits',{
+            message: mensagem,
+            tree: tree.sha,
+            parents: [headSha]
+          }).then(function(novoCommit){
+            if(!novoCommit||!novoCommit.sha) throw new Error('Não foi possível criar o commit.');
+            return ghApi('PATCH','/git/refs/heads/'+branchRef,{sha:novoCommit.sha, force:false});
+          });
+        });
+      });
+    });
+  }).then(function(){
+    try{ localStorage.setItem(GH_MAX_COMMIT, JSON.stringify({path:full, ts:Date.now()})); }catch(e){}
+    return full;
+  });
+}
+
+// ---------- Gravar a avaliação de uma aba ----------
+var GH_ABA_NOME={
+  simplificado:'Simplificado', matriz:'Matriz', fine:'W.T. Fine', niosh:'NIOSH',
+  ruido:'Ruído', vibracao:'Vibrações', quimico:'Ag. Químicos', altura:'Altura',
+  formacao:'Formação', dl50:'DL 50/2005', iluminacao:'Iluminação', simulacro:'Simulacros'
+};
+function ghPreparar(){
+  var c=ghLerCfg();
+  if(!c.owner||!c.repo){
+    alert('Configure primeiro o repositório no painel ☁ GitHub (owner, repo, branch e pasta).');
+    var p=document.getElementById('gh-fields');
+    if(p&&!p.classList.contains('open')) ghAlternarPainel(true);
+    return null;
+  }
+  var token=(document.getElementById('gh-token')||{}).value || ghLerToken();
+  if(!token){
+    alert('Cole o seu Personal Access Token no painel ☁ GitHub para poder gravar.');
+    var f=document.getElementById('gh-fields');
+    if(f&&!f.classList.contains('open')) ghAlternarPainel(true);
+    var te=document.getElementById('gh-token'); if(te) te.focus();
+    return null;
+  }
+  // Guardar o que está nos campos para não se perder
+  ghGravarCfg(c);
+  ghGravarToken(token);
+  return c;
+}
+function ghGuardar(aba,btn){
+  var c=ghPreparar(); if(!c) return;
+  var nome=_nomeArquivo(aba);
+  var conteudo;
+  try{ conteudo=JSON.stringify(_recolherEstado(aba),null,2); }
+  catch(e){ alert('Erro ao preparar a avaliação: '+e.message); return; }
+
+  var tamanho=new Blob([conteudo]).size;
+  var dim=function(b){ return b<1024?b+' B' : b<1048576?(b/1024).toFixed(0)+' KB' : (b/1048576).toFixed(1)+' MB'; };
+
+  if(btn){ btn.classList.add('busy'); btn.textContent='⏳ A gravar…'; }
+  ghGuardarAbaAtual(aba); // auto-save local para não perder nada se o GitHub falhar
+
+  ghGravarFicheiro(nome, conteudo, 'SST: '+(GH_ABA_NOME[aba]||aba)+' — '+(new Date().toISOString().slice(0,10)))
+  .then(function(full){
+    var msg='✓ '+nome+' ('+dim(tamanho)+')';
+    ghStatus(msg,'ok');
+    var st=document.getElementById('save-status-'+aba);
+    if(st){ st.textContent='☁ Gravado no GitHub!'; st.style.display='inline-block'; st.style.animation='none'; void st.offsetWidth; st.style.animation='fadeOut 4s forwards'; }
+    if(btn){ btn.classList.remove('busy'); btn.textContent='☁ GitHub'; }
+    alert('Avaliação gravada no GitHub.\n\n'+full+'\n('+dim(tamanho)+')');
+  })
+  .catch(function(err){
+    if(btn){ btn.classList.remove('busy'); btn.textContent='☁ GitHub'; }
+    ghStatus('✕ '+err.message,'err');
+    alert('Não foi possível gravar no GitHub:\n\n'+err.message);
+  });
+}
+
+// ---------- Auto-save local por aba ----------
+var GH_AUTO_KEY='sst_autosave_v1';
+function ghAutoLer(){
+  try{ return JSON.parse(localStorage.getItem(GH_AUTO_KEY)||'{}')||{}; }
+  catch(e){ return {}; }
+}
+function ghAutoGravar(aba){
+  try{
+    var all=ghAutoLer();
+    all[aba]={ ts:Date.now(), estado:_recolherEstado(aba) };
+    localStorage.setItem(GH_AUTO_KEY, JSON.stringify(all));
+  }catch(e){
+    // Quota exceeded — normalmente por causa das fotografias
+    console.warn('[SST] Auto-gravação falhou:', e);
+  }
+}
+function ghAutoLimpar(aba){
+  try{
+    var all=ghAutoLer();
+    delete all[aba];
+    localStorage.setItem(GH_AUTO_KEY, JSON.stringify(all));
+  }catch(e){}
+}
+function ghGuardarAbaAtual(aba){ ghAutoGravar(aba); }
+
+// ---------- Listar e abrir ficheiros do GitHub ----------
+function ghListarFicheiros(){
+  var c=ghLerCfg();
+  var pasta=ghLimparPath(c.path);
+  return ghApi('GET','/contents/'+encodeURIComponent(pasta)+'?ref='+encodeURIComponent(c.branch))
+    .then(function(data){
+      if(!Array.isArray(data)) throw new Error('A pasta "'+(pasta||'/')+'" não é uma pasta.');
+      return data.filter(function(f){
+        return f.type==='file' && /\.json$/i.test(f.name);
+      }).sort(function(a,b){
+        // Os nomes contêm a data (DD-MM-AAAA), por isso ordem descendente
+        // = avaliações mais recentes primeiro.
+        return a.name<b.name?1:a.name>b.name?-1:0;
+      });
+    });
+}
+function ghAbrirLista(){
+  var c=ghPreparar(); if(!c) return;
+  var body=document.getElementById('gh-modal-body');
+  var box=document.getElementById('gh-modal');
+  if(!body||!box) return;
+  body.innerHTML='<div class="gh-empty">⏳ A procurar avaliações no GitHub…</div>';
+  box.classList.add('open');
+  ghListarFicheiros().then(function(files){
+    if(!files.length){
+      body.innerHTML='<div class="gh-empty">Nenhum ficheiro <code>.json</code> em <strong>'+
+        (ghLimparPath(c.path)||'/')+'</strong>.<br><br>Grave uma avaliação com o botão <strong>☁ GitHub</strong> numa das abas para começar.</div>';
+      return;
+    }
+    body.innerHTML='';
+    files.forEach(function(f){
+      var m=f.name.match(/^SST_([^_]+)_(.*)_(\d{2}-\d{2}-\d{4}|\d{4}-\d{2}-\d{2})\.json$/i);
+      var aba=m?m[1]:'';
+      var el=document.createElement('div');
+      el.className='gh-file';
+      el.setAttribute('role','button');
+      el.setAttribute('tabindex','0');
+      var dataTxt=f.name.match(/(\d{2}-\d{2}-\d{4}|\d{4}-\d{2}-\d{2})/);
+      var tam=f.size<1024?f.size+' B':f.size<1048576?(f.size/1024).toFixed(0)+' KB':(f.size/1048576).toFixed(1)+' MB';
+      el.innerHTML='<div style="min-width:0"><div class="gh-file-nome">📄 '+f.name.replace(/[<>&]/g,'')+'</div>'+
+        '<div class="gh-file-meta">'+(dataTxt?dataTxt[1].replace(/-/g,'/')+' · ':'')+tam+'</div></div>'+
+        '<span class="gh-file-aba">'+(GH_ABA_NOME[aba]||aba||'—')+'</span>';
+      var abrir=function(){ ghAbrirFicheiro(f, el); };
+      el.addEventListener('click',abrir);
+      el.addEventListener('keydown',function(ev){ if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();abrir();} });
+      body.appendChild(el);
+    });
+  }).catch(function(err){
+    body.innerHTML='<div class="gh-empty">✕ '+err.message.replace(/[<>&]/g,'')+'</div>';
+    ghStatus('✕ '+err.message,'err');
+  });
+}
+function ghFecharModal(){
+  var box=document.getElementById('gh-modal'); if(box) box.classList.remove('open');
+}
+function ghAbrirFicheiro(f,el){
+  if(el){ el.style.opacity=.5; el.textContent='⏳ A carregar…'; }
+  ghApi('GET','/git/blobs/'+f.sha).then(function(blob){
+    if(!blob||!blob.content) throw new Error('Conteúdo vazio ou inacessível.');
+    var json=ghUtf8B64(blob.content);
+    var estado=JSON.parse(json);
+    var aba=_abaDoEstado(estado) || _abaDoNome(f.name) || 'simplificado';
+    if(!confirm('Abrir "'+f.name+'"?\n\nAba: '+(GH_ABA_NOME[aba]||aba)+
+      '\nGravado em: '+(estado._ts?new Date(estado._ts).toLocaleString('pt-PT'):'?')+
+      '\n\nOs dados atuais desta aba serão substituídos. Continuar?')) {
+      if(el){ ghFecharModal(); }
+      return;
+    }
+    _aplicarEstado(aba,estado);
+    // Mudar para a aba correspondente
+    var btn=document.querySelector('.tab-btn[data-aba="'+aba+'"]');
+    if(btn) switchTab(aba,btn);
+    ghFecharModal();
+    ghStatus('✓ '+f.name,'ok');
+    var st=document.getElementById('save-status-'+aba);
+    if(st){ st.textContent='☁ Carregado do GitHub!'; st.style.display='inline-block'; st.style.animation='none'; void st.offsetWidth; st.style.animation='fadeOut 4s forwards'; }
+  }).catch(function(err){
+    if(el){ el.style.opacity=''; }
+    alert('Não foi possível abrir o ficheiro:\n\n'+err.message);
+  });
+}
+function _abaDoEstado(estado){
+  if(!estado||!estado._aba) return null;
+  return GH_ABA_NOME[estado._aba]?estado._aba:null;
+}
+function _abaDoNome(nome){
+  var m=nome.match(/^SST_([^_]+)_/i);
+  return (m && GH_ABA_NOME[m[1]])?m[1]:null;
+}
+
+// ---------- UI do painel ----------
+function ghAlternarPainel(forcar){
+  var f=document.getElementById('gh-fields');
+  var a=document.getElementById('gh-arrow');
+  var tg=document.getElementById('gh-toggle');
+  if(!f) return;
+  var abrir = (forcar!==undefined) ? forcar : !f.classList.contains('open');
+  f.classList.toggle('open',abrir);
+  if(a) a.classList.toggle('open',abrir);
+  if(tg) tg.setAttribute('aria-expanded',abrir?'true':'false');
+  if(abrir) ghActualizarPreview();
+}
+function ghPreencherFormulario(){
+  var c=ghLerCfg();
+  var set=function(id,v){ var el=document.getElementById(id); if(el) el.value=v; };
+  set('gh-owner',c.owner); set('gh-repo',c.repo); set('gh-branch',c.branch); set('gh-path',c.path);
+  set('gh-token',ghLerToken());
+  var code=document.getElementById('gh-share-code');
+  if(code) code.value = (c.owner&&c.repo) ? ghLerCfg().owner+'/'+ghLerCfg().repo+'#'+ghLerCfg().branch+'#'+ghLimparPath(ghLerCfg().path) : '';
+  ghActualizarPreview();
+}
+function ghGuardarConfig(){
+  var val=function(id){ return ((document.getElementById(id)||{}).value||'').trim(); };
+  var cfg={
+    owner:  val('gh-owner'),
+    repo:   val('gh-repo'),
+    branch: val('gh-branch')||'main',
+    path:   ghLimparPath(val('gh-path')||'avaliacoes')
+  };
+  if(cfg.owner&&cfg.owner.indexOf('/')>=0){
+    // aceite "owner/repo" colado num só campo
+    var p=cfg.owner.split('/');
+    cfg.owner=p[0]; if(!cfg.repo&&p[1]) cfg.repo=p[1];
+  }
+  if(!cfg.owner||!cfg.repo){
+    alert('Preencha pelo menos o Proprietário (owner) e o Repositório (repo).');
+    return;
+  }
+  ghGravarCfg(cfg);
+  ghGravarToken(val('gh-token'));
+  ghPreencherFormulario();
+  ghActualizarPreview();
+  ghStatus('✓ Configuração guardada neste dispositivo','ok');
+}
+function ghCopiarCodigo(){
+  var code=document.getElementById('gh-share-code');
+  if(!code||!code.value){ alert('Guarde primeiro a configuração para gerar o código.'); return; }
+  var feito=false;
+  try{ code.select(); feito=document.execCommand('copy'); }catch(e){ feito=false; }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(code.value).then(function(){ ghStatus('✓ Código copiado — cole no outro dispositivo','ok'); },function(){});
+  } else if(feito){
+    ghStatus('✓ Código copiado — cole no outro dispositivo','ok');
+  } else {
+    alert('Copie manualmente o código:\n\n'+code.value);
+  }
+}
+function ghTestar(){
+  var c=ghPreparar(); if(!c) return;
+  ghStatus('A testar ligação…','busy');
+  ghApi('GET','').then(function(repo){
+    var nome=repo.full_name||(c.owner+'/'+c.repo);
+    var podeEscrever=!!(repo.permissions&&(repo.permissions.push||repo.permissions.admin||repo.permissions.maintain));
+    // Confirmar também que a branch existe — é o erro de configuração mais comum
+    return ghApi('GET','/git/ref/heads/'+encodeURIComponent(c.branch)).then(function(ref){
+      var pasta=ghLimparPath(c.path);
+      var msg='Ligado a '+nome+(repo.private?' (privado)':'');
+      ghStatus('✓ '+msg,'ok');
+      alert('Ligação ao GitHub bem-sucedida.\n\n'+
+        'Repositório: '+nome+(repo.private?' (privado)':'')+'\n'+
+        'Permissões: '+(podeEscrever?'escrita (pode gravar)':'APENAS LEITURA — não vai conseguir gravar')+'\n'+
+        'Branch: '+c.branch+' ✓ existe\n'+
+        'Pasta: '+pasta+'\n\n'+
+        (podeEscrever?'':'⚠️ Verifique as permissões do token sobre este repositório.\n\n')+
+        'Já pode usar "☁ Gravar no GitHub" em qualquer aba.');
+      ghActualizarPreview();
+    }).catch(function(errBranch){
+      var m='Ligado a '+nome+', mas a branch "'+c.branch+'" não existe.';
+      ghStatus('✕ '+m,'err');
+      alert(m+'\n\n'+errBranch+'\n\nCrie a branch no GitHub ou escreva o nome correcto no painel.');
+    });
+  }).catch(function(err){
+    ghStatus('✕ '+err.message,'err');
+    alert('Falha ao ligar ao GitHub:\n\n'+err.message);
+  });
+}
+
+// ---------- Injetar os botões ☁ em todas as barras de rascunho ----------
+function ghInjetarBotoes(){
+  document.querySelectorAll('.save-bar').forEach(function(bar){
+    if(bar.querySelector('.btn-gh')) return;
+    var m=(bar.id||'').match(/^save-bar-(.+)$/);
+    var aba = bar.getAttribute('data-aba') || (m?m[1]:null);
+    if(!aba){
+      var st=bar.querySelector('.save-status[id^="save-status-"]');
+      if(st) aba=st.id.replace('save-status-','');
+    }
+    if(!aba) return;
+    bar.setAttribute('data-aba',aba);
+    var gravar=document.createElement('button');
+    gravar.type='button';
+    gravar.className='btn-gh';
+    gravar.setAttribute('data-gh-push',aba);
+    gravar.textContent='☁ Gravar no GitHub';
+    gravar.title='Gravar esta avaliação como .json no repositório configurado';
+    gravar.addEventListener('click',function(){ ghGuardar(aba, gravar); });
+
+    var puxar=document.createElement('button');
+    puxar.type='button';
+    puxar.className='btn-gh btn-gh-puxar';
+    puxar.textContent='📂 Abrir do GitHub';
+    puxar.title='Listar as avaliações gravadas no GitHub e abrir uma neste dispositivo';
+    puxar.addEventListener('click', ghAbrirLista);
+
+    var st=bar.querySelector('.save-status');
+    bar.insertBefore(gravar, st||null);
+    bar.insertBefore(puxar, st||null);
+  });
+}
+
+// ---------- Modal ----------
+function ghInjetarModal(){
+  if(document.getElementById('gh-modal')) return;
+  var d=document.createElement('div');
+  d.className='gh-modal';
+  d.id='gh-modal';
+  d.innerHTML='<div class="gh-modal-box" role="dialog" aria-modal="true" aria-label="Avaliações no GitHub">'+
+    '<div class="gh-modal-head"><strong>☁ Avaliações no GitHub</strong>'+
+    '<button type="button" onclick="ghFecharModal()" title="Fechar" aria-label="Fechar">✕</button></div>'+
+    '<div class="gh-modal-body" id="gh-modal-body"></div></div>';
+  d.addEventListener('click',function(ev){ if(ev.target===d) ghFecharModal(); });
+  document.body.appendChild(d);
+  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') ghFecharModal(); });
+}
+
+// ---------- Ligar eventos do painel ----------
+function ghIniciar(){
+  var tg=document.getElementById('gh-toggle');
+  if(tg){
+    tg.addEventListener('click',function(){ ghAlternarPainel(); });
+    tg.addEventListener('keydown',function(ev){
+      if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); ghAlternarPainel(); }
+    });
+  }
+  var eye=document.getElementById('gh-token-eye');
+  if(eye) eye.addEventListener('click',function(){
+    var t=document.getElementById('gh-token');
+    if(!t) return;
+    t.type = t.type==='password' ? 'text' : 'password';
+    eye.textContent = t.type==='password' ? '👁' : '🙈';
+  });
+  var clr=document.getElementById('gh-token-clear');
+  if(clr) clr.addEventListener('click', ghApagarToken);
+  ghPreencherFormulario();
+  ghInjetarModal();
+  ghInjetarBotoes();
+  ghActualizarPreview();
+}
+
+/* ================================================================
+   AVISO DE RASCUNHO AUTOMÁTICO
+   ================================================================ */
+function _autosavePeso(estado){
+  // Quantos campos têm conteúdo — para não restaurar rascunhos vazios
+  var n=0;
+  Object.keys(estado||{}).forEach(function(k){
+    if(k.charAt(0)==='_') return;
+    var v=estado[k];
+    if(v===''||v===null||v===undefined) return;
+    if(typeof v==='string'&&!v.trim()) return;
+    n++;
+  });
+  return n;
+}
+var _autosaveAlvo=null;
+function autosaveVerificar(aba){
+  var all=ghAutoLer();
+  var alvo=aba, entrada=null;
+  if(aba){
+    if(all[aba]) entrada={aba:aba, dados:all[aba]};
+  }else{
+    // sem aba indicada: escolher o rascunho mais recente com conteúdo
+    var melhor=null;
+    Object.keys(all).forEach(function(k){
+      var d=all[k];
+      if(!d||!d.estado) return;
+      if(_autosavePeso(d.estado)<2) return;
+      if(!melhor||d.ts>melhor.ts) melhor={aba:k, ts:d.ts, dados:d};
+    });
+    if(melhor) entrada=melhor;
+  }
+  var banner=document.getElementById('autosave-banner');
+  var msg=document.getElementById('autosave-msg');
+  if(!banner||!msg) return;
+  if(!entrada || _autosavePeso(entrada.dados.estado)<2){
+    banner.classList.remove('mostrar');
+    _autosaveAlvo=null;
+    return;
+  }
+  _autosaveAlvo=entrada;
+  var quando=entrada.dados.ts?new Date(entrada.dados.ts).toLocaleString('pt-PT'):'—';
+  msg.innerHTML='💾 Foi encontrado um rascunho automático de <strong>'+(GH_ABA_NOME[entrada.aba]||entrada.aba)+
+    '</strong> ('+quando+') que não foi gravado nem enviado para o GitHub.';
+  banner.classList.add('mostrar');
+  banner.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function autosaveRestaurar(){
+  if(!_autosaveAlvo) return;
+  var alvo=_autosaveAlvo;
+  _autosaveAlvo=null;
+  document.getElementById('autosave-banner').classList.remove('mostrar');
+  try{
+    _aplicarEstado(alvo.aba, alvo.dados.estado);
+    var btn=document.getElementById('tabbtn-'+alvo.aba);
+    if(btn) switchTab(alvo.aba, btn);
+    var st=document.getElementById('save-status-'+alvo.aba);
+    if(st){ st.textContent='↩️ Rascunho restaurado'; st.style.display='inline-block'; st.style.animation='none'; void st.offsetWidth; st.style.animation='fadeOut 4s forwards'; }
+    ghStatus('✓ Rascunho restaurado de '+(GH_ABA_NOME[alvo.aba]||alvo.aba),'ok');
+  }catch(e){
+    alert('Não foi possível restaurar o rascunho: '+e.message);
+  }
+}
+function autosaveDispensar(){
+  if(!_autosaveAlvo) return;
+  var aba=_autosaveAlvo.aba;
+  _autosaveAlvo=null;
+  ghAutoLimpar(aba);
+  document.getElementById('autosave-banner').classList.remove('mostrar');
+}
+
+if(document.getElementById('gh-panel')) ghIniciar();
+
+/* ================================================================
+   ARRANQUE — tema, aba activa, auto-gravação e atalhos de teclado
+   ================================================================ */
+(function arranque(){
+  // 1. Tema
+  _aplicarTema();
+  var tt=document.getElementById('theme-toggle');
+  if(tt) tt.setAttribute('aria-checked', isDark?'true':'false');
+  if(tt) tt.addEventListener('keydown',function(ev){
+    if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); toggleTheme(); tt.setAttribute('aria-checked',isDark?'true':'false'); }
+  });
+
+  // 2. Teclado no alternador do cabeçalho
+  var ct=document.getElementById('cab-toggle');
+  if(ct) ct.addEventListener('keydown',function(ev){
+    if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); toggleCab(); }
+  });
+
+  // 3. Setas para navegar nas tabs (padrão ARIA)
+  document.addEventListener('keydown',function(ev){
+    var btn=document.activeElement;
+    if(!btn||!btn.classList||!btn.classList.contains('tab-btn')) return;
+    var todas=Array.prototype.slice.call(document.querySelectorAll('.tab-btn'));
+    var i=todas.indexOf(btn), prox=null;
+    if(ev.key==='ArrowRight') prox=todas[(i+1)%todas.length];
+    else if(ev.key==='ArrowLeft') prox=todas[(i-1+todas.length)%todas.length];
+    else if(ev.key==='Home') prox=todas[0];
+    else if(ev.key==='End') prox=todas[todas.length-1];
+    if(!prox) return;
+    ev.preventDefault();
+    switchTab(prox.getAttribute('data-aba'),prox);
+    prox.focus();
+    if(prox.scrollIntoView) prox.scrollIntoView({block:'nearest',inline:'nearest'});
+  });
+
+  // 4. Auto-gravação: guardar a aba ativa enquanto se trabalha.
+  //    Sem aviso ao sair — a auto-gravação local garante que nada se perde,
+  //    e um "tem a certeza?" em cada saída seria mais prejudicial que útil.
+  var autoTimer=null;
+  function agendarAuto(){
+    clearTimeout(autoTimer);
+    autoTimer=setTimeout(function(){
+      var btn=document.querySelector('.tab-btn.active');
+      if(!btn) return;
+      var aba=btn.getAttribute('data-aba');
+      if(aba) ghAutoGravar(aba);
+    }, 1200);
+  }
+  document.addEventListener('input', agendarAuto, true);
+  document.addEventListener('change', agendarAuto, true);
+
+  // 5. Restaurar a última aba usada
+  var ultima=null;
+  try{ ultima=localStorage.getItem('sst_ultima_aba'); }catch(e){}
+  if(ultima && document.getElementById('tab-'+ultima) && ultima!=='simplificado'){
+    switchTab(ultima, document.getElementById('tabbtn-'+ultima));
+  }
+
+  // 6. Avisar sobre rascunhos automáticos por restaurar
+  setTimeout(function(){ autosaveVerificar(ultima); }, 400);
+})();
 
 if(document.getElementById('il-room-list')){ILUM_STATE.rooms.push(ilCriarDivisao());ilRenderizarDivisoes();}
 </script>
