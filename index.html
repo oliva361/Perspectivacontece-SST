@@ -3248,7 +3248,7 @@ function gerarPDFFormacao(){
     doc.text('P\u00e1gina '+pg+'   |   SST \u2014 Gest\u00e3o da Forma\u00e7\u00e3o',PW/2,PH-5,{align:'center'});
   }
 
-  function chkF(need){ if(y+need>PH-28){ footerF(); doc.addPage(); pg++; y=drawHeaderF(); } }
+  function chkF(need){ if(y+need>PH-28){ footerF(); doc.addPage(); pg++; y=drawHeaderF(); } return y; }
 
   function drawHeaderF(){
     const nomeF = sanitize(document.getElementById('gf-nome').value)||'Relat\u00f3rio de Gest\u00e3o da Forma\u00e7\u00e3o';
@@ -3328,19 +3328,37 @@ function gerarPDFFormacao(){
   // ---- Lista de Formandos ----
   if(gfFormandos.length>0){
     secTitle('Lista de Presen\u00e7as ('+gfFormandos.length+' formando'+(gfFormandos.length>1?'s':'')+')');
-    const colW=(CW-8)/3, rowH=8;
-    let col=0;
-    gfFormandos.forEach(function(nome,i){
-      chkF(rowH+2);
-      const x=M+col*(colW+4);
-      doc.setFillColor(col%2===0?248:244,248,255); doc.roundedRect(x,y,colW,rowH,1,1,'F');
-      doc.setDrawColor(210,218,235); doc.roundedRect(x,y,colW,rowH,1,1,'S');
-      doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(20,30,60);
-      doc.text(String(i+1)+'. '+sanitize(nome),x+2,y+5,{maxWidth:colW-4});
-      doc.setDrawColor(185,195,215); doc.line(x+colW*0.45,y+rowH-1.5,x+colW-2,y+rowH-1.5);
-      col++; if(col===3){ col=0; y+=rowH+2; }
-    });
-    if(col>0) y+=rowH+2; y+=4;
+    const colW=(CW-8)/3, lineH=5, rowGap=4;
+    const totalRows=Math.ceil(gfFormandos.length/3);
+    for(let r=0;r<totalRows;r++){
+      let maxLines=1;
+      const cells=[];
+      for(let c=0;c<3;c++){
+        const idx=r*3+c;
+        const nome=idx<gfFormandos.length?gfFormandos[idx]:null;
+        cells.push(nome);
+        if(nome){
+          const ls=doc.splitTextToSize(String(idx+1)+'. '+sanitize(nome), colW-8);
+          if(ls.length>maxLines) maxLines=ls.length;
+        }
+      }
+      const rh=Math.max(8, maxLines*lineH+4);
+      const need=rh+rowGap;
+      chkF(need);
+      cells.forEach(function(nome,c){
+        if(!nome) return;
+        const idx=r*3+c;
+        const x=M+c*(colW+4);
+        doc.setFillColor(r%2===0?248:244,248,255); doc.roundedRect(x,y,colW,rh,1,1,'F');
+        doc.setDrawColor(210,218,235); doc.roundedRect(x,y,colW,rh,1,1,'S');
+        doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(20,30,60);
+        const ls=doc.splitTextToSize(String(idx+1)+'. '+sanitize(nome), colW-8);
+        const txtY=y+(rh-ls.length*lineH)/2+3;
+        ls.forEach(function(l,li){ doc.text(l,x+2,txtY+li*lineH); });
+      });
+      y+=rh+rowGap;
+    }
+    y+=2;
   }
 
   // ---- Avaliações ----
@@ -3380,26 +3398,43 @@ function gerarPDFFormacao(){
   const obs=gf('gf-obs-geral');
   if(obs){ secTitle('Observa\u00e7\u00f5es Gerais'); fRow('Observa\u00e7\u00f5es',obs); }
 
-  // ---- Assinaturas ----
-  chkF(42); y+=6;
-  doc.setDrawColor(200,210,225); doc.line(M,y,M+CW,y); y+=8;
-  doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(18,52,96);
-  doc.text('VALIDA\u00c7\u00c3O',M,y); y+=10;
-  const sigW=(CW-10)/2;
-  ['Formador(a) / Respons\u00e1vel','Entidade Formadora / Dire\u00e7\u00e3o'].forEach(function(lbl,i){
-    const x=M+i*(sigW+10);
-    doc.setDrawColor(180,190,210); doc.line(x,y+18,x+sigW,y+18);
-    doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(100,110,130);
-    doc.text(sanitize(lbl),x+sigW/2,y+23,{align:'center'});
-    doc.text('Data: ___/___/______',x+sigW/2,y+29,{align:'center'});
-  });
-
   // Fotografias da formação
   var gfFotos = tabFotoGetAll('formacao');
   if(gfFotos.length>0){
     y = pdfDrawFotos(doc, gfFotos, y, chkF, [18,52,96], CW, M);
   }
   y = pdfDrawNota(doc, 'formacao', y, chkF, CW, M, PW);
+
+  // ---- Assinaturas ----
+  chkF(34); y+=6;
+  doc.setDrawColor(200,210,225); doc.line(M,y,M+CW,y); y+=8;
+  doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(18,52,96);
+  doc.text('VALIDA\u00c7\u00c3O',M,y); y+=10;
+  const sigW=(CW-10)/2;
+  var sigX=[M, M+sigW+10];
+  var sigNome=[sanitize(document.getElementById('gf-formador')?document.getElementById('gf-formador').value||'':''), ''];
+  var sigLbl=['FORMADOR(A) / T\u00c9CNICO TSST','RESPONS\u00c1VEL DA ENTIDADE'];
+  // Legenda (alinhada nas duas colunas)
+  sigLbl.forEach(function(lbl,i){
+    doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(110,125,165);
+    doc.text(lbl,sigX[i],y);
+  });
+  y+=6;
+  // Nomes (apenas preenchido do lado esquerdo)
+  sigNome.forEach(function(nome,i){
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(20,32,65);
+    doc.text(nome||'_________________________',sigX[i],y);
+  });
+  y+=6;
+  // Linhas de assinatura
+  doc.setDrawColor(180,190,210);
+  sigX.forEach(function(x){ doc.line(x,y,x+sigW,y); });
+  y+=6;
+  // Datas
+  doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(100,110,130);
+  doc.text('Data: ___/___/______',M,y);
+  doc.text('Data: ___/___/______',M+sigW+10,y);
+  y+=8;
 
   footerF();
   const nomeF=gf('gf-nome').replace(/\s+/g,'_').substring(0,25)||'Formacao';
@@ -3440,11 +3475,43 @@ function gerarPDFFormandos(){
   y+=3;
   if(gfFormandos.length===0){ doc.text('Nenhum formando registado.', M, y); }
   else {
-    gfFormandos.forEach((nome,i)=>{
-      chkF(7);
-      doc.text((i+1)+'. '+nome, M, y);
-      y+=6;
-    });
+    // Cabeçalho da lista
+    chkF(14);
+    doc.setFillColor(79,142,247); doc.roundedRect(M,y,CW,9,2,2,'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(255,255,255);
+    doc.text('LISTA DE PRESENÇAS — FORMANDOS', M+4, y+5.5);
+    y+=13;
+    const colW=(CW-8)/3, lineH=5, rowGap=2;
+    const totalRows=Math.ceil(gfFormandos.length/3);
+    for(let r=0;r<totalRows;r++){
+      let maxLines=1;
+      const cells=[];
+      for(let c=0;c<3;c++){
+        const idx=r*3+c;
+        const nome=idx<gfFormandos.length?gfFormandos[idx]:null;
+        cells.push(nome);
+        if(nome){
+          const ls=doc.splitTextToSize(String(idx+1)+'. '+sanitize(nome), colW-8);
+          if(ls.length>maxLines) maxLines=ls.length;
+        }
+      }
+      const rh=Math.max(8, maxLines*lineH+4);
+      const need=rh+rowGap;
+      chkF(need);
+      cells.forEach(function(nome,c){
+        if(!nome) return;
+        const idx=r*3+c;
+        const x=M+c*(colW+4);
+        doc.setFillColor(r%2===0?248:244,248,255); doc.roundedRect(x,y,colW,rh,1,1,'F');
+        doc.setDrawColor(210,218,235); doc.roundedRect(x,y,colW,rh,1,1,'S');
+        doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(20,30,60);
+        const ls=doc.splitTextToSize(String(idx+1)+'. '+sanitize(nome), colW-8);
+        const txtY=y+(rh-ls.length*lineH)/2+3;
+        ls.forEach(function(l,li){ doc.text(l,x+2,txtY+li*lineH); });
+      });
+      y+=rh+rowGap;
+    }
+    y+=4;
   }
   footerF();
   const nomeF = sanitize(document.getElementById('gf-nome').value)||'formandos';
@@ -4075,7 +4142,15 @@ function tabFotoClear(aba){
 function pdfDrawNota(doc, aba, y, chkFn, CW, M, PW) {
   var el = document.getElementById(aba + '-nota-tecnico');
   if(!el) return y;
-  var raw = (el.innerText || el.textContent || '').replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim();
+  var text = (el.innerText || el.textContent || '').trim();
+  if(!text && el.innerHTML){
+    text = el.innerHTML
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<\/p><\/div><\/li><\/tr><\/h[1-6]><\/blockquote>/gi, '\n')
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g,' ').trim();
+  }
+  var raw = (text||'').replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim();
   if(!raw) return y;
   var nBarW = 3, nPadL = 10, nPadV = 7, nLineH = 6.2;
   var nX   = M + nBarW + nPadL;
@@ -4087,13 +4162,15 @@ function pdfDrawNota(doc, aba, y, chkFn, CW, M, PW) {
     para = para.trim();
     if(!para){ nLines.push(null); return; }
     var wrapped = doc.splitTextToSize(para, nW);
+    if(wrapped.length===0) wrapped=[''];
     wrapped.forEach(function(l,li){ nLines.push({t:l, last: li===wrapped.length-1}); });
   });
   while(nLines.length && nLines[0]===null) nLines.shift();
   while(nLines.length && nLines[nLines.length-1]===null) nLines.pop();
   if(!nLines.length) return y;
   var nH = nLines.length * nLineH + nPadV * 2;
-  chkFn(nH + 14);
+  var need = 10 + nH + 20; // título + caixa + margem
+  y = chkFn(need);
   // Título da secção
   doc.setFillColor(18,52,96); doc.roundedRect(M,y,CW,8,2,2,'F');
   doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(255,255,255);
@@ -4108,7 +4185,7 @@ function pdfDrawNota(doc, aba, y, chkFn, CW, M, PW) {
   nLines.forEach(function(line){
     if(line===null){ ni++; return; }
     var ly = nY0 + ni * nLineH;
-    doc.text(sanitize(line.t), nX, ly);
+    doc.text(sanitize(line.t||''), nX, ly);
     ni++;
   });
   y += nH + 6;
