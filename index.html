@@ -1735,7 +1735,8 @@ input[type=range]::-webkit-slider-thumb {
     </div>
     <div class="sim-photo-grid" id="tab-foto-grid-formacao"></div>
   </div>
-  <button class="btn-pdf" id="gf-pdf-btn" onclick="gerarPDFFormacao()">📄 Exportar Relatório de Formação PDF</button>
+  <button class="btn-calc" id="gf-pdf-btn" onclick="gerarPDFFormacao()">📄 Exportar Relatório de Formação PDF</button>
+  <button class="btn-calc" id="gf-pdf-formandos-btn" onclick="gerarPDFFormandos()">👥 Exportar Lista de Formandos PDF</button>
   <!-- Nota do Técnico -->
   <div class="card">
     <h2>📝 Nota do Técnico</h2>
@@ -3174,10 +3175,8 @@ function notaGF(v){
 function updateResultados(){
   const res = calcGFMedias();
   const wrap = document.getElementById('gf-resultados');
-  const btn = document.getElementById('gf-pdf-btn');
-  if(!res){ wrap.style.display='none'; btn.style.display='none'; return; }
+  if(!res){ wrap.style.display='none'; return; }
   wrap.style.display='block';
-  btn.style.display='flex';
 
   // Cards de médias
   const nota = notaGF(res.mediaGlobal);
@@ -3282,7 +3281,7 @@ function gerarPDFFormacao(){
     doc.text(sanitize(lbl).toUpperCase(),M,y); y+=4;
     const lines=doc.splitTextToSize(sanitize(String(val)),CW);
     doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(20,32,65);
-    doc.text(lines,M,y); y+=lines.length*5+4;
+    doc.text(lines,M,y,{maxWidth:CW}); y+=lines.length*5+4;
   }
 
   // ---- Header ----
@@ -3351,7 +3350,7 @@ function gerarPDFFormacao(){
 
   // ---- Observações Gerais ----
   const obs=gf('gf-obs-geral');
-  if(obs){ secTitle('Observa\u00e7\u00f5es Gerais'); fRow('',obs); }
+  if(obs){ secTitle('Observa\u00e7\u00f5es Gerais'); fRow('Observa\u00e7\u00f5es',obs); }
 
   // ---- Assinaturas ----
   chkF(42); y+=6;
@@ -3379,6 +3378,50 @@ function gerarPDFFormacao(){
   const dtF=gf('gf-data-inicio').replace(/\//g,'-')||'sem-data';
   doc.save('Formacao_'+nomeF+'_'+dtF+'.pdf');
 } // end gerarPDFFormacao
+
+// ===== PDF LISTA DE FORMANDOS =====
+function gerarPDFFormandos(){
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({unit:'mm',format:'a4'});
+  const PW=210, PH=297, M=18, CW=PW-2*M;
+  let y=0, pg=1;
+  const rc = [79,142,247];
+  function footerF(){
+    doc.setFillColor(238,240,245);
+    doc.rect(0,PH-26,PW,26,'F');
+    doc.setDrawColor(210,215,225);
+    doc.line(0,PH-26,PW,PH-26);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(90,100,130);
+    doc.text('Página '+pg+'   |   Aplicação SST — Lista de Formandos',PW/2,PH-5,{align:'center'});
+  }
+  function chkF(need){ if(y+need>PH-30){ footerF(); doc.addPage(); pg++; y=drawHeaderF(); } }
+  function drawHeaderF(){
+    const nomeF = sanitize(document.getElementById('gf-nome').value)||'Lista de Formandos';
+    return pdfDrawHeader(doc,rc,nomeF);
+  }
+  y = drawHeaderF();
+  doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(30,40,80);
+  doc.text('Lista de Formandos', M, y); y+=7;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(60,70,90);
+  const ent = sanitize(document.getElementById('gf-entidade').value);
+  if(ent){ doc.text('Entidade Formadora: '+ent, M, y); y+=5; }
+  const dt = sanitize(document.getElementById('gf-data-inicio').value);
+  if(dt){ doc.text('Data: '+dt, M, y); y+=5; }
+  y+=3;
+  if(gfFormandos.length===0){ doc.text('Nenhum formando registado.', M, y); }
+  else {
+    gfFormandos.forEach((nome,i)=>{
+      chkF(7);
+      doc.text((i+1)+'. '+nome, M, y);
+      y+=6;
+    });
+  }
+  footerF();
+  const nomeF = sanitize(document.getElementById('gf-nome').value)||'formandos';
+  doc.save('lista_formandos_'+nomeF.replace(/\s+/g,'_')+'.pdf');
+}
 
 // ===== TRABALHO EM ALTURA =====
 const ALT_ITEMS = {
@@ -4574,7 +4617,7 @@ function gerarPDFSimulacro() {
     var secTitles={sec2:'2. Deteção e Comunicação',sec3:'3. Atuação da Organização',sec4:'4. Evacuação',sec5:'5. Ponto de Encontro',sec6:'6. Sistemas de Segurança'};
     Object.keys(SIM_SECTIONS).forEach(function(secKey) {
       var items = SIM_SECTIONS[secKey];
-      chk(20);
+      chk(40);
       doc.setFillColor(18,52,96); doc.roundedRect(M,y,CW,8,2,2,'F');
       doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(255,255,255);
       doc.text(secTitles[secKey]||secKey, M+4, y+5.5); y+=11;
@@ -4595,7 +4638,7 @@ function gerarPDFSimulacro() {
       y+=7;
 
       items.forEach(function(item,i){
-        chk(8);
+        chk(12);
         doc.setFillColor(i%2===0?252:247, i%2===0?252:248, 255);
         doc.rect(M,y,CW,7,'F');
         doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(40,50,70);
@@ -4620,7 +4663,7 @@ function gerarPDFSimulacro() {
     function fmtMPDF(m){if(m===null)return'—';return m<60?m+' min':Math.floor(m/60)+'h '+(m%60)+'min';}
     var tDet=gvEl('sim-t-detecao'),tAlm=gvEl('sim-t-alarme'),tEi=gvEl('sim-t-evac-inicio'),tEf=gvEl('sim-t-evac-fim');
     var tA=diffMinPDF(tDet,tAlm), tEv=diffMinPDF(tEi,tEf), tTot=diffMinPDF(tDet,tEf);
-    chk(24);
+    chk(30);
     doc.setFillColor(18,52,96); doc.roundedRect(M,y,CW,8,2,2,'F');
     doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(255,255,255);
     doc.text('Tempos do Exercício', M+4, y+5.5); y+=11;
@@ -4737,7 +4780,7 @@ function gerarPDFSimulacro() {
 
     // Fotos
     if(simPhotos.length>0) {
-      chk(20);
+      chk(35);
       doc.setFillColor(18,52,96); doc.roundedRect(M,y,CW,8,2,2,'F');
       doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(255,255,255);
       doc.text('Evidências Fotográficas ('+simPhotos.length+')', M+4, y+5.5); y+=11;
@@ -4839,6 +4882,8 @@ var _origGerarPDFDL50 = gerarPDFDL50;
 gerarPDFDL50 = function(){ if(checkJsPDF()) _origGerarPDFDL50(); };
 var _origGerarPDFFormacao2 = gerarPDFFormacao;
 gerarPDFFormacao = function(){ if(checkJsPDF()) _origGerarPDFFormacao2(); };
+var _origGerarPDFFormandos = gerarPDFFormandos;
+gerarPDFFormandos = function(){ if(checkJsPDF()) _origGerarPDFFormandos(); };
 var _origGerarPDFSimulacro = gerarPDFSimulacro;
 gerarPDFSimulacro = function(){ if(checkJsPDF()) _origGerarPDFSimulacro(); };
 
