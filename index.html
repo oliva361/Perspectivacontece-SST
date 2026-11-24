@@ -2836,8 +2836,10 @@ function makePDF(method){
     doc.text(sanitize(txt),M+4,y+5.5);y+=12;
   }
   function fRow(lbl,val){
-    const txt=sanitize(String(val||'—'));
-    const lines=doc.splitTextToSize(txt,CW);
+    const texto=sanitize(String(val||'—'));
+    const paras=texto.split('\n');
+    const lines=[];
+    paras.forEach(function(p){ lines.push.apply(lines, doc.splitTextToSize(p,CW)); });
     chk(lines.length*4.6+9);
     doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(105,115,145);
     doc.text(sanitize(lbl).toUpperCase(),M,y);y+=4;
@@ -2939,11 +2941,14 @@ function makePDFSimple(method){
     doc.text(sanitize(txt),M+4,y+5.5);y+=12;
   }
   function fRow(lbl,val){
+    const texto=sanitize(String(val||'—'));
+    const paras=texto.split('\n');
+    const lines=[];
+    paras.forEach(function(p){ lines.push.apply(lines, doc.splitTextToSize(p,CW)); });
     chk(10);
     doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(105,115,145);
     doc.text(sanitize(lbl).toUpperCase(),M,y);y+=4;
     doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(20,28,48);
-    const lines=doc.splitTextToSize(sanitize(String(val||'—')),CW);
     doc.text(lines,M,y);y+=lines.length*4.6+3;
   }
 
@@ -3261,27 +3266,50 @@ function gerarPDFFormacao(){
 
   function fRow2(lbl,val,lbl2,val2){
     if(!val&&!val2) return;
-    chkF(12);
     const colW=(CW-4)/2;
+    const lineH=5;
+    const l1=[];
+    (sanitize(val||'\u2014')).split('\n').forEach(function(p){ var w=doc.splitTextToSize(p,colW); if(w.length===0) w=['']; l1.push.apply(l1,w); });
+    const l2=[];
+    if(lbl2){ (sanitize(val2||'\u2014')).split('\n').forEach(function(p){ var w=doc.splitTextToSize(p,colW); if(w.length===0) w=['']; l2.push.apply(l2,w); }); }
+    const n=Math.max(l1.length,l2.length,1);
+    const need=4+n*lineH+8;
+    chkF(need);
     doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(110,125,165);
     doc.text(sanitize(lbl).toUpperCase(),M,y);
     if(lbl2) doc.text(sanitize(lbl2).toUpperCase(),M+colW+4,y);
     y+=4;
     doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(20,32,65);
-    const l1=doc.splitTextToSize(sanitize(val||'\u2014'),colW);
-    doc.text(l1,M,y);
-    if(lbl2){ const l2=doc.splitTextToSize(sanitize(val2||'\u2014'),colW); doc.text(l2,M+colW+4,y); }
-    y+=Math.max(l1.length,(lbl2?1:0))*5+4;
+    for(let k=0;k<n;k++){
+      if(l1[k]) doc.text(l1[k],M,y);
+      if(lbl2&&l2[k]) doc.text(l2[k],M+colW+4,y);
+      y+=lineH;
+    }
+    y+=4;
   }
 
   function fRow(lbl,val){
     if(!val) return;
-    chkF(12);
+    const lineH=5;
+    const texto=sanitize(String(val));
+    const paras=texto.split('\n');
+    const wrapped=[];
+    var totalLines=0;
+    paras.forEach(function(p){
+      var w=doc.splitTextToSize(p,CW);
+      if(w.length===0) w=[''];
+      wrapped.push(w);
+      totalLines+=w.length;
+    });
+    const need=4+totalLines*lineH+8;
+    chkF(need);
     doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(110,125,165);
     doc.text(sanitize(lbl).toUpperCase(),M,y); y+=4;
-    const lines=doc.splitTextToSize(sanitize(String(val)),CW);
     doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(20,32,65);
-    doc.text(lines,M,y,{maxWidth:CW}); y+=lines.length*5+4;
+    wrapped.forEach(function(w){
+      w.forEach(function(l){ doc.text(l,M,y); y+=lineH; });
+    });
+    y+=4;
   }
 
   // ---- Header ----
@@ -4080,23 +4108,7 @@ function pdfDrawNota(doc, aba, y, chkFn, CW, M, PW) {
   nLines.forEach(function(line){
     if(line===null){ ni++; return; }
     var ly = nY0 + ni * nLineH;
-    if(line.last){
-      doc.text(sanitize(line.t), nX, ly);
-    } else {
-      var words = line.t.split(' ').filter(function(w){ return w.length>0; });
-      if(words.length <= 1){
-        doc.text(sanitize(line.t), nX, ly);
-      } else {
-        var lineW = doc.getTextWidth(line.t.replace(/\s+/g,' ').trim());
-        var totalSpace = nW - lineW + doc.getTextWidth(Array(words.length).join(' '));
-        var spaceW = totalSpace / (words.length - 1);
-        var cx = nX;
-        words.forEach(function(word, wi){
-          doc.text(sanitize(word), cx, ly);
-          if(wi < words.length-1) cx += doc.getTextWidth(word) + spaceW;
-        });
-      }
-    }
+    doc.text(sanitize(line.t), nX, ly);
     ni++;
   });
   y += nH + 6;
